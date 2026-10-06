@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -102,6 +102,9 @@
                 <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                     Proyecto: Sociedad, Trabajo y Bienestar
                 </h1>
+                <p class="text-xs text-slate-500 font-semibold mt-1">
+                    <i class="far fa-calendar-alt text-slate-400 mr-1"></i> Fecha de Entrega y Presentación: <span class="text-slate-800">Martes 20 de octubre de 2026</span>
+                </p>
                 
                 <!-- Nombre del Docente Editable -->
                 <div class="mt-2 text-sm text-slate-600 flex items-center justify-center md:justify-end gap-2">
@@ -126,7 +129,7 @@
                     Ruta de Aprendizaje y Evaluación Personalizada
                 </h2>
                 <p class="text-white/90 text-sm md:text-base font-light leading-relaxed">
-                    Selecciona el formato de trabajo elegido por tu equipo y el tema asignado para desplegar los contenidos obligatorios, la guía temáticas y la rúbrica de evaluación oficial de 40 puntos.
+                    Selecciona la modalidad elegida por tu equipo y el tema asignado para desplegar las especificaciones técnicas, la ficha de contenidos obligatorios y la rúbrica oficial de 40 puntos.
                 </p>
             </div>
             
@@ -162,14 +165,14 @@
                 <!-- Selector Actividad -->
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2" for="actividad">
-                        <i class="fas fa-tasks text-slate-400 mr-1"></i> 1. ¿Qué modalidad eligió tu equipo?
+                        <i class="fas fa-tasks text-slate-400 mr-1"></i> 1. ¿Qué modalidad elegirá tu equipo?
                     </label>
                     <div class="relative">
                         <select id="actividad" class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base">
                             <option value="">-- Selecciona modalidad de presentación --</option>
-                            <option value="A">Actividad A: Exposición Oral</option>
-                            <option value="B">Actividad B: Video Documental</option>
-                            <option value="C">Actividad C: Afiche Infográfico Impreso</option>
+                            <option value="A">Actividad A: Exposición Oral (8-10 min + 4 min consultas)</option>
+                            <option value="B">Actividad B: Video Documental (5-7 min + 3 min consultas)</option>
+                            <option value="C">Actividad C: Afiche Impreso A0 (3-4 min + 2 consultas)</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                             <i class="fas fa-chevron-down text-sm"></i>
@@ -180,20 +183,20 @@
                 <!-- Selector Tema -->
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-2" for="tema">
-                        <i class="fas fa-book-open text-slate-400 mr-1"></i> 2. ¿Cuál es tu tema asignado?
+                        <i class="fas fa-book-open text-slate-400 mr-1"></i> 2. ¿Cuál es tu tema asignado por el docente?
                     </label>
                     <div class="relative">
                         <select id="tema" class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base">
                             <option value="">-- Selecciona tu tema de investigación --</option>
                             <option value="1">Tema 1: Crecimiento y desarrollo económico</option>
-                            <option value="2">Tema 2: Modelos de desarrollo económico en Chile</option>
-                            <option value="3">Tema 3: Derecho del trabajo y cuestión social (1880-1924)</option>
-                            <option value="4">Tema 4: Legislación e institucionalidad (1924-hoy)</option>
-                            <option value="5">Tema 5: Tendencias laborales globales</option>
-                            <option value="6">Tema 6: Derechos laborales frente a la automatización</option>
-                            <option value="7">Tema 7: Indicadores de desarrollo y bienestar</option>
-                            <option value="8">Tema 8: Bienestar, políticas estatales y Agenda 2030</option>
-                            <option value="9">Tema 9: Infografía sobre modelo de desarrollo</option>
+                            <option value="2">Tema 2: Modelos de desarrollo económico en Chile (1930 hasta hoy)</option>
+                            <option value="3">Tema 3: Derecho del trabajo, cuestión social y primeras organizaciones (1880-1924)</option>
+                            <option value="4">Tema 4: Legislación laboral e institucionalidad chilena (1924 hasta hoy)</option>
+                            <option value="5">Tema 5: Tendencias laborales globales, empleo vulnerable y jornada</option>
+                            <option value="6">Tema 6: Sindicalización, descanso, indemnización, cesantía y automatización</option>
+                            <option value="7">Tema 7: Indicadores de desarrollo y bienestar (Gini, IDH, PIB, Capital Humano)</option>
+                            <option value="8">Tema 8: Bienestar de la población, políticas estatales y Agenda 2030</option>
+                            <option value="9">Tema 9: Infografía sobre el modelo de desarrollo y bienestar de Chile</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                             <i class="fas fa-chevron-down text-sm"></i>
@@ -208,9 +211,9 @@
             <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400 text-3xl shadow-inner">
                 <i class="fas fa-compass"></i>
             </div>
-            <h3 class="text-2xl font-bold text-slate-700 mb-2">Selecciona la actividad y el tema arriba</h3>
+            <h3 class="text-2xl font-bold text-slate-700 mb-2">Selecciona la modalidad y el tema de tu equipo</h3>
             <p class="max-w-md mx-auto text-slate-500 text-sm">
-                Al seleccionar las opciones de tu equipo se cargará de forma automática tu <strong>Ficha de Contenidos</strong>, los <strong>Consejos Prácticos</strong> y la <strong>Rúbrica de Evaluación</strong> adaptada.
+                Al seleccionar las opciones se cargará de forma automática tu <strong>Ficha de Contenidos</strong>, los <strong>Requisitos de Formato</strong> y la <strong>Rúbrica Oficial de Evaluación (40 pts)</strong>.
             </p>
         </div>
 
@@ -225,12 +228,12 @@
                             <i id="tema-header-icon" class="fas fa-file-alt"></i>
                         </div>
                         <div>
-                            <span class="text-xs font-semibold uppercase tracking-wider opacity-80">Guía de Trabajo</span>
-                            <h3 class="text-xl font-bold text-white leading-tight">Ficha de Tema & Requisitos Académicos</h3>
+                            <span class="text-xs font-semibold uppercase tracking-wider opacity-80">Guía Académica Oficial</span>
+                            <h3 class="text-xl font-bold text-white leading-tight">Ficha de Tema & Contenidos Evaluados</h3>
                         </div>
                     </div>
                     <button onclick="window.print()" class="no-print bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 backdrop-blur-md">
-                        <i class="fas fa-print"></i> Imprimir / PDF
+                        <i class="fas fa-print"></i> Imprimir / Guardar PDF
                     </button>
                 </div>
                 <div class="p-6 md:p-8" id="ficha-tema-content">
@@ -238,16 +241,16 @@
                 </div>
             </section>
 
-            <!-- Tarjeta 2: Consejos del Docente -->
+            <!-- Tarjeta 2: Requisitos y Consejos del Docente -->
             <section class="bg-amber-50/80 rounded-2xl p-6 md:p-8 border-l-4 border-amber-500 shadow-sm border border-amber-200/60 relative overflow-hidden">
                 <div class="absolute -right-6 -bottom-6 opacity-10 text-amber-900 pointer-events-none">
                     <i class="fas fa-lightbulb text-9xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-amber-900 mb-4 flex items-center gap-3">
                     <span class="w-9 h-9 rounded-lg bg-amber-200 text-amber-800 flex items-center justify-center text-lg">
-                        <i class="fas fa-lightbulb"></i>
+                        <i class="fas fa-ruler-combined"></i>
                     </span>
-                    Recomendaciones Clave para el Docente & Estudiantes (<span id="tip-activity-name"></span>)
+                    Lineamientos de Formato y Presentación (<span id="tip-activity-name"></span>)
                 </h3>
                 <div id="docente-tips" class="text-amber-950 space-y-3 relative z-10 text-sm md:text-base leading-relaxed">
                     <!-- Contenido dinámico JS -->
@@ -273,7 +276,7 @@
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-6 p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs md:text-sm">
                         <div class="flex items-center gap-4">
                             <span class="flex items-center gap-1.5 font-semibold text-slate-700">
-                                <span class="bg-slate-200 text-slate-800 px-2 py-0.5 rounded text-xs font-bold">E</span> Evaluación Grupal
+                                <span class="bg-slate-200 text-slate-800 px-2 py-0.5 rounded text-xs font-bold">E</span> Evaluación Grupal / Equipo
                             </span>
                             <span class="flex items-center gap-1.5 font-semibold text-slate-700">
                                 <span class="bg-indigo-100 text-indigo-900 px-2 py-0.5 rounded text-xs font-bold">I</span> Evaluación Individual
@@ -298,7 +301,7 @@
                                         <i class="fas fa-adjust text-amber-500 mr-1"></i> Medianamente (1 pt)
                                     </th>
                                     <th class="p-4 font-extrabold border-b border-l bg-red-50 text-red-900 w-1/4">
-                                        <i class="fas fa-times-circle text-red-500 mr-1"></i> No Obsevado (0 pts)
+                                        <i class="fas fa-times-circle text-red-500 mr-1"></i> No Observado (0 pts)
                                     </th>
                                 </tr>
                             </thead>
@@ -317,7 +320,7 @@
         <div class="max-w-6xl mx-auto px-4">
             <p class="font-semibold text-slate-200 mb-1">Colegio Marina de Chile — Concepción</p>
             <p class="text-xs text-slate-500">Departamento de Historia, Geografía y Ciencias Sociales | 4° Año Medio</p>
-            <p class="text-xs text-slate-600 mt-4">Diseñado para orientar el proceso pedagógico y la autoevaluación continua.</p>
+            <p class="text-xs text-slate-600 mt-4">Pauta aligned con la Evaluación Sumativa Oficial de la Unidad 4 — Octubre 2026.</p>
         </div>
     </footer>
 
@@ -349,7 +352,7 @@
                 titulo: "Modelos de desarrollo económico en Chile (1930 hasta hoy)",
                 pregunta: "¿Qué modelo de desarrollo dejó más herencias positivas y cuál más problemas pendientes para el Chile de hoy?",
                 contenidos: [
-                    "Modelo ISI (1930-1964): causas, rol del Estado y crisis.",
+                    "Modelo ISI (1930-1964 aprox.): causas, rol del Estado y razones de su crisis.",
                     "Reforma Agraria y Vía chilena al socialismo (1964-1973): cambios y polarización.",
                     "Modelo neoliberal (1973-1990): mercado como agente central, privatizaciones y crisis de 1982.",
                     "Concertación y actualidad: Estado subsidiario, TLCs, modelo exportador y crisis social 2019.",
@@ -370,15 +373,15 @@
                 pregunta: "¿Por qué los trabajadores chilenos se organizaron entre 1880 y 1924 y qué lograron?",
                 contenidos: [
                     "Derecho del trabajo y su carácter tutelar o protector.",
-                    "Cuestión social: al menos 4 problemas (hacinamiento, jornadas, salarios, accidentes, etc.).",
+                    "Cuestión social: al menos 4 problemas (hacinamiento, jornadas, salarios en fichas, accidentes, etc.).",
                     "Primeras organizaciones obreras: al menos 4 (mutuales, sociedades resistencia, FOCH, IWW, etc.).",
-                    "Leyes sociales anteriores a 1924: al menos 3 (ej. Ley 1.838, 2.951, 3.170...).",
+                    "Leyes sociales anteriores a 1924: al menos 3 (ej. Ley 1.838, 1.990, 2.951, 3.170, 3.186...).",
                     "Ingreso de Chile a la OIT (1919) y su importancia.",
                     "Línea de tiempo 1880-1924 que conecte causas con organizaciones y leyes."
                 ],
                 conceptos: ["Derecho del trabajo", "Cuestión social", "Sociedad de resistencia / Mutual", "OIT"],
                 habilidades: [
-                    "Conecta al menos 3 causas de distintas dimensiones (económica, social, política o ideológica) con el surgimiento de organizaciones o leyes.",
+                    "Conecta al menos 3 causas de distintas dimensiones (económica, social, política o ideológica) con organizaciones o leyes.",
                     "Relaciona hechos de distintas escalas (local, nacional, internacional) en una línea de tiempo."
                 ],
                 vinculo: "Guía N° 2: secciones 1 a 4, cronograma (1880–1923) y Fuentes A, B y C.",
@@ -389,11 +392,11 @@
                 titulo: "Legislación laboral e institucionalidad chilena (1924 hasta hoy)",
                 pregunta: "¿Los derechos laborales en Chile han avanzado de forma continua desde 1924? ¿Qué desafío requiere nueva respuesta?",
                 contenidos: [
-                    "Leyes sociales de 1924 y Código del Trabajo de 1931.",
+                    "Leyes sociales de 1924 y Código del Trabajo de 1931 (DFL 178).",
                     "Expansión de derechos y organización sindical (1964-1973): al menos 2 leyes.",
                     "Represión sindical y Plan Laboral (1973-1990): al menos 2 decretos leyes.",
                     "Reformas democráticas (1990-2000), ratificación Convenios 87 y 98 OIT.",
-                    "Leyes del siglo XXI: al menos 3 (ej. Ley 40 horas, Ley Karin, Seguro cesantía).",
+                    "Leyes del siglo XXI: al menos 3 (ej. Ley 40 horas, Ley Karin, Seguro cesantía, Ley 20.940).",
                     "Una propuesta innovadora frente a un desafío laboral actual, justificada con datos."
                 ],
                 conceptos: ["Código del Trabajo", "Plan Laboral", "Libertad sindical", "Diálogo social (tripartismo)"],
@@ -406,7 +409,7 @@
             },
             "5": {
                 icon: "fa-globe-americas",
-                titulo: "Tendencias laborales globales",
+                titulo: "Tendencias laborales globales: empleo vulnerable y jornada",
                 pregunta: "¿Qué condiciones se necesitan para que la reducción de jornada y flexibilidad mejoren la vida en Chile y Biobío?",
                 contenidos: [
                     "Panorama laboral mundial: diferencias regionales en salarios y participación.",
@@ -414,7 +417,7 @@
                     "Crecimiento y empleo: por qué crecer no basta (datos PIB y desocupación Chile).",
                     "Empleo vulnerable e informalidad: definición y datos Chile/Biobío.",
                     "Flexibilidad vs jornada: Convenio N°1 OIT y Ley 21.561 (44, 42, 40 hrs).",
-                    "Relación: quién queda cubierto por reducción de jornada y quién no (ej. informales)."
+                    "Relación entre tendencias: quién queda cubierto por reducción de jornada y quién no (ej. informales)."
                 ],
                 conceptos: ["Empleo vulnerable", "Informalidad laboral", "Flexibilidad laboral", "Jornada laboral"],
                 habilidades: [
@@ -426,17 +429,17 @@
             },
             "6": {
                 icon: "fa-robot",
-                titulo: "Derechos laborales frente a la automatización",
+                titulo: "Sindicalización, descanso, indemnización, cesantía y automatización",
                 pregunta: "Frente a la automatización, ¿cuál derecho laboral debe fortalecerse primero en Chile y por qué?",
                 contenidos: [
                     "Sindicalización: definición, libertad sindical, negociación, dato Chile.",
                     "Descanso: Ley 1.990 (1907) y Ley 21.561 (40 horas - qué cambia y cuándo).",
-                    "Indemnización por años de servicio: evolución (150 a 330 días tope).",
+                    "Indemnización por años de servicio: evolución (tope 150 a 330 días).",
                     "Seguro de cesantía (Ley 19.728): quién aporta y a quién protege.",
                     "Automatización e IA: efectos en empleo y habilidades (con dato de fuente confiable).",
                     "Postura argumentada: qué derecho fortalecer frente a IA, con un contraargumento respondido."
                 ],
-                conceptos: ["Libertad sindical", "Indemnización años servicio", "Seguro de cesantía", "Automatización e IA"],
+                conceptos: ["Libertad sindical", "Indemnización años servicio", "Seguro de cesantía", "Automatización"],
                 habilidades: [
                     "Registra en bitácora 1 desacuerdo del equipo y cómo se resolvió usando fuentes.",
                     "Presenta al menos 1 contraargumento a su postura y lo responde con evidencia."
@@ -446,7 +449,7 @@
             },
             "7": {
                 icon: "fa-chart-pie",
-                titulo: "Indicadores de desarrollo y bienestar",
+                titulo: "Indicadores de desarrollo y bienestar: Gini, IDH, PIB y Capital Humano",
                 pregunta: "¿Qué indicador muestra mejor el bienestar de las personas en Chile y qué deja sin mostrar cada uno?",
                 contenidos: [
                     "Coeficiente de Gini: qué mide y cómo se lee.",
@@ -470,13 +473,13 @@
                 pregunta: "¿Qué política económica debería priorizar el Estado para mejorar el bienestar en el Biobío?",
                 contenidos: [
                     "Al menos 4 dimensiones del bienestar con un indicador de Chile para cada una.",
-                    "Al menos 2 políticas reales del Estado (ej. Ley 40h, ingreso mínimo, PGU).",
+                    "Al menos 2 políticas reales del Estado (ej. Ley 40h, ingreso mínimo, PGU, Subsidio Contratación).",
                     "Qué es la Agenda 2030 (ONU) y los ODS.",
                     "Al menos 3 ODS sobre bienestar/trabajo (ej. ODS 1, 8, 10) con datos de Chile.",
                     "Evaluación de una política: quién se beneficia y quién queda fuera (Chile/Biobío).",
                     "Valoración final: qué política priorizar y por qué, distinguiendo hechos de opiniones."
                 ],
-                conceptos: ["Bienestar social", "Política económica", "Objetivos Desarrollo Sostenible (ODS)", "Agenda 2030"],
+                conceptos: ["Bienestar", "Política económica", "Objetivos Desarrollo Sostenible (ODS)", "Agenda 2030"],
                 habilidades: [
                     "Usa correctamente al menos 6 términos de la unidad (ej. desarrollo, Estado subsidiario, ODS).",
                     "Cierra con opinión fundamentada con 2 evidencias (separa hechos de opiniones)."
@@ -493,10 +496,10 @@
                     "Crecimiento vs desarrollo en Chile (al menos 3 indicadores: PIB, Gini, IDH).",
                     "Una dimensión del bienestar poblacional del Biobío, con datos.",
                     "Un mensaje central en una frase y una propuesta frente a un desafío real.",
-                    "Elementos visuales: título, orden, 3 recursos con datos (gráfico, mapa, etc.) y fuentes.",
-                    "Público al que se dirige (ej. estudiantes 3° medio) y por qué el diseño es adecuado."
+                    "Elementos de infografía: título, orden visual, 3 recursos con datos (gráfico, mapa, etc.) y fuentes al pie.",
+                    "Público al que se dirige (ej. estudiantes 3° medio) y por qué el diseño le sirve."
                 ],
-                conceptos: ["Modelo de desarrollo", "Indicador de bienestar", "Infografía educativa", "Público objetivo"],
+                conceptos: ["Modelo de desarrollo", "Indicador de bienestar", "Infografía", "Público objetivo"],
                 habilidades: [
                     "Formula 2 preguntas y las responde con datos de 2 métodos de ciencias sociales.",
                     "Infografía contiene mensaje/propuesta original, justificada y para público definido."
@@ -509,73 +512,73 @@
         const rubricaComun = {
             habilidades: [
                 { id: "H1", n: "Pregunta de investigación", ei: "E", 
-                  l: "Formula pregunta propia, abierta, relacionada al tema y la responde cabalmente en el trabajo.", 
-                  m: "Pregunta cerrada o la responde solo en parte.", 
-                  no: "No formula pregunta o no se relaciona con el tema." },
+                  l: "Formula una pregunta propia, abierta (no de sí/no), relacionada con su tema, y la responde en el trabajo.", 
+                  m: "Formula pregunta, pero es cerrada o el trabajo la responde solo en parte.", 
+                  no: "No formula pregunta, o no se relaciona con el tema." },
                 { id: "H2", n: "Análisis crítico de fuentes", ei: "E", 
-                  l: "Analiza 3+ fuentes indicando propósito, intencionalidad, enfoque, contexto y confiabilidad.", 
+                  l: "Analiza 3+ fuentes indicando propósito, intencionalidad, enfoque, contexto y nivel de confiabilidad.", 
                   m: "Analiza 2 fuentes completas, o 3 incompletas.", 
-                  no: "Analiza menos de 2 fuentes o falta información vital." },
+                  no: "Analiza menos de 2 fuentes o ignora aspectos requeridos." },
                 { id: "H3", n: "Habilidad principal del tema", ei: "E", 
                   l: "Cumple íntegramente los 2 indicadores de habilidad de su Ficha de Tema.", 
                   m: "Cumple solo 1 indicador de su Ficha.", 
                   no: "No cumple ningún indicador de habilidad." },
                 { id: "H4", n: "Argumentación con evidencia", ei: "E", 
-                  l: "Postura clara respaldada con 3+ evidencias (datos, leyes, citas) de distintas fuentes.", 
+                  l: "Postura o conclusión clara respaldada con 3+ evidencias (datos, leyes, citas) de distintas fuentes.", 
                   m: "Postura respaldada con 1-2 evidencias.", 
                   no: "Sin postura argumentada o sin evidencias." },
                 { id: "H5", n: "Respuesta a consultas", ei: "I", 
-                  l: "Responde la pregunta individual del docente con un dato o ejemplo preciso del tema.", 
-                  m: "Responde de forma parcial, sin datos de respaldo.", 
+                  l: "Responde la consulta individual del docente con un dato o ejemplo preciso del tema.", 
+                  m: "Responde de forma parcial, sin dato ni ejemplo de respaldo.", 
                   no: "No responde o la respuesta es errónea." }
             ],
             contenidos: [
                 { id: "C1", n: "Contenidos obligatorios", ei: "E", 
-                  l: "Desarrolla 5 o 6 de los contenidos obligatorios estipulados en su Ficha.", 
+                  l: "Desarrolla 5 o 6 de los 6 contenidos obligatorios estipulados en su Ficha.", 
                   m: "Desarrolla 3 o 4 contenidos.", 
                   no: "Desarrolla 2 o menos contenidos." },
                 { id: "C2", n: "Conceptos clave", ei: "E", 
                   l: "Define e integra correctamente los 4 conceptos clave de su Ficha.", 
                   m: "Define correctamente 2 o 3 conceptos.", 
                   no: "Define solo 1 o ningún concepto." },
-                { id: "C3", n: "Evidencia cuantitativa de Chile", ei: "E", 
-                  l: "Sustenta con 4+ datos/hechos de Chile con año/período y referencia de origen.", 
-                  m: "Incluye 2-3 datos numéricos o históricos.", 
-                  no: "Incluye 1 o ningún dato." },
+                { id: "C3", n: "Evidencia cuantitativa / datos de Chile", ei: "E", 
+                  l: "Sustenta con 4+ datos o hechos de Chile con año/período y fuente en APA.", 
+                  m: "Incluye 2-3 datos de Chile con fecha.", 
+                  no: "Incluye 1 o ningún dato validado." },
                 { id: "C4", n: "Realidad Regional (Biobío)", ei: "E", 
                   l: "Integra 1+ dato/ejemplo concreto del Biobío y explica su directa relación al tema.", 
                   m: "Lo incluye pero sin fuente o con débil relación.", 
                   no: "No menciona ni relaciona la Región del Biobío." },
                 { id: "C5", n: "Vínculo con Guías previas", ei: "E", 
-                  l: "Relaciona explícitamente con 2+ elementos de las Guías 1, 2 o 3 de la unidad.", 
+                  l: "Relaciona explícitamente con 2+ elementos (cuadro, fuente, dato o concepto) de las Guías 1, 2 o 3.", 
                   m: "Relaciona con solo 1 elemento de las guías.", 
                   no: "No vincula el trabajo con las guías de clase." }
             ],
             procedimientosComunes: [
                 { id: "P1", n: "Bitácora de avance de clases", ei: "E", 
-                  l: "Entrega bitácora firmada de clases + 2 registros de trabajo fuera del aula.", 
-                  m: "Solo registra trabajo de aula o falta 1 sesión.", 
-                  no: "Sin bitácora de proceso o incompleta." },
+                  l: "Entrega bitácora con registro de sesiones en aula firmadas + tareas fuera del aula repartidas.", 
+                  m: "Bitácora incompleta o le falta 1 registro de sesión.", 
+                  no: "Sin bitácora de proceso o con graves omisiones." },
                 { id: "P2", n: "Referencias en formato APA 7", ei: "E", 
-                  l: "5+ referencias completas citadas en el texto (4+ de organismos oficiales).", 
-                  m: "3-4 referencias o con errores menores de formato.", 
-                  no: "Menos de 3 referencias o sin citas en el cuerpo." }
+                  l: "5+ referencias completas en formato APA 7ª ed. (mínimo 4 de organismos oficiales). Citas en texto.", 
+                  m: "3-4 referencias o errores menores de formato APA.", 
+                  no: "Menos de 3 referencias o sin citas." }
             ],
             actitudes: [
                 { id: "A1", n: "Honestidad académica y citación", ei: "E", 
-                  l: "Todo dato e imagen tiene fuente declarada. No incurre en plagio ni copia textual mayor.", 
-                  m: "1-2 omisiones leves de citación.", 
-                  no: "Copias textuales o imágenes sin declarar." },
+                  l: "Todo dato, texto, imagen o música ajena tiene fuente declarada. Cero plagio o copia textual.", 
+                  m: "1-2 omisiones leves de citación o atribución.", 
+                  no: "Copias textuales mayores o recursos sin citar." },
                 { id: "A2", n: "Trabajo en aula y bitácora", ei: "I", 
-                  l: "Mantiene trabajo constante y registra aportes individuales en bitácora.", 
+                  l: "Mantiene trabajo constante en las sesiones y registra sus aportes individuales en la bitácora.", 
                   m: "Trabajo regular en solo 1 sesión.", 
                   no: "No registra aportes en las sesiones." },
                 { id: "A3", n: "Responsabilidad con el equipo", ei: "I", 
-                  l: "Cumplió la totalidad de tareas encomendadas por su grupo a tiempo.", 
+                  l: "Cumplió la totalidad de tareas encomendadas por su grupo dentro de los plazos.", 
                   m: "Cumplió la mitad o más de sus tareas.", 
                   no: "Cumplió menos de la mitad de sus tareas." },
                 { id: "A4", n: "Puntualidad y formalidad", ei: "Varia",
-                  l: "Entrega en el horario exacto al inicio de clase. Presentación formal completa.", 
+                  l: "Entrega/presentación lista al inicio exacto de la clase. Asistencia e indumentaria formal.", 
                   m: "Entrega con atraso menor en el mismo día.", 
                   no: "No entrega / inasistencia sin justificar." },
                 { id: "A5", n: "Escucha activa y respeto", ei: "I", 
@@ -587,42 +590,43 @@
 
         const procedimientosEspecificos = {
             "A": [
-                { id: "P3", n: "Estructura y manejo del tiempo", ei: "E", l: "Estructura clara (inicio, desarrollo, cierre). Duración de 8 a 10 minutos exactos.", m: "Falta 1 parte o dura entre 6-7 u 11-12 min.", no: "Estructura incompleta. Dura <6 o >12 min." },
-                { id: "P4", n: "Participación individual", ei: "I", l: "El estudiante expone con fluidez al menos 2 minutos continuos.", m: "Expone entre 1 y 2 minutos.", no: "Expone menos de 1 minuto." },
-                { id: "P5", n: "Expresión oral y apoyo", ei: "I", l: "Dominio temático (no lee), volumen claro, contacto visual y lenguaje formal.", m: "Faltan 1 o 2 elementos (ej. lectura ocasional).", no: "Lee la totalidad o voz inaudible." }
+                { id: "P3", n: "Estructura y manejo del tiempo", ei: "E", l: "Estructura clara (inicio, desarrollo, cierre). Duración de 8 a 10 minutos de exposición + 4 min de consultas.", m: "Falta 1 parte o dura entre 6-7 u 11-12 min.", no: "Estructura incompleta. Dura <6 o >12 min." },
+                { id: "P4", n: "Participación individual", ei: "I", l: "Cada estudiante expone con fluidez al menos 2 minutos continuos.", m: "Expone entre 1 y 2 minutos.", no: "Expone menos de 1 minuto." },
+                { id: "P5", n: "Expresión oral y apoyo", ei: "I", l: "Dominio temático sin leer (uso de fichas de apoyo), volumen claro, contacto visual y lenguaje formal.", m: "Faltan 1 o 2 elementos (ej. lectura ocasional).", no: "Lee la totalidad o voz inaudible." }
             ],
             "B": [
-                { id: "P3", n: "Estructura narrativa y tiempo", ei: "E", l: "Apertura, desarrollo, conclusión y créditos. Duración entre 5 y 7 minutos.", m: "Falta 1 sección o dura 4-5 / 7-8 min.", no: "Sin estructura. Dura <4 o >8 min." },
-                { id: "P4", n: "Calidad de imagen y edición", ei: "E", l: "Formato MP4 horizontal, resolución 1080p, buena iluminación y ritmo fluido.", m: "Falla en 1 o 2 aspectos técnicos.", no: "Grabado en vertical, borroso o inestable." },
-                { id: "P5", n: "Calidad de audio y locución", ei: "E", l: "Voces claras e inteligibles, volumen equilibrado, sin ruido de fondo y música suave.", m: "Falla en 1 o 2 aspectos del sonido.", no: "Audio incomprensible o música tapa voces." }
+                { id: "P3", n: "Estructura narrativa y tiempo", ei: "E", l: "Apertura, desarrollo, conclusión y créditos con referencias APA. Duración entre 5 y 7 minutos (+ 3 min consultas).", m: "Falta 1 sección o dura 4-5 / 7-8 min.", no: "Sin estructura. Dura <4 o >8 min." },
+                { id: "P4", n: "Calidad de imagen y edición", ei: "E", l: "Formato MP4 horizontal (16:9), 1080p Full HD, buena iluminación, imagen estable y textos legibles en pantalla.", m: "Falla en 1 o 2 aspectos técnicos.", no: "Grabado en vertical, borroso o inestable." },
+                { id: "P5", n: "Calidad de audio y locución", ei: "E", l: "Voces claras e inteligibles, volumen equilibrado, sin ruido molesto de fondo y música suave.", m: "Falla en 1 o 2 aspectos del sonido.", no: "Audio incomprensible o música tapa las voces." }
             ],
             "C": [
-                { id: "P3", n: "Formato y soporte físico", ei: "E", l: "Impresión formato A0 (mínimo), en papel fotográfico, couche o lona, nítido y cuidado.", m: "Detalles menores (ej. pequeño doblez).", no: "Formato inadecuado o pegado escolar casero." },
-                { id: "P4", n: "Diseño y jerarquía visual", ei: "E", l: "Título visible a distancia (120pt+), texto legible (32pt+), 2+ recursos visuales con datos.", m: "Falla en 1-2 aspectos de legibilidad.", no: "Texto demasiado pequeño o sin gráficos." },
-                { id: "P5", n: "Sustentación oral del afiche", ei: "I", l: "Expone oralmente 1+ minuto señalando y conectando datos del afiche físico.", m: "Expone 30s-1m sin guiarse por el soporte.", no: "Expone menos de 30 segundos o no habla." }
+                { id: "P3", n: "Formato, soporte y entrega", ei: "E", l: "Impresión A0 (84,1 × 118,9 cm mín.) en papel couche, PVC/lona, fotográfico o vinilo sobre cartón pluma. Entrega impecable sin manchas ni dobleces.", m: "Detalles menores (ej. pequeño doblez en esquina).", no: "Material no permitido (hojas comunes/pegadas) o dañado." },
+                { id: "P4", n: "Diseño, legibilidad y jerarquía", ei: "E", l: "Título (≥60pt), subtítulos (≥32pt), cuerpo (≥20pt) y referencias (≥12pt en A0 real). 2+ recursos visuales con datos. Texto entre 350 y 600 palabras.", m: "Falla en 1-2 aspectos de legibilidad (ej. letra chica) o faltan gráficos.", no: "Texto demasiado pequeño (<20pt A0), sin jerarquía o sin gráficos." },
+                { id: "P5", n: "Sustentación oral y consultas", ei: "I", l: "Exposición oral de 3 a 4 minutos (mínimo 1 min por integrante) señalando el soporte físico y responde 2 consultas.", m: "Expone menos de 1 min o no señala el afiche al hablar.", no: "Expone menos de 30s o no responde consultas." }
             ]
         };
 
         const tipsDocente = {
             "A": [
-                "<strong>Control riguroso del tiempo:</strong> Utilicen cronómetro durante los ensayos. El tramo obligatorio para puntaje completo es de 8 a 10 minutos (Criterio P3).",
-                "<strong>Uso de tarjetas de memoria:</strong> Eviten llevar hojas impresas extensas. Utilicen fichas con esquemas de conceptos para incentivar el contacto visual (Criterio P5).",
-                "<strong>Presentación e higiene formal:</strong> Se evalúa la formalidad de la exposición e individualmente la puntualidad y uniforme (Criterio A4)."
+                "<strong>Estructura y Tiempos:</strong> 8 a 10 minutos de exposición + 4 minutos de preguntas. Utilicen cronómetro durante sus ensayos (Criterio P3).",
+                "<strong>Prohibida la Lectura Textual:</strong> Se evalúa el dominio del tema. Utilicen fichas de apoyo con ideas fuerza o diagramas para mantener el contacto visual (Criterio P5).",
+                "<strong>Presentación e Higiene Formal:</strong> Presentación con uniforme completo al inicio exacto de la clase (Criterio A4)."
             ],
             "B": [
-                "<strong>Formato Horizontal Estándar (16:9):</strong> Graben siempre con el celular o cámara en posición horizontal (no vertical tipo Reels/TikTok) en 1080p (Criterio P4).",
-                "<strong>Prioricen la claridad del audio:</strong> Graben las narraciones en un espacio aislado o utilicen un micrófono lavalier simple. La música de fondo debe ir a un volumen bajo (Criterio P5).",
-                "<strong>Respaldo de entrega:</strong> Prevean contingencias tecnológicas llevando el archivo en un pendrive USB y en un enlace en la nube (Criterio A4)."
+                "<strong>Formato Técnico Exigido:</strong> Archivo MP4 grabado en posición horizontal (16:9) con resolución mínima de 1080p (Full HD) (Criterio P4).",
+                "<strong>Duración y Proyección:</strong> 5 a 7 minutos de video + 3 minutos de consultas. Llevar archivo probado en pendrive y respaldo en la nube (Criterio P3 y A4).",
+                "<strong>Calidad de Audio:</strong> Graben en un lugar silencioso o usen micrófono lavalier. La música de fondo debe permitir oír con absoluta claridad las voces (Criterio P5)."
             ],
             "C": [
-                "<strong>Dimensiones mínimas A0 (84x118 cm):</strong> Es una presentación profesional. No se aceptan pliegos de cartulina pegados manualmente (Criterio P3).",
-                "<strong>Legibilidad a 2 metros de distancia:</strong> Diseñen en Canva u otro programa asegurando títulos de 120pt y cuerpo de texto no menor a 32pt (Criterio P4).",
-                "<strong>Integración de infografía y datos:</strong> Todo gráfico o mapa debe llevar su respectiva fuente bajo la figura en tamaño reducido."
+                "<strong>Dimensiones y Materiales Oficiales:</strong> Formato mínimo A0 (84,1 × 118,9 cm). Materiales autorizados: papel afiche couche (mate/brillante), PVC/lona (banner), papel fotográfico o vinilo adhesivo sobre cartón pluma. <i>No se aceptan hojas de oficio ni pegadas entre sí</i> (Criterio P3).",
+                "<strong>Reglas Estrictas de Tamaño de Letra (Escala A0):</strong> Título principal ≥ 60 pt; Subtítulos ≥ 32 pt; Cuerpo de texto ≥ 20 pt; Referencias bibliográficas ≥ 12 pt. <i>Nota para diseño en borrador A4: dividan por 4 los tamaños (Título 15pt, Subtítulo 8pt, Texto 5pt)</i> (Criterio P4).",
+                "<strong>Extensión Recomendada de Texto:</strong> Entre 350 y 600 palabras (sin contar referencias). Redacten en frases cortas para dejar suficiente espacio a los 2+ recursos visuales (gráfico, tabla, mapa o línea de tiempo) (Criterio P4).",
+                "<strong>Presentación Oral y Cuidado Físico:</strong> El equipo presenta el afiche en 3 a 4 minutos, todos hablan al menos 1 minuto señalando elementos del soporte y responden 2 consultas. Entregarlo sin doblar (se recomienda tubo de transporte) (Criterio P5 y entrega)."
             ],
             "General": [
-                "<strong>Control de proceso:</strong> Registren minuciosamente cada avance en la bitácora con firma del docente (Criterio P1).",
-                "<strong>Citas académicas:</strong> Utilicen norma APA 7 para fuentes oficiales (INE, Banco Central, OIT, Ministerios) para evitar observaciones de plagio (Criterio P2 y A1).",
-                "<strong>Preparación individual:</strong> Cada estudiante debe dominar el proyecto completo, ya que habrá una pregunta individual sorpresa (Criterio H5)."
+                "<strong>Hitos de Avance en Clases:</strong> Deben cumplir con las revisiones del Martes 6 y Martes 13 de octubre registrando el avance en la Bitácora (Criterio P1).",
+                "<strong>Citas y Fuentes Oficiales:</strong> Usar norma APA 7ª edición citando fuentes confiables (INE, Banco Central, OIT, Ministerios, BCN). Evitar plagio (Criterio P2 y A1).",
+                "<strong>Pregunta Individual Sorpresa:</strong> Cada integrante responderá de forma individual una consulta planteada por el docente sobre su tema (Criterio H5)."
             ]
         };
 
@@ -731,7 +735,7 @@
             divFichaTema.innerHTML = htmlFicha;
 
             // 2. Render Tips del Docente
-            spanTipName.innerText = act === 'A' ? "Exposición Oral" : act === 'B' ? "Video Documental" : "Afiche Infográfico";
+            spanTipName.innerText = act === 'A' ? "Exposición Oral" : act === 'B' ? "Video Documental" : "Afiche Impreso";
             let htmlTips = `<ul class="space-y-2.5">`;
             tipsDocente[act].forEach(tip => {
                 htmlTips += `<li class="flex items-start gap-2.5"><i class="fas fa-angle-right text-amber-600 mt-1"></i> <div>${tip}</div></li>`;
