@@ -27,6 +27,7 @@
         .activity-c { --theme-color: #7f1d1d; --theme-bg: #fef2f2; --theme-gradient: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%); } /* Afiche */
         .activity-d { --theme-color: #4c1d95; --theme-bg: #f5f3ff; --theme-gradient: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%); } /* Economía: Documental */
         .activity-f { --theme-color: #134e4a; --theme-bg: #f0fdfa; --theme-gradient: linear-gradient(135deg, #134e4a 0%, #0f766e 100%); } /* Economía: Afiche */
+        .activity-r { --theme-color: #1e3a5f; --theme-bg: #f0f6ff; --theme-gradient: linear-gradient(135deg, #1e3a5f 0%, #2b5a8a 100%); } /* Rúbricas agregadas por el docente */
         .default-theme { --theme-color: #0f172a; --theme-bg: #f8fafc; --theme-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
         
         .dynamic-border { border-color: var(--theme-color); }
@@ -73,6 +74,7 @@
             font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; background: #fff; color: #334155;
         }
         .tool-btn:hover { background: #f1f5f9; }
+        .tool-btn.tab-on { background: var(--theme-color); border-color: var(--theme-color); color: #fff; }
         .tool-btn:disabled { opacity: .5; cursor: wait; }
         .action-btn {
             display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px;
@@ -128,9 +130,18 @@
                         Prof. Leandro Bascuñán Valdebenito
                     </strong>
                 </div>
-                <div class="mt-3 flex items-center justify-center md:justify-end gap-2 no-print">
+                <div class="mt-3 flex flex-wrap items-center justify-center md:justify-end gap-2 no-print">
                     <button id="btn-modo-docente" type="button" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition-colors">
                         <i class="fas fa-user-check"></i> <span>Activar Modo Docente (evaluar)</span>
+                    </button>
+                    <button id="btn-cursos-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Cargar listas de curso y agregar alumnos">
+                        <i class="fas fa-school"></i> Cursos
+                    </button>
+                    <button id="btn-rubricas-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Agregar rúbricas nuevas a una asignatura">
+                        <i class="fas fa-table-list"></i> Rúbricas
+                    </button>
+                    <button id="btn-evolucion-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Evolución de cada estudiante por asignatura">
+                        <i class="fas fa-chart-line"></i> Evolución
                     </button>
                     <button id="btn-guardados-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Ver, imprimir o editar evaluaciones guardadas">
                         <i class="fas fa-folder-open"></i> Guardadas (<span class="count-guardados">0</span>)
@@ -273,11 +284,9 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-curso">Curso</label>
-                        <input id="ev-curso" class="field" list="cursos-list" placeholder="Ej: 4° Medio A">
-                        <datalist id="cursos-list">
-                            <option value="4° Medio A"><option value="4° Medio B"><option value="4° Medio C"><option value="4° Medio D">
-                        </datalist>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-curso">Curso(s)</label>
+                        <input id="ev-curso" class="field" placeholder="Ej: 4° Medio A (o varios: 3° Medio A, 4° Medio B)">
+                        <div id="ev-cursos-chips" class="flex flex-wrap gap-1.5 mt-2"></div>
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-equipo">Nombre o N° del equipo</label>
@@ -290,7 +299,12 @@
                 </div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Integrantes</label>
                 <div id="ev-integrantes" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-                <button type="button" id="btn-add-integrante" class="tool-btn mt-3"><i class="fas fa-user-plus"></i> Agregar integrante</button>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <button type="button" id="btn-elegir-lista" class="tool-btn"><i class="fas fa-list-check"></i> Seleccionar de la lista</button>
+                    <button type="button" id="btn-add-integrante" class="tool-btn"><i class="fas fa-user-plus"></i> Agregar integrante</button>
+                    <button type="button" id="btn-cursos" class="tool-btn"><i class="fas fa-school"></i> Cursos y listas</button>
+                </div>
+                <p class="text-xs text-slate-500 mt-2"><i class="fas fa-magnifying-glass mr-1"></i> Al escribir un nombre aparecen sugerencias de las listas cargadas. Si el estudiante no está, puedes agregarlo como alumno nuevo.</p>
                 <p class="text-xs text-slate-500 mt-4"><i class="fas fa-circle-info mr-1"></i> Marca los puntajes en la rúbrica: haz clic en la celda del nivel (Logrado / Medianamente / No observado) o usa los botones 2-1-0 de la columna <strong>Puntaje</strong>. Los criterios <strong>I</strong> se marcan por cada estudiante. Todo se guarda automáticamente en este navegador.</p>
             </section>
 
@@ -429,6 +443,9 @@
             <div id="modal-body" class="p-5"></div>
         </div>
     </div>
+
+    <!-- Sugerencias de estudiantes (autocompletar) -->
+    <div id="sugerencias" class="no-print absolute z-[65] bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden text-sm" style="display:none"></div>
 
     <!-- Aviso -->
     <div id="toast" class="no-print fixed top-4 right-4 z-[70] max-w-sm bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-2xl" style="display:none"></div>
@@ -899,40 +916,69 @@
         const temaHeaderIcon = document.getElementById('tema-header-icon');
 
         // Ajusta textos, modalidades y visibilidad del tema según la asignatura elegida
-        function aplicarAsignatura(asig, actSeleccionada) {
+        // Las rúbricas agregadas se eligen en el mismo selector de modalidad, con valor "idRubrica::idModalidad"
+        const SEP_RUB = '::';
+        function opcionesRubricas(asig, extra) {
+            const lista = Object.values(getRubricas()).filter(r => r.asignatura === asig);
+            if (extra && !lista.some(r => r.id === extra.id)) lista.push(extra); // rúbrica eliminada, pero usada por una evaluación guardada
+            return lista;
+        }
+
+        // Ajusta textos y modalidades según la asignatura elegida
+        function aplicarAsignatura(asig, actSeleccionada, rubExtra) {
             const s = ASIGNATURAS[asig];
-            selectActividad.innerHTML = `<option value="">${s ? '-- Selecciona modalidad de presentación --' : '-- Primero elige la asignatura --'}</option>` +
-                (s ? s.opciones.map(([v, t]) => `<option value="${v}">${t}</option>`).join('') : '');
+            let html = `<option value="">${s ? '-- Selecciona modalidad o rúbrica --' : '-- Primero elige la asignatura --'}</option>`;
+            if (s) {
+                html += `<optgroup label="Rúbrica oficial">${s.opciones.map(([v, t]) => `<option value="${v}">${t}</option>`).join('')}</optgroup>`;
+                html += opcionesRubricas(asig, rubExtra).map(r =>
+                    `<optgroup label="Rúbrica agregada: ${esc(r.nombre)}">${r.opciones.map(([v, t]) => `<option value="${esc(r.id + SEP_RUB + v)}">${esc(r.nombre)} — ${esc(t)}</option>`).join('')}</optgroup>`).join('');
+            }
+            selectActividad.innerHTML = html;
             selectActividad.disabled = !s;
-            if (s && actSeleccionada && s.actividades[actSeleccionada]) selectActividad.value = actSeleccionada;
-            const usaTema = !s || s.usaTema;
+            if (s && actSeleccionada) selectActividad.value = actSeleccionada;
+            document.getElementById('subj-badge').textContent = s ? s.badge : 'Historia, Geografía y Ciencias Sociales';
+            document.getElementById('subj-fecha').style.display = s && s.mostrarFecha ? '' : 'none';
+            mostrarTema(!s || s.usaTema);
+            actualizarCabecera(s);
+        }
+
+        function mostrarTema(usaTema) {
             document.getElementById('tema-wrap').style.display = usaTema ? '' : 'none';
             document.getElementById('selectores-grid').classList.toggle('md:grid-cols-3', usaTema);
             document.getElementById('selectores-grid').classList.toggle('md:grid-cols-2', !usaTema);
+        }
+
+        function actualizarCabecera(s) {
             const base = s || ASIGNATURAS.ciudadania;
-            document.getElementById('subj-badge').textContent = s ? s.badge : 'Historia, Geografía y Ciencias Sociales';
             document.getElementById('subj-proyecto').textContent = s ? s.proyecto : 'Ruta de Evaluación por Asignatura';
-            document.getElementById('subj-fecha').style.display = s && s.mostrarFecha ? '' : 'none';
             document.querySelectorAll('.subj-pmax').forEach(el => el.textContent = base.pmax);
-            document.getElementById('subj-pmin').textContent = base.pmax * EXIGENCIA;
+            document.getElementById('subj-pmin').textContent = Math.round(base.pmax * EXIGENCIA * 10) / 10;
         }
 
         function updateUI() {
             const asig = selectAsignatura.value;
             const s = ASIGNATURAS[asig];
-            const valAct = selectActividad.value;
-            const valTema = s && s.usaTema ? selectTema.value : '';
+            const [rid, mod] = selectActividad.value.includes(SEP_RUB) ? selectActividad.value.split(SEP_RUB) : [null, selectActividad.value];
+            // Rúbrica agregada: se guarda una copia dentro de la evaluación para que siempre pueda reabrirse
+            let rub = null;
+            if (s && rid) rub = ev.rub && ev.rub.id === rid ? ev.rub : (getRubricas()[rid] ? JSON.parse(JSON.stringify(getRubricas()[rid])) : null);
+            const valAct = mod;
+            const usaTema = s && s.usaTema && !rub;
+            const valTema = usaTema ? selectTema.value : '';
+            if (s) mostrarTema(s.usaTema && !rub);
 
             // Actualización dinámica de clases de color de tema
             bodyTheme.className = 'text-slate-800 antialiased transition-colors duration-500 min-h-screen' + (modoDocente ? ' teacher-mode' : '');
-            bodyTheme.classList.add(s && s.temas[valAct] ? s.temas[valAct] : 'default-theme');
+            bodyTheme.classList.add(rub ? 'activity-r' : s && s.temas[valAct] ? s.temas[valAct] : 'default-theme');
 
-            if (s && valAct && (!s.usaTema || valTema)) {
+            if (s && valAct && (!usaTema || valTema)) {
                 welcomeMessage.classList.add('hidden');
                 contentContainer.classList.remove('hidden');
                 ev.asig = asig;
+                ev.rub = rub;
                 ev.act = valAct;
                 ev.tema = valTema;
+                actualizarCabecera(subj());
                 renderData(valAct, valTema);
                 renderResultados();
             } else {
@@ -958,6 +1004,7 @@
         selectTema.addEventListener('change', updateUI);
 
         function renderData(act, temaId) {
+            if (ev.rub) return renderDataRubrica(act);
             if (selectAsignatura.value === 'economia') return renderDataEconomia(act);
             const tema = temasData[temaId];
             
@@ -1042,6 +1089,34 @@
             renderRubric(act);
         }
 
+        // Ficha y lineamientos de una rúbrica agregada por el docente
+        function renderDataRubrica(act) {
+            const r = ev.rub;
+            temaHeaderIcon.className = 'fas fa-table-list';
+            divFichaTema.innerHTML = `
+                <div class="mb-6">
+                    <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold mb-3 border border-slate-200">
+                        <i class="fas fa-table-list dynamic-text"></i> ${esc(ASIGNATURAS[r.asignatura].nombre)} · Rúbrica agregada · ${esc(r.actividades[act] || '')}
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-black dynamic-text leading-tight mb-2">${esc(r.nombre)}</h3>
+                    ${r.descripcion ? `<div class="p-4 bg-slate-50 border-l-4 dynamic-border rounded-r-xl text-slate-700 text-sm md:text-base">${esc(r.descripcion)}</div>` : ''}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-${Math.min(r.dims.length, 3)} gap-4">
+                    ${r.dims.map(d => `<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-extrabold text-slate-800 pb-2 border-b border-slate-200 mb-3 flex items-center justify-between text-base">
+                            <span><i class="fas ${d.icon} dynamic-text mr-2"></i>${esc(d.nombre)}</span>
+                            <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">${d.ponderacion}%</span>
+                        </h4>
+                        <ol class="space-y-1.5 text-sm text-slate-700 list-decimal pl-5">${d.criterios.map(c => `<li class="pl-1">${esc(c.n)}</li>`).join('')}</ol>
+                    </div>`).join('')}
+                </div>`;
+            spanTipName.innerText = r.actividades[act] || r.nombre;
+            const tips = [...(r.instrucciones || []).map(esc),
+                `<strong>Ponderación:</strong> ${r.dims.map(d => `${esc(d.nombre)} ${d.ponderacion}%`).join(' · ')}. La nota se calcula con el porcentaje de logro ponderado y 60% de exigencia.`];
+            divTips.innerHTML = `<ul class="space-y-2.5">` + tips.map(t => `<li class="flex items-start gap-2.5"><i class="fas fa-angle-right text-amber-600 mt-1"></i> <div>${t}</div></li>`).join('') + `</ul>`;
+            renderRubric(act);
+        }
+
         function renderDataEconomia(act) {
             const d = economiaData;
             temaHeaderIcon.className = `fas ${d.icon}`;
@@ -1085,12 +1160,20 @@
         const MODE_KEY = 'evalEC.modoDocente';
         const EXIGENCIA = 0.6;
         // Asignatura de la evaluación en curso (las evaluaciones antiguas son de Educación Ciudadana)
-        const subj = () => ASIGNATURAS[ev.asig] || ASIGNATURAS.ciudadania;
+        // Con una rúbrica agregada, sus datos reemplazan a los de la rúbrica oficial de la asignatura
+        const subj = () => {
+            const base = ASIGNATURAS[ev.asig] || ASIGNATURAS.ciudadania;
+            if (!ev.rub) return base;
+            const r = ev.rub;
+            return { ...base, proyecto: r.nombre, usaTema: false, mostrarFecha: false, ponderada: true, rubDims: r.dims,
+                     pmax: r.dims.reduce((a, d) => a + d.criterios.length, 0) * r.niveles[0].v,
+                     niveles: r.niveles, actividades: r.actividades, opciones: r.opciones };
+        };
         const pmax = () => subj().pmax;
         const nivelMax = () => subj().niveles[0].v;
         const nivelDe = v => subj().niveles.find(n => n.v === v);
         const actNombre = () => subj().actividades[ev.act] || '';
-        const temaTitulo = () => subj().usaTema ? (temasData[ev.tema]?.titulo || '') : economiaData.titulo;
+        const temaTitulo = () => ev.rub ? ev.rub.nombre : subj().usaTema ? (temasData[ev.tema]?.titulo || '') : economiaData.titulo;
         const DIMS = [
             { key: 'H', title: "Dimensión 1: Habilidades Sociales y de Investigación", short: "Habilidades", color: "blue", icon: "fa-brain" },
             { key: 'C', title: "Dimensión 2: Dominio de Contenidos y Evidencia", short: "Contenidos", color: "purple", icon: "fa-book-open" },
@@ -1120,29 +1203,33 @@
         if (!cfg.scriptUrl) cfg.scriptUrl = DRIVE_URL_DEFAULT;
         let modoDocente = lsGet(MODE_KEY, false);
 
-        function nuevoIntegrante() { return { nombre: '', scores: {}, fb: '' }; }
+        function nuevoIntegrante() { return { nombre: '', curso: '', scores: {}, fb: '' }; }
         function nuevaEvaluacion() {
+            // El selector puede traer "idRubrica::modalidad" cuando se eligió una rúbrica agregada
+            const [rid, act] = selectActividad.value.includes('::') ? selectActividad.value.split('::') : [null, selectActividad.value];
+            const rub = rid && getRubricas()[rid] ? JSON.parse(JSON.stringify(getRubricas()[rid])) : null;
             return {
                 id: 'eq-' + Date.now(), curso: '', equipo: '', fecha: new Date().toISOString().slice(0, 10),
-                asig: selectAsignatura.value, act: selectActividad.value, tema: selectTema.value,
+                asig: selectAsignatura.value, rub, act, tema: rub ? '' : selectTema.value,
                 integrantes: [nuevoIntegrante(), nuevoIntegrante(), nuevoIntegrante()],
                 team: {}, fbEquipo: '', driveUrl: '', updated: null
             };
         }
         let ev = nuevaEvaluacion();
 
-        // Nota escala 1.0 - 7.0 con exigencia 60%
-        function calcNota(p) {
-            const pm = pmax(), pa = pm * EXIGENCIA;
-            let n = p < pa ? 1 + 3 * p / pa : 4 + 3 * (p - pa) / (pm - pa);
+        // Nota escala 1.0 - 7.0 con exigencia 60%, a partir del porcentaje de logro (0 a 1)
+        function notaDesdeLogro(pct) {
+            let n = pct < EXIGENCIA ? 1 + 3 * pct / EXIGENCIA : 4 + 3 * (pct - EXIGENCIA) / (1 - EXIGENCIA);
             n = Math.round((n + 1e-9) * 10) / 10;
             return Math.min(7, Math.max(1, n));
         }
         const fmtNota = n => n.toFixed(1).replace('.', ',');
+        const fmtPct = p => Math.round(p * 100) + '%';
 
         // Lista plana de criterios según asignatura y modalidad (con tipo E/I definitivo)
         function getCriteria(act) {
-            if (subj() === ASIGNATURAS.economia) {
+            if (ev.rub) return ev.rub.dims.flatMap(d => d.criterios.map(c => ({ ...c, dim: d })));
+            if (ev.asig === 'economia') {
                 const titulo = act === 'F' ? "9.2 Rúbrica del formato afiche o pendón" : "9.1 Rúbrica del formato documental";
                 const dim = { title: titulo, color: "violet", icon: "fa-house-chimney-user" };
                 return economiaData.criterios.map(c => ({ ...c, ...(c.formato ? c.formato[act] || c.formato.D : {}), dim }));
@@ -1152,7 +1239,7 @@
             rubricaComun.habilidades.forEach(i => push(DIMS[0], i));
             rubricaComun.contenidos.forEach(i => push(DIMS[1], i));
             rubricaComun.procedimientosComunes.forEach(i => push(DIMS[2], i));
-            procedimientosEspecificos[act].forEach(i => push(DIMS[2], i));
+            (procedimientosEspecificos[act] || procedimientosEspecificos.A).forEach(i => push(DIMS[2], i));
             rubricaComun.actitudes.forEach(i => {
                 const c = { ...i };
                 if (c.id === 'A4') {
@@ -1172,13 +1259,22 @@
 
         function totales(i) {
             let equipo = 0, indiv = 0, maxE = 0, maxI = 0, pend = 0;
+            const porDim = new Map(); // dimensión -> { pts, max }
             currentCriteria().forEach(c => {
                 const v = scoreOf(c, i);
                 if (v === undefined) pend++;
                 if (c.ei === 'I') { indiv += v || 0; maxI += nivelMax(); } else { equipo += v || 0; maxE += nivelMax(); }
+                const d = porDim.get(c.dim) || { pts: 0, max: 0 };
+                d.pts += v || 0; d.max += nivelMax();
+                porDim.set(c.dim, d);
             });
             const pts = equipo + indiv;
-            return { equipo, indiv, maxE, maxI, pts, pend, nota: calcNota(pts) };
+            // Rúbricas agregadas: logro ponderado por dimensión (ej. Conceptual 40%, Procedimental 40%, Actitudinal 20%)
+            const dims = [...porDim].map(([dim, d]) => ({ nombre: dim.nombre || dim.title, ponderacion: dim.ponderacion, logro: d.max ? d.pts / d.max : 0 }));
+            const logro = subj().ponderada
+                ? dims.reduce((a, d) => a + d.logro * d.ponderacion / 100, 0)
+                : pts / pmax();
+            return { equipo, indiv, maxE, maxI, pts, pend, dims, logro, nota: notaDesdeLogro(logro) };
         }
         function promedioEquipo() {
             if (!ev.integrantes.length) return null;
@@ -1276,21 +1372,51 @@
         const inFecha = document.getElementById('ev-fecha');
         const divIntegrantes = document.getElementById('ev-integrantes');
 
+        const MAX_INTEGRANTES = 10;
+        const cursoInfo = s => s.curso ? `<i class="fas fa-school mr-1"></i>${esc(s.curso)}` : (s.nombre && Object.keys(getCursos()).length ? '<span class="text-amber-700"><i class="fas fa-circle-question mr-1"></i>No está en las listas</span>' : '');
+
         function renderIntegrantes() {
             divIntegrantes.innerHTML = ev.integrantes.map((s, i) => `
-                <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 shrink-0 rounded-full dynamic-bg text-xs font-bold flex items-center justify-center">${i + 1}</span>
-                    <input class="field" data-int="${i}" value="${esc(s.nombre)}" placeholder="Nombre y apellido del estudiante">
-                    <button type="button" class="tool-btn text-red-600" data-del-int="${i}" title="Quitar integrante"><i class="fas fa-trash"></i></button>
+                <div class="flex items-start gap-2">
+                    <span class="w-7 h-7 mt-1.5 shrink-0 rounded-full dynamic-bg text-xs font-bold flex items-center justify-center">${i + 1}</span>
+                    <div class="flex-1 min-w-0">
+                        <input class="field" data-int="${i}" value="${esc(s.nombre)}" placeholder="Escribe para buscar en la lista…" autocomplete="off">
+                        <div class="text-[11px] text-slate-500 mt-0.5 min-h-[14px]" data-curso-int="${i}">${cursoInfo(s)}</div>
+                    </div>
+                    <button type="button" class="tool-btn text-red-600 mt-0.5" data-del-int="${i}" title="Quitar integrante"><i class="fas fa-trash"></i></button>
                 </div>`).join('');
         }
+
+        // Asigna un estudiante de la lista (o escrito a mano) a un integrante
+        function asignarIntegrante(i, nombre, curso) {
+            const s = ev.integrantes[i];
+            s.nombre = nombre;
+            s.curso = curso || '';
+            const inp = divIntegrantes.querySelector(`[data-int="${i}"]`);
+            if (inp) inp.value = nombre;
+            const info = divIntegrantes.querySelector(`[data-curso-int="${i}"]`);
+            if (info) info.innerHTML = cursoInfo(s);
+            if (curso) agregarCursoEv(curso);
+            document.querySelectorAll(`[data-nombre-idx="${i}"]`).forEach(el => el.textContent = nombreDe(i));
+            changed(false);
+        }
+
         divIntegrantes.addEventListener('input', e => {
             const i = e.target.dataset.int;
             if (i === undefined) return;
-            ev.integrantes[Number(i)].nombre = e.target.value;
+            const s = ev.integrantes[Number(i)];
+            s.nombre = e.target.value;
+            // Si el texto coincide exactamente con un estudiante de las listas, se vincula a su curso
+            const exacto = buscarAlumnos(e.target.value, cursosEv()).find(a => normNombre(a.nombre) === normNombre(e.target.value));
+            s.curso = exacto ? exacto.curso : '';
+            divIntegrantes.querySelector(`[data-curso-int="${i}"]`).innerHTML = cursoInfo(s);
             document.querySelectorAll(`[data-nombre-idx="${i}"]`).forEach(el => el.textContent = nombreDe(Number(i)));
+            mostrarSugerencias(e.target, Number(i));
             changed(false);
         });
+        divIntegrantes.addEventListener('focusin', e => { if (e.target.dataset.int !== undefined) mostrarSugerencias(e.target, Number(e.target.dataset.int)); });
+        divIntegrantes.addEventListener('focusout', () => setTimeout(ocultarSugerencias, 150));
+        divIntegrantes.addEventListener('keydown', e => { if (e.target.dataset.int !== undefined) teclaSugerencias(e); });
         divIntegrantes.addEventListener('click', e => {
             const b = e.target.closest('[data-del-int]');
             if (!b) return;
@@ -1301,12 +1427,12 @@
             refrescarTodo();
         });
         document.getElementById('btn-add-integrante').addEventListener('click', () => {
-            if (ev.integrantes.length >= 8) return toast('Máximo 8 integrantes por equipo.');
+            if (ev.integrantes.length >= MAX_INTEGRANTES) return toast(`Máximo ${MAX_INTEGRANTES} integrantes por equipo.`);
             ev.integrantes.push(nuevoIntegrante());
             refrescarTodo();
             divIntegrantes.querySelector(`[data-int="${ev.integrantes.length - 1}"]`)?.focus();
         });
-        inCurso.addEventListener('input', () => { ev.curso = inCurso.value; changed(false); });
+        inCurso.addEventListener('input', () => { ev.curso = inCurso.value; renderChipsCursos(); changed(false); });
         inEquipo.addEventListener('input', () => { ev.equipo = inEquipo.value; changed(false); });
         inFecha.addEventListener('input', () => { ev.fecha = inFecha.value; changed(false); });
 
@@ -1328,6 +1454,7 @@
                     <td class="p-3 text-center">${t.equipo} / ${t.maxE}</td>
                     <td class="p-3 text-center">${t.indiv} / ${t.maxI}</td>
                     <td class="p-3 text-center font-bold">${t.pts} / ${pmax()}</td>
+                    <td class="p-3 text-center">${fmtPct(t.logro)}${subj().ponderada ? `<div class="text-[11px] text-slate-500">${t.dims.map(d => `${esc(d.nombre)} ${fmtPct(d.logro)}`).join(' · ')}</div>` : ''}</td>
                     <td class="p-3 text-center text-xl font-black ${notaClase(t.nota)}">${fmtNota(t.nota)}</td>
                     <td class="p-3 text-center text-xs ${t.pend ? 'text-amber-700 font-bold' : 'text-emerald-700'}">${t.pend ? t.pend + ' sin marcar' : '<i class="fas fa-check"></i> Completo'}</td>
                 </tr>`;
@@ -1337,14 +1464,16 @@
                 <div class="overflow-x-auto rounded-xl border border-slate-200">
                     <table class="w-full text-sm min-w-[560px]">
                         <thead class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider">
-                            <tr><th class="p-3 text-left">Estudiante</th><th class="p-3">Pts. equipo (E)</th><th class="p-3">Pts. individual (I)</th><th class="p-3">Total</th><th class="p-3">Nota</th><th class="p-3">Estado</th></tr>
+                            <tr><th class="p-3 text-left">Estudiante</th><th class="p-3">Pts. equipo (E)</th><th class="p-3">Pts. individual (I)</th><th class="p-3">Total</th><th class="p-3">Logro${subj().ponderada ? ' ponderado' : ''}</th><th class="p-3">Nota</th><th class="p-3">Estado</th></tr>
                         </thead>
                         <tbody>${filas}</tbody>
                     </table>
                 </div>
                 <div class="mt-4 flex flex-wrap items-center gap-4 text-sm">
                     <span class="px-3 py-1.5 rounded-lg bg-slate-100 font-bold">Promedio del equipo: <span class="${notaClase(prom)}">${fmtNota(prom)}</span></span>
-                    <span class="text-slate-500">Nota = 1,0 + 3 × pts / ${pmax() * EXIGENCIA} (bajo ${pmax() * EXIGENCIA} pts) · Nota = 4,0 + 3 × (pts − ${pmax() * EXIGENCIA}) / ${pmax() - pmax() * EXIGENCIA} (desde ${pmax() * EXIGENCIA} pts)</span>
+                    <span class="text-slate-500">${subj().ponderada
+                        ? `Logro ponderado = ${ev.rub.dims.map(d => `${d.ponderacion}% × ${esc(d.nombre)}`).join(' + ')} · 60% de logro = nota 4,0`
+                        : `Nota = 1,0 + 3 × pts / ${pmax() * EXIGENCIA} (bajo ${pmax() * EXIGENCIA} pts) · Nota = 4,0 + 3 × (pts − ${pmax() * EXIGENCIA}) / ${pmax() - pmax() * EXIGENCIA} (desde ${pmax() * EXIGENCIA} pts)`}</span>
                 </div>`;
             barra.innerHTML = `<div class="max-w-6xl mx-auto flex flex-wrap items-center gap-x-4 gap-y-1">
                 <strong><i class="fas fa-calculator mr-1"></i> ${esc(ev.equipo || 'Equipo sin nombre')}:</strong>
@@ -1387,7 +1516,15 @@
             EC10: { D: "lograr un video de 5 a 8 minutos con guion claro y gráficos legibles, y que cada integrante explique su parte, justifique un cálculo y reconozca los límites de los datos",
                     F: "lograr un afiche legible a distancia, con jerarquía visual y fuentes en APA, y que cada integrante explique su parte, justifique un cálculo y reconozca los límites de los datos" }
         };
-        const mejora = (id) => { const m = MEJORAS[id]; return typeof m === 'string' ? m : (m[ev.act] || Object.values(m)[0]); };
+        const mejora = (id) => {
+            const m = MEJORAS[id];
+            if (!m) {
+                // Rúbrica agregada: se sugiere avanzar hacia el descriptor del nivel más alto
+                const c = currentCriteria().find(x => x.id === id);
+                return c ? `avanzar hacia el nivel ${subj().niveles[0].t.toLowerCase()} en ${minus(c.n)} («${c.d0}»)` : '';
+            }
+            return typeof m === 'string' ? m : (m[ev.act] || Object.values(m)[0]);
+        };
         // Clasifica un puntaje: máximo = fortaleza, 0 = no logrado, intermedio = por fortalecer
         const clase = v => v === undefined ? null : v === nivelMax() ? 'l' : v === 0 ? 'n' : 'm';
 
@@ -1401,13 +1538,15 @@
             else if (prom >= 5) intro = "realizaron un buen trabajo, con aspectos que aún pueden pulir";
             else if (prom >= 4) intro = "lograron el nivel mínimo exigido, aunque hay varios aspectos importantes por mejorar";
             else intro = "el trabajo aún no alcanza el nivel mínimo exigido (60%), por lo que es necesario reforzar varios aspectos";
-            let t = `${ev.equipo ? ev.equipo + ': ' : ''}En su ${actNombre().toLowerCase()} sobre "${temaTitulo()}", ${intro} (promedio ${fmtNota(prom)}).`;
+            const contexto = ev.rub ? `En la evaluación "${ev.rub.nombre}"${Object.keys(ev.rub.actividades).length > 1 ? ` (${actNombre()})` : ''}`
+                                    : `En su ${actNombre().toLowerCase()} sobre "${temaTitulo()}"`;
+            let t = `${ev.equipo ? ev.equipo + ': ' : ''}${contexto}, ${intro} (promedio ${fmtNota(prom)}).`;
             if (l.length) t += `\n\nFortalezas: destacan en ${listar(l.map(c => minus(c.n)))}.`;
             if (m.length) t += `\n\nAspectos por fortalecer: ${listar(m.map(c => minus(c.n)))}. Para avanzar, se sugiere ${m.map(c => mejora(c.id)).join('; ')}.`;
             if (n.length) t += `\n\nAspectos no logrados: ${listar(n.map(c => minus(c.n)))}. Es necesario ${n.map(c => mejora(c.id)).join('; ')}.`;
             const pend = crit.filter(c => ev.team[c.id] === undefined);
             if (pend.length === crit.length) return "Primero marca los puntajes de la rúbrica para generar la sugerencia.";
-            const esEco = subj() === ASIGNATURAS.economia;
+            const esEco = ev.asig === 'economia' || !!ev.rub;
             t += prom >= 4 ? (esEco ? `\n\nSigan trabajando con este compromiso: sus avances muestran que pueden profundizar aún más en el análisis económico de los hogares.`
                                     : `\n\nSigan trabajando con este compromiso: sus avances muestran que pueden profundizar aún más en el análisis de la realidad chilena.`)
                            : `\n\nLos invito a revisar la rúbrica ${esEco ? 'y los requisitos del formato' : 'y la Ficha de Tema'} para planificar las mejoras; pueden acercarse a consultar cualquier duda.`;
@@ -1557,7 +1696,7 @@
 
         async function llamarGroq(system, prompt) {
             const body = {
-                model: cfg.model, max_completion_tokens: 4000, temperature: 0.4,
+                model: cfg.model, max_completion_tokens: 12000, temperature: 0.4,
                 messages: [{ role: 'system', content: system }, { role: 'user', content: prompt }]
             };
             if (cfg.model.startsWith('openai/gpt-oss')) body.reasoning_effort = 'low';
@@ -1578,7 +1717,7 @@
         }
 
         async function llamarClaude(system, prompt) {
-            const body = { model: cfg.model, max_tokens: 8000, output_config: { effort: 'low' }, system, messages: [{ role: 'user', content: prompt }] };
+            const body = { model: cfg.model, max_tokens: 12000, output_config: { effort: 'low' }, system, messages: [{ role: 'user', content: prompt }] };
             const headers = {
                 'x-api-key': cfg.apiKey,
                 'anthropic-version': '2023-06-01',
@@ -1655,6 +1794,7 @@
             document.getElementById('modal-title').textContent = titulo;
             const body = document.getElementById('modal-body');
             body.onclick = null;
+            body.oninput = null;
             body.innerHTML = html;
             body.parentElement.classList.toggle('max-w-2xl', !ancho);
             body.parentElement.classList.toggle('max-w-5xl', ancho);
@@ -1782,6 +1922,7 @@
 
         function refrescarTodo() {
             inCurso.value = ev.curso; inEquipo.value = ev.equipo; inFecha.value = ev.fecha;
+            renderChipsCursos();
             renderIntegrantes();
             renderFeedback();
             if (rubricaVisible()) renderRubric(ev.act);
@@ -1796,7 +1937,7 @@
             ev = e;
             if (!ev.asig) ev.asig = 'ciudadania'; // evaluaciones guardadas antes de agregar Economía
             selectAsignatura.value = ev.asig;
-            aplicarAsignatura(ev.asig, ev.act);
+            aplicarAsignatura(ev.asig, ev.rub ? ev.rub.id + SEP_RUB + ev.act : ev.act, ev.rub);
             selectTema.value = ev.tema || '';
             refrescarTodo();
             updateUI();
@@ -1810,16 +1951,16 @@
             const all = todas.filter(e => filtroGuardados === 'todas' || (e.asig || 'ciudadania') === filtroGuardados);
             const pestaña = (k, t) => {
                 const n = k === 'todas' ? todas.length : todas.filter(e => (e.asig || 'ciudadania') === k).length;
-                return `<button type="button" class="tool-btn ${filtroGuardados === k ? 'dynamic-bg !text-white' : ''}" data-filtro="${k}">${t} (${n})</button>`;
+                return `<button type="button" class="tool-btn ${filtroGuardados === k ? 'tab-on' : ''}" data-filtro="${k}">${t} (${n})</button>`;
             };
             const filas = all.map(e => {
                 const nombres = e.integrantes.map(s => s.nombre).filter(Boolean).join(', ');
-                const listo = (ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).actividades[e.act];
+                const listo = conEvaluacion(e, actNombre);
                 const prom = listo && e.integrantes.length ? conEvaluacion(e, promedioEquipo) : null;
                 return `<div class="flex flex-wrap items-center justify-between gap-2 p-3 border border-slate-200 rounded-xl ${e.id === ev.id ? 'bg-blue-50' : ''}">
                     <div class="min-w-0">
                         <div class="font-bold text-slate-800">${esc(e.curso || 'Sin curso')} — ${esc(e.equipo || 'Equipo sin nombre')}${prom !== null ? ` <span class="ml-1 text-sm ${notaClase(prom)}">· Prom. ${fmtNota(prom)}</span>` : ''}</div>
-                        <div class="text-xs text-slate-500">${esc((ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).nombre)} · ${esc((ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).actividades[e.act] || '')}${e.tema ? ' · Tema ' + esc(e.tema) : ''} · ${esc(nombres || 'sin integrantes')}</div>
+                        <div class="text-xs text-slate-500">${esc((ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).nombre)}${e.rub ? ' · ' + esc(e.rub.nombre) : ''} · ${esc(listo || '')}${e.tema ? ' · Tema ' + esc(e.tema) : ''} · ${esc(nombres || 'sin integrantes')}</div>
                         ${e.driveUrl ? `<a class="text-xs text-emerald-700 underline" href="${esc(e.driveUrl)}" target="_blank" rel="noopener"><i class="fab fa-google-drive"></i> Ver PDF en Drive</a>` : ''}
                     </div>
                     <div class="flex flex-wrap gap-2">
@@ -1869,7 +2010,7 @@
                 }
             };
             document.getElementById('btn-export').onclick = () => {
-                const blob = new Blob([JSON.stringify(getGuardados(), null, 2)], { type: 'application/json' });
+                const blob = new Blob([JSON.stringify({ evaluaciones: getGuardados(), rubricas: getRubricas(), cursos: getCursos() }, null, 2)], { type: 'application/json' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
                 a.download = `respaldo-evaluaciones-${new Date().toISOString().slice(0, 10)}.json`;
@@ -1881,11 +2022,14 @@
                 if (!f) return;
                 try {
                     const data = JSON.parse(await f.text());
-                    const all = Object.assign(getGuardados(), data);
-                    lsSet(STORE_KEY, all);
+                    // Respaldo nuevo: { evaluaciones, rubricas }; respaldo antiguo: solo evaluaciones
+                    const evals = data.evaluaciones || data;
+                    lsSet(STORE_KEY, Object.assign(getGuardados(), evals));
+                    if (data.rubricas) lsSet(RUB_KEY, Object.assign(getRubricas(), data.rubricas));
+                    if (data.cursos) setCursos(Object.assign(getCursos(), data.cursos));
                     actualizarContador();
                     abrirGuardados();
-                    toast(`Importadas ${Object.keys(data).length} evaluaciones.`);
+                    toast(`Importadas ${Object.keys(evals).length} evaluaciones${data.rubricas ? ` y ${Object.keys(data.rubricas).length} rúbricas` : ''}.`);
                 } catch (err) { toast('El archivo no es un respaldo válido.'); }
             };
         }
@@ -1901,6 +2045,9 @@
                     <div class="flex flex-col gap-2">
                         ${s.opciones.map(([v, t]) => `<button type="button" class="tool-btn justify-start" data-nueva-asig="${k}" data-nueva-act="${v}"><i class="fas fa-plus"></i> ${t}</button>`).join('')}
                     </div>
+                    ${opcionesRubricas(k).map(r => `
+                        <div class="text-xs font-bold text-slate-600 mt-3 mb-1.5"><i class="fas fa-table-list mr-1"></i> ${esc(r.nombre)} <span class="font-normal">(rúbrica agregada)</span></div>
+                        <div class="flex flex-col gap-2">${r.opciones.map(([v, t]) => `<button type="button" class="tool-btn justify-start" data-nueva-asig="${k}" data-nueva-act="${esc(r.id + SEP_RUB + v)}"><i class="fas fa-plus"></i> ${esc(t)}</button>`).join('')}</div>`).join('')}
                 </div>`;
             };
             abrirModal('Nueva evaluación', `
@@ -1927,7 +2074,7 @@
             refrescarTodo();
             updateUI();
             cerrarModal();
-            if (ASIGNATURAS[asig].usaTema) {
+            if (subj().usaTema) {
                 document.getElementById('tema').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 document.getElementById('tema').focus();
                 toast('Rúbrica nueva lista. Elige el tema del equipo.');
@@ -1945,7 +2092,7 @@
         /* ---------- Informe imprimible ---------- */
         function nombreArchivo() {
             const limpio = s => String(s || '').replace(/[\\/:*?"<>|]+/g, '-').trim();
-            const detalle = subj().usaTema ? `Act ${ev.act} Tema ${ev.tema}` : actNombre();
+            const detalle = ev.rub ? `${ev.rub.nombre} - ${actNombre()}` : subj().usaTema ? `Act ${ev.act} Tema ${ev.tema}` : actNombre();
             return limpio(`Informe ${subj().nombre} - ${ev.curso || 'Curso'} - ${ev.equipo || 'Equipo'} - ${detalle}`);
         }
 
@@ -2009,7 +2156,7 @@
                 </tr></table></div>
                 <table class="datos">
                     <tr><td class="k">Asignatura</td><td>${esc(s0.nombre)}</td><td class="k">Fecha</td><td>${esc(fecha)}</td></tr>
-                    <tr><td class="k">Curso</td><td>${esc(ev.curso)}</td><td class="k">Equipo</td><td>${esc(ev.equipo)}</td></tr>
+                    <tr><td class="k">Curso(s)</td><td>${esc(ev.curso)}</td><td class="k">Equipo</td><td>${esc(ev.equipo)}</td></tr>
                     <tr><td class="k">Modalidad</td><td colspan="3">${s0.usaTema ? 'Actividad ' + ev.act + ': ' : ''}${esc(actNombre())}</td></tr>
                     <tr><td class="k">Tema</td><td colspan="3">${s0.usaTema ? 'Tema ' + ev.tema + ': ' : ''}${esc(temaTitulo())}</td></tr>
                     <tr><td class="k">Docente</td><td colspan="3">${esc(docente)}</td></tr>
@@ -2017,11 +2164,13 @@
 
                 <h2>Resultados</h2>
                 <table class="t avoid">
-                    <tr><th style="text-align:left">Estudiante</th><th>Pts. equipo</th><th>Pts. individual</th><th>Puntaje total</th><th>Nota</th></tr>
-                    ${est.map((s, i) => `<tr><td>${esc(nombreDe(i))}</td><td class="c">${tots[i].equipo} / ${tots[i].maxE}</td><td class="c">${tots[i].indiv} / ${tots[i].maxI}</td><td class="c"><b>${tots[i].pts} / ${pmax()}</b></td><td class="c nota ${tots[i].nota < 4 ? 'roja' : 'azul'}">${fmtNota(tots[i].nota)}</td></tr>`).join('')}
-                    <tr><td colspan="4" style="text-align:right"><b>Promedio del equipo</b></td><td class="c nota">${fmtNota(promedioEquipo())}</td></tr>
+                    <tr><th style="text-align:left">Estudiante</th><th>Pts. equipo</th><th>Pts. individual</th><th>Puntaje total</th>${s0.ponderada ? s0.rubDims.map(d => `<th>${esc(d.nombre)} (${d.ponderacion}%)</th>`).join('') : ''}<th>Logro</th><th>Nota</th></tr>
+                    ${est.map((s, i) => `<tr><td>${esc(nombreDe(i))}${s.curso ? ` <span style="color:#64748b">(${esc(s.curso)})</span>` : ''}</td><td class="c">${tots[i].equipo} / ${tots[i].maxE}</td><td class="c">${tots[i].indiv} / ${tots[i].maxI}</td><td class="c"><b>${tots[i].pts} / ${pmax()}</b></td>${s0.ponderada ? tots[i].dims.map(d => `<td class="c">${fmtPct(d.logro)}</td>`).join('') : ''}<td class="c">${fmtPct(tots[i].logro)}</td><td class="c nota ${tots[i].nota < 4 ? 'roja' : 'azul'}">${fmtNota(tots[i].nota)}</td></tr>`).join('')}
+                    <tr><td colspan="${5 + (s0.ponderada ? s0.rubDims.length : 0)}" style="text-align:right"><b>Promedio del equipo</b></td><td class="c nota">${fmtNota(promedioEquipo())}</td></tr>
                 </table>
-                <div class="esc">Escala de 1,0 a 7,0 con 60% de exigencia: ${pmax() * EXIGENCIA} de ${pmax()} puntos = nota 4,0. Puntaje por criterio: ${s0.niveles.map(n => `${n.v} = ${n.t}`).join(' · ')}. E = criterio grupal · I = criterio individual.</div>
+                <div class="esc">Escala de 1,0 a 7,0 con 60% de exigencia${s0.ponderada
+                    ? `: 60% de logro ponderado = nota 4,0 (${s0.rubDims.map(d => `${esc(d.nombre)} ${d.ponderacion}%`).join(' · ')})`
+                    : `: ${pmax() * EXIGENCIA} de ${pmax()} puntos = nota 4,0`}. Puntaje por criterio: ${s0.niveles.map(n => `${n.v} = ${esc(n.t)}`).join(' · ')}. E = criterio grupal · I = criterio individual.</div>
 
                 <h2>Detalle de la rúbrica</h2>
                 <table class="t">
@@ -2148,6 +2297,959 @@
         const teacherField = document.getElementById('teacher-name-field');
         if (cfg.docente) teacherField.innerText = cfg.docente;
         teacherField.addEventListener('blur', () => { cfg.docente = teacherField.innerText.trim(); lsSet(CFG_KEY, cfg); });
+
+        /* ==================== RÚBRICAS AGREGADAS POR EL DOCENTE ==================== */
+        const RUB_KEY = 'evalEC.rubricas';
+        const getRubricas = () => lsGet(RUB_KEY, {});
+        const FORMATO_RUBRICA = 'rubrica-colegio-marina-v1';
+
+        // Plantilla de ejemplo (la misma estructura que debe devolver la IA)
+        function plantillaRubrica(asig) {
+            return {
+                formato: FORMATO_RUBRICA,
+                asignatura: asig || "economia",
+                nombre: "Nombre corto de la evaluación",
+                descripcion: "Qué deben hacer los estudiantes y qué producto entregan.",
+                modalidades: [
+                    { id: "A", nombre: "Informe escrito" },
+                    { id: "B", nombre: "Presentación oral" }
+                ],
+                niveles: [
+                    { nombre: "Logrado", puntos: 3 },
+                    { nombre: "Medianamente logrado", puntos: 2 },
+                    { nombre: "Por lograr", puntos: 1 },
+                    { nombre: "No logrado", puntos: 0 }
+                ],
+                dimensiones: [
+                    { nombre: "Conceptual", ponderacion: 40, criterios: [
+                        { nombre: "Dominio de conceptos clave", tipo: "E", descriptores: [
+                            "Define y aplica correctamente los 4 conceptos clave al caso estudiado.",
+                            "Define correctamente 2 o 3 conceptos, con aplicación parcial.",
+                            "Define 1 concepto o lo hace con imprecisiones.",
+                            "No define ni aplica conceptos." ] }
+                    ] },
+                    { nombre: "Procedimental", ponderacion: 40, criterios: [
+                        { nombre: "Uso de datos y fuentes", tipo: "E", descriptores: [
+                            "Usa 3 o más datos con período y fuente oficial, citados en APA.",
+                            "Usa 2 datos con fuente o con errores menores de cita.",
+                            "Usa 1 dato o datos sin fuente.",
+                            "No presenta datos." ] }
+                    ] },
+                    { nombre: "Actitudinal", ponderacion: 20, criterios: [
+                        { nombre: "Responsabilidad individual", tipo: "I", descriptores: [
+                            "Cumple todas sus tareas dentro de los plazos.",
+                            "Cumple la mitad o más de sus tareas.",
+                            "Cumple menos de la mitad de sus tareas.",
+                            "No cumple sus tareas." ] }
+                    ] }
+                ],
+                instrucciones: [
+                    "Indicación breve para los estudiantes (plazo, formato, extensión)."
+                ]
+            };
+        }
+
+        // Indicaciones para que cualquier IA (la integrada, ChatGPT, Gemini, etc.) genere la rúbrica
+        function promptRubrica(asig, descripcion) {
+            const s = ASIGNATURAS[asig] || ASIGNATURAS.economia;
+            return `Actúa como experto en evaluación educativa según el currículum chileno (Mineduc). Crea una rúbrica analítica para la asignatura ${s.nombre} del Colegio Marina de Chile (Concepción, Región del Biobío).
+
+ACTIVIDAD A EVALUAR:
+${descripcion && descripcion.trim() ? descripcion.trim() : '[Describe aquí la actividad: curso, producto que entregan, objetivos de aprendizaje y formatos posibles]'}
+
+REQUISITOS OBLIGATORIOS:
+1. Exactamente tres dimensiones, en este orden y con estas ponderaciones: "Conceptual" 40, "Procedimental" 40 y "Actitudinal" 20 (suman 100).
+2. Conceptual: dominio de conceptos, contenidos, datos y su comprensión. Procedimental: habilidades y procedimientos (investigar, analizar fuentes, calcular, argumentar, comunicar, cumplir el formato del producto). Actitudinal: responsabilidad, trabajo en equipo, honestidad académica, respeto y puntualidad.
+3. Entre 3 y 6 criterios por dimensión, observables y evaluables.
+4. Cuatro niveles de desempeño, del más alto al más bajo: Logrado (3 puntos), Medianamente logrado (2), Por lograr (1) y No logrado (0).
+5. Cada criterio tiene exactamente 4 descriptores, uno por nivel y en el mismo orden de los niveles. Deben ser concretos, graduales y, cuando sea posible, cuantificables (por ejemplo: "al menos 3 fuentes oficiales").
+6. "tipo": "E" si el criterio evalúa al equipo completo, o "I" si evalúa a cada estudiante por separado (por ejemplo, exposición oral, respuesta a preguntas o responsabilidad individual).
+7. "modalidades": los formatos de entrega posibles, cada uno con un "id" corto (A, B, C...). Si hay un solo formato, incluye solo uno.
+8. "instrucciones": entre 2 y 5 indicaciones breves para los estudiantes.
+9. "asignatura" debe ser "${asig}" y "formato" debe ser "${FORMATO_RUBRICA}".
+10. Escribe en español de Chile, con lenguaje claro para estudiantes de enseñanza media.
+
+FORMATO DE RESPUESTA:
+Responde ÚNICAMENTE con un JSON válido, sin texto antes ni después, sin comentarios y sin bloques de código Markdown. Sigue exactamente esta estructura (el contenido es solo un ejemplo):
+${JSON.stringify(plantillaRubrica(asig), null, 2)}`;
+        }
+
+        // Valida el JSON de una rúbrica y lo convierte al formato interno de la página
+        function normalizarRubrica(raw, asigForzada) {
+            const errores = [], avisos = [];
+            const texto = v => typeof v === 'string' && v.trim() ? v.trim() : '';
+            if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return { errores: ['El contenido no es un objeto JSON de rúbrica.'], avisos };
+            const asig = asigForzada || raw.asignatura;
+            if (!ASIGNATURAS[asig]) errores.push('"asignatura" debe ser "ciudadania" o "economia".');
+            const nombre = texto(raw.nombre);
+            if (!nombre) errores.push('Falta "nombre".');
+
+            const nivRaw = Array.isArray(raw.niveles) ? raw.niveles : [];
+            if (nivRaw.length < 2 || nivRaw.length > 5) errores.push('"niveles" debe tener entre 2 y 5 niveles.');
+            const niveles = nivRaw.map((n, i) => ({ v: Number(n?.puntos), k: 'd' + i, t: texto(n?.nombre) || `Nivel ${i + 1}` }));
+            if (niveles.some(n => !Number.isFinite(n.v) || n.v < 0)) errores.push('Cada nivel necesita "puntos" (número mayor o igual a 0).');
+            if (niveles.some((n, i) => i && n.v >= niveles[i - 1].v)) errores.push('Los niveles deben ir del puntaje más alto al más bajo, sin repetir puntajes.');
+            if (niveles.length && niveles[0].v <= 0) errores.push('El nivel más alto debe tener más de 0 puntos.');
+            // Colores de nivel: el primero es el más alto; el último es "cero" si vale 0
+            niveles.forEach((n, i) => {
+                const ult = i === niveles.length - 1;
+                n.c = i === 0 ? 'top' : ult ? (n.v === 0 ? 'zero' : 'low') : (i <= (niveles.length - 2) / 2 ? 'mid' : 'low');
+            });
+
+            let mods = Array.isArray(raw.modalidades) && raw.modalidades.length ? raw.modalidades : [{ id: 'G', nombre: 'General' }];
+            mods = mods.map((m, i) => ({ id: String(m?.id ?? '').replace(/[^A-Za-z0-9_-]/g, '') || 'M' + (i + 1), nombre: texto(m?.nombre) || `Modalidad ${i + 1}` }));
+            if (new Set(mods.map(m => m.id)).size !== mods.length) errores.push('Los "id" de las modalidades no pueden repetirse.');
+
+            const dimRaw = Array.isArray(raw.dimensiones) ? raw.dimensiones : [];
+            if (!dimRaw.length) errores.push('Falta "dimensiones".');
+            const COLORES = ['blue', 'orange', 'rose', 'purple', 'emerald', 'cyan'];
+            const ICONOS = { conceptual: 'fa-brain', procedimental: 'fa-gears', actitudinal: 'fa-heart' };
+            const quitarTildes = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+            const dims = dimRaw.map((d, i) => {
+                const dn = texto(d?.nombre) || `Dimensión ${i + 1}`;
+                const pond = Number(d?.ponderacion);
+                if (!Number.isFinite(pond) || pond <= 0) errores.push(`La dimensión "${dn}" necesita una "ponderacion" mayor que 0.`);
+                const crit = Array.isArray(d?.criterios) ? d.criterios : [];
+                if (!crit.length) errores.push(`La dimensión "${dn}" no tiene criterios.`);
+                const letra = quitarTildes(dn).charAt(0).toUpperCase() || 'D';
+                return {
+                    nombre: dn, ponderacion: pond,
+                    title: `Dimensión ${i + 1}: ${dn} (${pond}%)`,
+                    color: COLORES[i % COLORES.length], icon: ICONOS[quitarTildes(dn)] || 'fa-layer-group',
+                    criterios: crit.map((c, j) => {
+                        const cn = texto(c?.nombre) || `Criterio ${j + 1}`;
+                        const desc = Array.isArray(c?.descriptores) ? c.descriptores.map(texto) : [];
+                        if (desc.length !== niveles.length || desc.some(x => !x))
+                            errores.push(`"${cn}" (${dn}) debe tener ${niveles.length} descriptores, uno por nivel.`);
+                        const tipo = String(c?.tipo || 'E').toUpperCase() === 'I' ? 'I' : 'E';
+                        const item = { id: `R${i + 1}_${j + 1}`, lab: `${letra}${j + 1}`, n: cn, ei: tipo };
+                        niveles.forEach((n, k) => item[n.k] = desc[k] || '');
+                        return item;
+                    })
+                };
+            });
+            const suma = dims.reduce((a, d) => a + (d.ponderacion || 0), 0);
+            if (dims.length && Math.abs(suma - 100) > 0.5) errores.push(`Las ponderaciones suman ${suma}% y deben sumar 100%.`);
+            const esperado = ['conceptual:40', 'procedimental:40', 'actitudinal:20'];
+            if (dims.map(d => quitarTildes(d.nombre) + ':' + d.ponderacion).join('|') !== esperado.join('|'))
+                avisos.push('La estructura recomendada es Conceptual 40%, Procedimental 40% y Actitudinal 20%. Esta rúbrica usa otra distribución; se calculará con sus propias ponderaciones.');
+            const totalCrit = dims.reduce((a, d) => a + d.criterios.length, 0);
+            if (totalCrit > 30) avisos.push(`La rúbrica tiene ${totalCrit} criterios; puede resultar larga de aplicar.`);
+            if (errores.length) return { errores, avisos };
+            return {
+                errores, avisos,
+                rub: {
+                    id: 'rub-' + Date.now().toString(36), asignatura: asig, nombre,
+                    descripcion: texto(raw.descripcion),
+                    instrucciones: (Array.isArray(raw.instrucciones) ? raw.instrucciones : []).map(texto).filter(Boolean),
+                    niveles, dims,
+                    actividades: Object.fromEntries(mods.map(m => [m.id, m.nombre])),
+                    opciones: mods.map(m => [m.id, m.nombre]),
+                    creada: new Date().toISOString().slice(0, 10),
+                    fuente: raw
+                }
+            };
+        }
+
+        // Extrae el JSON de la respuesta de una IA (tolera texto o bloques ``` alrededor)
+        function extraerJSON(texto) {
+            const t = String(texto || '').replace(/```(?:json)?/gi, '');
+            const a = t.indexOf('{'), b = t.lastIndexOf('}');
+            if (a < 0 || b <= a) throw new Error('No se encontró un JSON en el texto.');
+            return JSON.parse(t.slice(a, b + 1));
+        }
+
+        function descargarJSON(obj, nombre) {
+            const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = nombre;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        async function copiarTexto(t) {
+            try { await navigator.clipboard.writeText(t); return true; }
+            catch (e) {
+                const ta = document.createElement('textarea');
+                ta.value = t; document.body.appendChild(ta); ta.select();
+                const ok = document.execCommand('copy'); ta.remove(); return ok;
+            }
+        }
+
+        // Vuelve a armar el selector de modalidad conservando la selección actual
+        function refrescarSelectorRubricas() {
+            if (selectAsignatura.value) aplicarAsignatura(selectAsignatura.value, selectActividad.value, ev.rub);
+        }
+
+        function resumenRubricaHTML(r) {
+            return `<div class="text-sm">
+                <div class="font-extrabold text-slate-800 text-base">${esc(r.nombre)}</div>
+                <div class="text-xs text-slate-500 mb-2">${esc(ASIGNATURAS[r.asignatura].nombre)} · Modalidades: ${r.opciones.map(o => esc(o[1])).join(', ')} · Niveles: ${r.niveles.map(n => `${esc(n.t)} (${n.v})`).join(', ')}</div>
+                ${r.dims.map(d => `<div class="mt-2"><span class="font-bold">${esc(d.nombre)}</span> <span class="text-xs bg-slate-100 px-1.5 py-0.5 rounded font-bold">${d.ponderacion}%</span>
+                    <ul class="list-disc pl-5 text-slate-700">${d.criterios.map(c => `<li>${esc(c.lab)} ${esc(c.n)} <span class="text-xs text-slate-500">(${c.ei === 'I' ? 'individual' : 'equipo'})</span></li>`).join('')}</ul></div>`).join('')}
+            </div>`;
+        }
+
+        let rubPendiente = null; // rúbrica revisada y lista para guardar
+        function abrirRubricas(asigInicial) {
+            const todas = Object.values(getRubricas());
+            const bloque = k => {
+                const s = ASIGNATURAS[k];
+                const propias = todas.filter(r => r.asignatura === k);
+                return `<div class="p-4 rounded-xl border border-slate-200">
+                    <div class="font-extrabold text-slate-800 mb-2"><i class="fas fa-graduation-cap mr-1"></i> ${s.nombre}</div>
+                    <div class="text-sm text-slate-600 flex items-center gap-2 mb-2"><i class="fas fa-lock text-slate-400"></i> ${esc(s.proyecto)} <span class="text-xs text-slate-400">(oficial)</span></div>
+                    ${propias.map(r => `<div class="flex flex-wrap items-center justify-between gap-2 py-2 border-t border-slate-100">
+                        <div class="text-sm"><b>${esc(r.nombre)}</b> <span class="text-xs text-slate-500">· ${r.dims.reduce((a, d) => a + d.criterios.length, 0)} criterios · ${r.dims.map(d => `${esc(d.nombre)} ${d.ponderacion}%`).join(' / ')}</span></div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <button type="button" class="tool-btn" data-rub-usar="${esc(r.id)}"><i class="fas fa-play"></i> Evaluar con esta</button>
+                            <button type="button" class="tool-btn" data-rub-bajar="${esc(r.id)}" title="Descargar JSON"><i class="fas fa-download"></i></button>
+                            <button type="button" class="tool-btn text-red-600" data-rub-borrar="${esc(r.id)}" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>`).join('') || '<div class="text-xs text-slate-400 border-t border-slate-100 pt-2">Sin rúbricas agregadas.</div>'}
+                </div>`;
+            };
+            const asig = asigInicial || selectAsignatura.value || 'economia';
+            abrirModal('Rúbricas por asignatura', `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">${bloque('ciudadania')}${bloque('economia')}</div>
+                <div class="p-4 rounded-xl border-2 border-dashed border-slate-300 space-y-4">
+                    <h4 class="font-extrabold text-slate-800"><i class="fas fa-file-circle-plus mr-1"></i> Agregar una rúbrica nueva</h4>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="rub-asig">Asignatura</label>
+                        <select id="rub-asig" class="field">
+                            <option value="ciudadania">Educación Ciudadana</option>
+                            <option value="economia">Economía</option>
+                        </select>
+                    </div>
+                    <div class="p-3 rounded-lg bg-violet-50/60 border border-violet-200 space-y-2">
+                        <div class="text-sm font-bold text-violet-900">Paso 1 — Crear la rúbrica con IA (Conceptual 40% · Procedimental 40% · Actitudinal 20%)</div>
+                        <textarea id="rub-desc" class="field min-h-[90px]" placeholder="Describe la actividad: curso, qué producto entregan, objetivos, formatos posibles y cualquier exigencia (ej.: 3° Medio, ensayo sobre presupuesto familiar de 2 páginas, con 3 fuentes oficiales y exposición de 5 minutos)."></textarea>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" class="tool-btn" id="rub-generar"><i class="fas fa-robot text-violet-600"></i> Generar con la IA de la página</button>
+                            <button type="button" class="tool-btn" id="rub-copiar"><i class="fas fa-copy"></i> Copiar indicaciones para otra IA</button>
+                            <button type="button" class="tool-btn" id="rub-plantilla"><i class="fas fa-download"></i> Descargar plantilla (.json)</button>
+                        </div>
+                        <p class="text-xs text-slate-500">Con "Copiar indicaciones" puedes pegar las instrucciones en ChatGPT, Gemini u otra IA y luego pegar aquí su respuesta.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-sm font-bold text-slate-700">Paso 2 — Pega el JSON de la rúbrica o carga el archivo</div>
+                        <textarea id="rub-json" class="field min-h-[160px] font-mono text-xs" placeholder='{ "formato": "${FORMATO_RUBRICA}", "nombre": "...", ... }'></textarea>
+                        <div class="flex flex-wrap gap-2">
+                            <label class="tool-btn cursor-pointer"><i class="fas fa-upload"></i> Cargar archivo .json<input type="file" accept=".json,application/json" id="rub-archivo" class="hidden"></label>
+                            <button type="button" class="tool-btn" id="rub-revisar"><i class="fas fa-magnifying-glass"></i> Revisar rúbrica</button>
+                        </div>
+                    </div>
+                    <div id="rub-preview"></div>
+                </div>`, true);
+            rubPendiente = null;
+            const selAsig = document.getElementById('rub-asig');
+            selAsig.value = asig;
+            const jsonTa = document.getElementById('rub-json');
+            const preview = document.getElementById('rub-preview');
+
+            const revisar = () => {
+                let raw;
+                try { raw = extraerJSON(jsonTa.value); }
+                catch (err) { preview.innerHTML = `<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3"><i class="fas fa-circle-xmark mr-1"></i> JSON inválido: ${esc(err.message)}</div>`; rubPendiente = null; return; }
+                const { errores, avisos, rub } = normalizarRubrica(raw, selAsig.value);
+                const avisosHTML = avisos.map(a => `<div class="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-2 mt-2"><i class="fas fa-triangle-exclamation mr-1"></i> ${esc(a)}</div>`).join('');
+                if (errores.length) {
+                    rubPendiente = null;
+                    preview.innerHTML = `<div class="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg p-3"><b><i class="fas fa-circle-xmark mr-1"></i> Hay ${errores.length} problema(s) por corregir:</b><ul class="list-disc pl-5 mt-1">${errores.map(e => `<li>${esc(e)}</li>`).join('')}</ul></div>${avisosHTML}`;
+                    return;
+                }
+                rubPendiente = rub;
+                preview.innerHTML = `<div class="bg-emerald-50/60 border border-emerald-200 rounded-lg p-3">
+                    <div class="text-sm font-bold text-emerald-800 mb-2"><i class="fas fa-circle-check mr-1"></i> Rúbrica válida</div>
+                    ${resumenRubricaHTML(rub)}
+                    ${avisosHTML}
+                    <button type="button" class="action-btn bg-emerald-600 text-white hover:bg-emerald-700 mt-3" id="rub-guardar"><i class="fas fa-floppy-disk"></i> Guardar en ${esc(ASIGNATURAS[rub.asignatura].nombre)}</button>
+                </div>`;
+                document.getElementById('rub-guardar').onclick = () => {
+                    const all = getRubricas();
+                    all[rubPendiente.id] = rubPendiente;
+                    lsSet(RUB_KEY, all);
+                    refrescarSelectorRubricas();
+                    toast(`Rúbrica "${rubPendiente.nombre}" agregada a ${ASIGNATURAS[rubPendiente.asignatura].nombre}.`);
+                    abrirRubricas(rubPendiente.asignatura);
+                };
+            };
+
+            document.getElementById('rub-revisar').onclick = revisar;
+            document.getElementById('rub-archivo').onchange = async e => {
+                const f = e.target.files[0];
+                if (!f) return;
+                jsonTa.value = await f.text();
+                revisar();
+            };
+            document.getElementById('rub-plantilla').onclick = () => descargarJSON(plantillaRubrica(selAsig.value), `plantilla-rubrica-${selAsig.value}.json`);
+            document.getElementById('rub-copiar').onclick = async () => {
+                const ok = await copiarTexto(promptRubrica(selAsig.value, document.getElementById('rub-desc').value));
+                toast(ok ? 'Indicaciones copiadas. Pégalas en la IA que prefieras y luego pega aquí su respuesta.' : 'No se pudo copiar automáticamente.');
+            };
+            document.getElementById('rub-generar').onclick = async e => {
+                const desc = document.getElementById('rub-desc').value.trim();
+                if (!desc) return toast('Primero describe la actividad que quieres evaluar.');
+                const b = e.currentTarget, orig = b.innerHTML;
+                b.disabled = true; b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando rúbrica… (puede tardar un minuto)';
+                try {
+                    const res = await llamarIA('Eres un experto en evaluación educativa en Chile. Respondes solo con JSON válido.', promptRubrica(selAsig.value, desc));
+                    jsonTa.value = JSON.stringify(extraerJSON(res), null, 2);
+                    revisar();
+                } catch (err) {
+                    toast(err.message || String(err), 7000);
+                } finally { b.disabled = false; b.innerHTML = orig; }
+            };
+
+            document.getElementById('modal-body').onclick = e => {
+                const u = e.target.closest('[data-rub-usar]');
+                if (u) {
+                    const r = getRubricas()[u.dataset.rubUsar];
+                    return nuevaEvaluacionDe(r.asignatura, r.id + SEP_RUB + r.opciones[0][0], true);
+                }
+                const d = e.target.closest('[data-rub-bajar]');
+                if (d) { const r = getRubricas()[d.dataset.rubBajar]; return descargarJSON(r.fuente || r, `rubrica-${r.nombre.replace(/[^\w-]+/g, '-')}.json`); }
+                const x = e.target.closest('[data-rub-borrar]');
+                if (x) {
+                    const all = getRubricas();
+                    if (!confirm(`¿Eliminar la rúbrica "${all[x.dataset.rubBorrar].nombre}"? Las evaluaciones ya guardadas con ella se conservan.`)) return;
+                    delete all[x.dataset.rubBorrar];
+                    lsSet(RUB_KEY, all);
+                    refrescarSelectorRubricas();
+                    abrirRubricas(selAsig.value);
+                }
+            };
+        }
+        document.getElementById('btn-rubricas-top').onclick = () => abrirRubricas();
+
+        /* ==================== EVOLUCIÓN DE ESTUDIANTES (por asignatura, independiente) ==================== */
+        const normNombre = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+        function datosEvolucion(asig) {
+            const est = new Map();
+            Object.values(getGuardados()).filter(e => (e.asig || 'ciudadania') === asig).forEach(e => {
+                if (!conEvaluacion(e, actNombre)) return;
+                e.integrantes.forEach((s, i) => {
+                    if (!(s.nombre || '').trim()) return;
+                    const key = normNombre(s.nombre);
+                    const r = conEvaluacion(e, () => {
+                        const t = totales(i);
+                        return { evaluacion: e.rub ? `${e.rub.nombre} · ${actNombre()}` : `${actNombre()}${e.tema ? ' · Tema ' + e.tema : ''}`,
+                                 pts: t.pts, pmax: pmax(), logro: t.logro, nota: t.nota, pend: t.pend };
+                    });
+                    if (!est.has(key)) est.set(key, { key, nombre: s.nombre.trim(), cursos: new Set(), regs: [] });
+                    const x = est.get(key);
+                    x.cursos.add(s.curso || e.curso || '—');
+                    x.regs.push({ id: e.id, fecha: e.fecha || '', curso: s.curso || e.curso || '', equipo: e.equipo || '', ...r });
+                });
+            });
+            return [...est.values()].map(x => {
+                x.regs.sort((a, b) => a.fecha.localeCompare(b.fecha));
+                const notas = x.regs.map(r => r.nota);
+                x.promedio = Math.round((notas.reduce((a, b) => a + b, 0) / notas.length + 1e-9) * 10) / 10;
+                x.ultima = notas[notas.length - 1];
+                x.tendencia = notas.length > 1 ? Math.round((x.ultima - notas[0]) * 10) / 10 : null;
+                return x;
+            }).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+        }
+
+        const fmtFecha = f => f ? new Date(f + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' }) : 'sin fecha';
+        const COLOR_SERIE = '#1e40af';
+
+        // Gráfico de línea de notas (1,0 a 7,0) con la línea de aprobación en 4,0
+        function graficoNotas(regs, w, h, completo) {
+            const pl = completo ? 58 : 2, pr = completo ? 40 : 4, pt = completo ? 20 : 4, pb = completo ? 26 : 4;
+            const x = i => regs.length === 1 ? pl + (w - pl - pr) / 2 : pl + i * (w - pl - pr) / (regs.length - 1);
+            const y = n => pt + (7 - n) * (h - pt - pb) / 6;
+            const pts = regs.map((r, i) => `${x(i).toFixed(1)},${y(r.nota).toFixed(1)}`).join(' ');
+            let s = `<svg viewBox="0 0 ${w} ${h}" width="100%" ${completo ? '' : `style="max-width:${w}px"`} role="img" aria-label="Evolución de notas: ${regs.map(r => fmtNota(r.nota)).join(', ')}">`;
+            if (completo) {
+                [1, 2, 3, 5, 6, 7].forEach(n => s += `<line x1="${pl}" x2="${w - pr}" y1="${y(n)}" y2="${y(n)}" stroke="#e2e8f0" stroke-width="1"/><text x="${pl - 6}" y="${y(n) + 3.5}" font-size="10" text-anchor="end" fill="#64748b">${n},0</text>`);
+            }
+            s += `<line x1="${pl}" x2="${w - pr}" y1="${y(4)}" y2="${y(4)}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>`;
+            if (completo) s += `<text x="${pl - 6}" y="${y(4) + 3.5}" font-size="10" text-anchor="end" fill="#334155" font-weight="bold">4,0</text>`;
+            if (regs.length > 1) s += `<polyline points="${pts}" fill="none" stroke="${COLOR_SERIE}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+            regs.forEach((r, i) => {
+                s += `<circle cx="${x(i)}" cy="${y(r.nota)}" r="${completo ? 4.5 : 2.5}" fill="${COLOR_SERIE}" stroke="#fff" stroke-width="${completo ? 2 : 1}"><title>${esc(fmtFecha(r.fecha))} · ${esc(r.evaluacion)}: nota ${fmtNota(r.nota)}</title></circle>`;
+                if (completo) {
+                    s += `<text x="${x(i)}" y="${y(r.nota) - 9}" font-size="10" text-anchor="middle" fill="#0f172a" font-weight="bold">${fmtNota(r.nota)}</text>`;
+                    s += `<text x="${x(i)}" y="${h - 8}" font-size="9.5" text-anchor="middle" fill="#64748b">${esc(fmtFecha(r.fecha))}</text>`;
+                }
+            });
+            return s + '</svg>';
+        }
+
+        const tendenciaHTML = t => t === null ? '<span class="text-slate-400">—</span>'
+            : t > 0 ? `<span class="text-slate-800 font-bold"><i class="fas fa-arrow-trend-up text-emerald-600"></i> +${fmtNota(t)}</span>`
+            : t < 0 ? `<span class="text-slate-800 font-bold"><i class="fas fa-arrow-trend-down text-red-600"></i> ${fmtNota(t)}</span>`
+            : '<span class="text-slate-600"><i class="fas fa-equals"></i> 0,0</span>';
+
+        let evolAsig = 'ciudadania', evolCurso = '', evolBuscar = '', evolAbierto = null;
+        function abrirEvolucion() {
+            const todos = datosEvolucion(evolAsig);
+            const cursos = [...new Set(todos.flatMap(x => [...x.cursos]))].sort();
+            if (evolCurso && !cursos.includes(evolCurso)) evolCurso = '';
+            const q = normNombre(evolBuscar);
+            const lista = todos.filter(x => (!evolCurso || x.cursos.has(evolCurso)) && (!q || x.key.includes(q)));
+            const pestaña = (k, t) => `<button type="button" class="tool-btn ${evolAsig === k ? 'tab-on' : ''}" data-evol-asig="${k}">${t}</button>`;
+            const filas = lista.map(x => {
+                const abierto = evolAbierto === x.key;
+                return `<tr class="border-b border-slate-200 hover:bg-slate-50 cursor-pointer" data-evol-est="${esc(x.key)}">
+                        <td class="p-2.5 font-semibold"><i class="fas fa-chevron-${abierto ? 'down' : 'right'} text-slate-400 mr-1.5 text-xs"></i>${esc(x.nombre)}</td>
+                        <td class="p-2.5 text-xs text-slate-600">${esc([...x.cursos].join(', '))}</td>
+                        <td class="p-2.5 text-center">${x.regs.length}</td>
+                        <td class="p-2.5 text-center font-bold ${notaClase(x.promedio)}">${fmtNota(x.promedio)}</td>
+                        <td class="p-2.5 text-center font-bold ${notaClase(x.ultima)}">${fmtNota(x.ultima)}</td>
+                        <td class="p-2.5 text-center text-sm">${tendenciaHTML(x.tendencia)}</td>
+                        <td class="p-2.5">${graficoNotas(x.regs, 110, 28, false)}</td>
+                    </tr>` + (abierto ? `<tr><td colspan="7" class="p-4 bg-slate-50 border-b border-slate-200">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <div class="font-extrabold text-slate-800">${esc(x.nombre)} — ${esc(ASIGNATURAS[evolAsig].nombre)}</div>
+                            <button type="button" class="tool-btn" data-evol-imprimir="${esc(x.key)}"><i class="fas fa-print"></i> Imprimir evolución</button>
+                        </div>
+                        <div class="bg-white border border-slate-200 rounded-xl p-2 mb-3">${graficoNotas(x.regs, 640, 190, true)}</div>
+                        <div class="overflow-x-auto"><table class="w-full text-sm min-w-[560px] bg-white border border-slate-200 rounded-xl">
+                            <thead class="bg-slate-100 text-xs uppercase text-slate-600"><tr><th class="p-2 text-left">Fecha</th><th class="p-2 text-left">Evaluación</th><th class="p-2 text-left">Curso / equipo</th><th class="p-2">Puntaje</th><th class="p-2">Logro</th><th class="p-2">Nota</th><th class="p-2"></th></tr></thead>
+                            <tbody>${x.regs.map(r => `<tr class="border-t border-slate-100">
+                                <td class="p-2 whitespace-nowrap">${esc(fmtFecha(r.fecha))}</td>
+                                <td class="p-2">${esc(r.evaluacion)}${r.pend ? ` <span class="text-xs text-amber-700">(${r.pend} sin marcar)</span>` : ''}</td>
+                                <td class="p-2 text-xs text-slate-600">${esc(r.curso)} · ${esc(r.equipo)}</td>
+                                <td class="p-2 text-center">${r.pts} / ${r.pmax}</td>
+                                <td class="p-2 text-center">${fmtPct(r.logro)}</td>
+                                <td class="p-2 text-center font-bold ${notaClase(r.nota)}">${fmtNota(r.nota)}</td>
+                                <td class="p-2 text-center"><button type="button" class="tool-btn" data-ver-evol="${esc(r.id)}"><i class="fas fa-eye"></i> Informe</button></td>
+                            </tr>`).join('')}</tbody>
+                        </table></div>
+                    </td></tr>` : '');
+            }).join('');
+            abrirModal('Evolución de estudiantes', `
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    ${pestaña('ciudadania', 'Educación Ciudadana')}${pestaña('economia', 'Economía')}
+                    <select id="evol-curso" class="field !w-auto"><option value="">Todos los cursos</option>${cursos.map(c => `<option ${c === evolCurso ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select>
+                    <input id="evol-buscar" class="field !w-auto flex-1 min-w-[160px]" placeholder="Buscar estudiante…" value="${esc(evolBuscar)}">
+                </div>
+                <p class="text-xs text-slate-500 mb-3">Cada asignatura se analiza por separado. Se agrupan las evaluaciones guardadas por nombre del estudiante (escríbelo igual en cada evaluación). Tendencia = última nota − primera nota.</p>
+                ${lista.length ? `<div class="overflow-x-auto rounded-xl border border-slate-200"><table class="w-full text-sm min-w-[640px]">
+                    <thead class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider"><tr><th class="p-2.5 text-left">Estudiante</th><th class="p-2.5 text-left">Curso</th><th class="p-2.5">N° eval.</th><th class="p-2.5">Promedio</th><th class="p-2.5">Última</th><th class="p-2.5">Tendencia</th><th class="p-2.5 text-left">Evolución</th></tr></thead>
+                    <tbody>${filas}</tbody></table></div>`
+                  : `<p class="text-sm text-slate-500 p-6 text-center border border-dashed border-slate-300 rounded-xl">No hay evaluaciones guardadas de ${esc(ASIGNATURAS[evolAsig].nombre)}${evolCurso || q ? ' con estos filtros' : ''}.</p>`}`, true);
+
+            document.getElementById('evol-curso').onchange = e => { evolCurso = e.target.value; abrirEvolucion(); };
+            const buscar = document.getElementById('evol-buscar');
+            buscar.oninput = e => {
+                evolBuscar = e.target.value;
+                const pos = e.target.selectionStart;
+                abrirEvolucion();
+                const nb = document.getElementById('evol-buscar');
+                nb.focus(); nb.setSelectionRange(pos, pos);
+            };
+            document.getElementById('modal-body').onclick = e => {
+                const a = e.target.closest('[data-evol-asig]');
+                if (a) { evolAsig = a.dataset.evolAsig; evolAbierto = null; evolCurso = ''; return abrirEvolucion(); }
+                const v = e.target.closest('[data-ver-evol]');
+                if (v) return verInforme(v.dataset.verEvol);
+                const im = e.target.closest('[data-evol-imprimir]');
+                if (im) return imprimirEvolucion(todos.find(x => x.key === im.dataset.evolImprimir));
+                const r = e.target.closest('[data-evol-est]');
+                if (r) { evolAbierto = evolAbierto === r.dataset.evolEst ? null : r.dataset.evolEst; abrirEvolucion(); }
+            };
+        }
+        document.getElementById('btn-evolucion-top').onclick = () => {
+            if (ASIGNATURAS[selectAsignatura.value]) evolAsig = selectAsignatura.value;
+            abrirEvolucion();
+        };
+
+        function imprimirEvolucion(x) {
+            const docente = document.getElementById('teacher-name-field').innerText.trim();
+            const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Evolución ${esc(x.nombre)}</title>
+            <style>@page{size:letter;margin:14mm}body{font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:11px;margin:0}
+            .head{display:flex;align-items:center;gap:10px;border-bottom:3px solid #0f2b5c;padding-bottom:8px;margin-bottom:10px}.head img{height:70px}
+            h1{font-size:16px;margin:4px 0;color:#0f2b5c}table{width:100%;border-collapse:collapse;margin-top:10px}th,td{border:1px solid #cbd5e1;padding:4px 6px}th{background:#e2e8f0}.c{text-align:center}
+            .res{display:flex;gap:18px;margin:8px 0;font-size:12px}</style></head><body>
+            <div class="head"><img src="${INSIGNIA_SRC}" alt="Insignia"><div><b style="color:#0f2b5c;font-size:14px">COLEGIO MARINA DE CHILE — CONCEPCIÓN</b>
+            <h1>Evolución del estudiante · ${esc(ASIGNATURAS[evolAsig].nombre)}</h1><div>${esc(x.nombre)} · ${esc([...x.cursos].join(', '))} · Docente: ${esc(docente)}</div></div></div>
+            <div class="res"><span><b>Evaluaciones:</b> ${x.regs.length}</span><span><b>Promedio:</b> ${fmtNota(x.promedio)}</span><span><b>Última nota:</b> ${fmtNota(x.ultima)}</span>${x.tendencia !== null ? `<span><b>Tendencia:</b> ${x.tendencia > 0 ? '+' : ''}${fmtNota(x.tendencia)}</span>` : ''}</div>
+            ${graficoNotas(x.regs, 640, 190, true)}
+            <table><tr><th>Fecha</th><th>Evaluación</th><th>Curso / equipo</th><th>Puntaje</th><th>Logro</th><th>Nota</th></tr>
+            ${x.regs.map(r => `<tr><td>${esc(fmtFecha(r.fecha))}</td><td>${esc(r.evaluacion)}</td><td>${esc(r.curso)} · ${esc(r.equipo)}</td><td class="c">${r.pts} / ${r.pmax}</td><td class="c">${fmtPct(r.logro)}</td><td class="c"><b>${fmtNota(r.nota)}</b></td></tr>`).join('')}</table>
+            </body></html>`;
+            imprimirHTML(html, `Evolución ${x.nombre} - ${ASIGNATURAS[evolAsig].nombre}`);
+        }
+
+        /* ==================== CURSOS Y LISTAS DE ESTUDIANTES ==================== */
+        // Las listas se guardan SOLO en este navegador (nunca en el archivo publicado en GitHub)
+        const CURSOS_KEY = 'evalEC.cursos';
+        const getCursos = () => lsGet(CURSOS_KEY, {}); // { "3° Medio A": [{ n, nombre, ret, nuevo }] }
+        const setCursos = c => { lsSet(CURSOS_KEY, c); renderChipsCursos(); };
+        const ordenCursos = arr => arr.sort((a, b) => a.localeCompare(b, 'es', { numeric: true }));
+        const titulo = s => s.toLowerCase().replace(/(^|[\s-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/\s+/g, ' ').trim();
+
+        // Cursos seleccionados en la evaluación actual (separados por coma o barra)
+        const cursosEv = () => (ev.curso || '').split(/\s*[,/]\s*/).map(s => s.trim()).filter(Boolean);
+        function agregarCursoEv(curso) {
+            if (cursosEv().some(c => normNombre(c) === normNombre(curso))) return;
+            ev.curso = [...cursosEv(), curso].join(', ');
+            inCurso.value = ev.curso;
+            renderChipsCursos();
+        }
+        function renderChipsCursos() {
+            const cont = document.getElementById('ev-cursos-chips');
+            const reg = ordenCursos(Object.keys(getCursos()));
+            if (!reg.length) {
+                cont.innerHTML = `<button type="button" class="text-xs text-blue-700 underline" data-abrir-cursos="1"><i class="fas fa-file-pdf mr-1"></i>Cargar listas de curso (PDF del SIGE)</button>`;
+                return;
+            }
+            const sel = cursosEv().map(normNombre);
+            cont.innerHTML = reg.map(c => `<button type="button" class="tool-btn !py-1 !px-2 !text-[11px] ${sel.includes(normNombre(c)) ? 'tab-on' : ''}" data-chip-curso="${esc(c)}">${esc(c)}</button>`).join('');
+        }
+        document.getElementById('ev-cursos-chips').addEventListener('click', e => {
+            if (e.target.closest('[data-abrir-cursos]')) return abrirCursos();
+            const b = e.target.closest('[data-chip-curso]');
+            if (!b) return;
+            const c = b.dataset.chipCurso;
+            const actuales = cursosEv();
+            ev.curso = actuales.some(x => normNombre(x) === normNombre(c)) ? actuales.filter(x => normNombre(x) !== normNombre(c)).join(', ') : [...actuales, c].join(', ');
+            inCurso.value = ev.curso;
+            renderChipsCursos();
+            changed(false);
+        });
+
+        // Busca estudiantes en las listas; si hay cursos elegidos, primero los de esos cursos
+        function buscarAlumnos(texto, cursos, incluirRetirados) {
+            const reg = getCursos();
+            const q = normNombre(texto || '').split(' ').filter(Boolean);
+            const elegidos = (cursos || []).map(normNombre);
+            const out = [];
+            Object.entries(reg).forEach(([curso, lista]) => lista.forEach(a => {
+                if (a.ret && !incluirRetirados) return;
+                const n = normNombre(a.nombre);
+                if (q.every(t => n.includes(t))) out.push({ ...a, curso, prioridad: elegidos.includes(normNombre(curso)) ? 0 : 1 });
+            }));
+            return out.sort((a, b) => a.prioridad - b.prioridad || a.nombre.localeCompare(b.nombre, 'es'));
+        }
+
+        /* ---------- Sugerencias al escribir un nombre ---------- */
+        const sug = document.getElementById('sugerencias');
+        let sugIdx = 0, sugLista = [], sugInt = null;
+        function mostrarSugerencias(input, i) {
+            const texto = input.value.trim();
+            if (!Object.keys(getCursos()).length || texto.length < 2) { ocultarSugerencias(); return; }
+            const usados = new Set(ev.integrantes.filter((_, k) => k !== i).map(s => normNombre(s.nombre)));
+            sugLista = buscarAlumnos(texto, cursosEv()).filter(a => !usados.has(normNombre(a.nombre))).slice(0, 8);
+            sugInt = i; sugIdx = 0;
+            const exacto = sugLista.some(a => normNombre(a.nombre) === normNombre(texto));
+            sug.innerHTML = sugLista.map((a, k) => `<button type="button" class="block w-full text-left px-3 py-2 hover:bg-slate-100 ${k === 0 ? 'bg-slate-100' : ''}" data-sug="${k}">
+                    <span class="font-semibold text-slate-800">${esc(a.nombre)}</span> <span class="text-xs text-slate-500">· ${esc(a.curso)}${a.nuevo ? ' · nuevo' : ''}</span></button>`).join('') +
+                (exacto ? '' : `<button type="button" class="block w-full text-left px-3 py-2 border-t border-slate-200 text-emerald-700 font-semibold hover:bg-emerald-50" data-sug-nuevo="1"><i class="fas fa-user-plus mr-1"></i> Agregar «${esc(texto)}» como alumno nuevo…</button>`);
+            const r = input.getBoundingClientRect();
+            sug.style.left = (r.left + window.scrollX) + 'px';
+            sug.style.top = (r.bottom + window.scrollY + 4) + 'px';
+            sug.style.width = Math.max(r.width, 280) + 'px';
+            sug.style.display = 'block';
+        }
+        function ocultarSugerencias() { sug.style.display = 'none'; }
+        function teclaSugerencias(e) {
+            if (sug.style.display === 'none') return;
+            const items = sug.querySelectorAll('[data-sug]');
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (!items.length) return;
+                sugIdx = (sugIdx + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+                items.forEach((b, k) => b.classList.toggle('bg-slate-100', k === sugIdx));
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (sugLista[sugIdx]) { asignarIntegrante(sugInt, sugLista[sugIdx].nombre, sugLista[sugIdx].curso); ocultarSugerencias(); }
+            } else if (e.key === 'Escape') ocultarSugerencias();
+        }
+        // mousedown para elegir antes de que el campo pierda el foco
+        sug.addEventListener('mousedown', e => {
+            e.preventDefault();
+            const b = e.target.closest('[data-sug]');
+            if (b) { const a = sugLista[Number(b.dataset.sug)]; asignarIntegrante(sugInt, a.nombre, a.curso); ocultarSugerencias(); return; }
+            if (e.target.closest('[data-sug-nuevo]')) {
+                const i = sugInt;
+                ocultarSugerencias();
+                abrirAlumnoNuevo(ev.integrantes[i].nombre, (nombre, curso) => asignarIntegrante(i, nombre, curso));
+            }
+        });
+        window.addEventListener('resize', ocultarSugerencias);
+
+        /* ---------- Agregar un alumno nuevo a la lista de su curso ---------- */
+        function abrirAlumnoNuevo(nombreInicial, alGuardar) {
+            const reg = ordenCursos(Object.keys(getCursos()));
+            const sugerido = cursosEv()[0] || reg[0] || '';
+            abrirModal('Agregar alumno nuevo', `
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1" for="an-nombre">Nombre completo (apellidos y nombres)</label>
+                        <input id="an-nombre" class="field" value="${esc(titulo(nombreInicial || ''))}" placeholder="Ej: Pérez Soto Juan Andrés">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1" for="an-curso">Curso</label>
+                        <input id="an-curso" class="field" list="an-cursos" value="${esc(sugerido)}" placeholder="Ej: 3° Medio B">
+                        <datalist id="an-cursos">${reg.map(c => `<option value="${esc(c)}">`).join('')}</datalist>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" class="tool-btn" id="an-cancelar">Cancelar</button>
+                        <button type="button" class="action-btn bg-emerald-600 text-white hover:bg-emerald-700" id="an-guardar"><i class="fas fa-user-plus"></i> Agregar a la lista</button>
+                    </div>
+                </div>`);
+            document.getElementById('an-cancelar').onclick = cerrarModal;
+            document.getElementById('an-guardar').onclick = () => {
+                const nombre = titulo(document.getElementById('an-nombre').value);
+                const curso = document.getElementById('an-curso').value.trim();
+                if (nombre.split(' ').length < 2) return toast('Escribe al menos un apellido y un nombre.');
+                if (!curso) return toast('Indica el curso del alumno.');
+                agregarAlumnos(curso, [nombre]);
+                cerrarModal();
+                toast(`${nombre} quedó registrado en ${curso}.`);
+                if (alGuardar) alGuardar(nombre, cursoRegistrado(curso));
+            };
+            document.getElementById('an-nombre').focus();
+        }
+
+        // Devuelve el nombre del curso tal como está en el registro (ignora mayúsculas y tildes)
+        const cursoRegistrado = c => Object.keys(getCursos()).find(x => normNombre(x) === normNombre(c)) || c.trim();
+
+        function agregarAlumnos(curso, nombres) {
+            const reg = getCursos();
+            const clave = cursoRegistrado(curso);
+            const lista = reg[clave] || [];
+            let agregados = 0;
+            nombres.map(titulo).filter(n => n.split(' ').length >= 2).forEach(n => {
+                if (lista.some(a => normNombre(a.nombre) === normNombre(n))) return;
+                lista.push({ n: (Math.max(0, ...lista.map(a => a.n || 0)) + 1), nombre: n, ret: false, nuevo: true });
+                agregados++;
+            });
+            reg[clave] = lista;
+            setCursos(reg);
+            return agregados;
+        }
+
+        /* ---------- Lectura de listas PDF del SIGE ---------- */
+        let pdfjsPromesa = null;
+        function cargarPdfJs() {
+            return pdfjsPromesa ||= new Promise((ok, err) => {
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+                s.onload = () => { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; ok(pdfjsLib); };
+                s.onerror = () => { pdfjsPromesa = null; err(new Error('No se pudo cargar el lector de PDF. Revisa tu conexión a internet.')); };
+                document.head.appendChild(s);
+            });
+        }
+
+        // Lista de Curso del SIGE: "Curso : ... 3° medio A" y filas N° | RUN | Nombre | ... | Observaciones (RET. = retirado)
+        async function leerListaSIGE(file) {
+            const lib = await cargarPdfJs();
+            const pdf = await lib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+            let curso = null;
+            const alumnos = [];
+            for (let p = 1; p <= pdf.numPages; p++) {
+                const tc = await (await pdf.getPage(p)).getTextContent();
+                const lineas = new Map();
+                tc.items.forEach(it => {
+                    if (!it.str.trim()) return;
+                    const y = Math.round(it.transform[5] / 2);
+                    if (!lineas.has(y)) lineas.set(y, []);
+                    lineas.get(y).push({ x: it.transform[4], t: it.str.trim() });
+                });
+                lineas.forEach(l => {
+                    l.sort((a, b) => a.x - b.x);
+                    const txt = l.map(i => i.t).join(' ');
+                    const mc = txt.match(/(\d)\s*°\s*medio\s+([A-Z])\b/i);
+                    if (!curso && /curso/i.test(txt) && mc) curso = `${mc[1]}° Medio ${mc[2].toUpperCase()}`;
+                    const iRun = l.findIndex(i => /^\d{7,9}-[\dkK]$/.test(i.t));
+                    if (iRun < 0) return;
+                    const nom = l.slice(iRun + 1).find(i => /\p{L}{2,}/u.test(i.t) && !/^\d/.test(i.t));
+                    if (!nom) return;
+                    // El RUN no se guarda: solo N° de lista, nombre y si está retirado
+                    alumnos.push({ n: Number(l[0].t) || alumnos.length + 1, nombre: titulo(nom.t), ret: /RET\.?\s*\d/i.test(txt), nuevo: false });
+                });
+            }
+            if (!curso) throw new Error(`No se encontró el curso en "${file.name}".`);
+            if (!alumnos.length) throw new Error(`No se encontraron estudiantes en "${file.name}".`);
+            return { curso, alumnos };
+        }
+
+        async function importarListas(files) {
+            const reg = getCursos();
+            const informe = [];
+            for (const f of files) {
+                try {
+                    const { curso, alumnos } = await leerListaSIGE(f);
+                    const clave = Object.keys(reg).find(x => normNombre(x) === normNombre(curso)) || curso;
+                    const actual = reg[clave] || [];
+                    let nuevos = 0;
+                    alumnos.forEach(a => {
+                        const ex = actual.find(x => normNombre(x.nombre) === normNombre(a.nombre));
+                        if (ex) { ex.n = a.n; ex.ret = a.ret; ex.nuevo = false; }
+                        else { actual.push(a); nuevos++; }
+                    });
+                    actual.sort((a, b) => (a.nuevo - b.nuevo) || (a.n - b.n));
+                    reg[clave] = actual;
+                    informe.push(`<li><b>${esc(clave)}</b>: ${alumnos.length} estudiantes${alumnos.some(a => a.ret) ? ` (${alumnos.filter(a => a.ret).length} retirados)` : ''}${actual.length > alumnos.length ? ` · se mantienen ${actual.length - alumnos.length} agregados a mano` : ''}</li>`);
+                } catch (err) {
+                    informe.push(`<li class="text-red-700"><i class="fas fa-circle-xmark mr-1"></i>${esc(err.message)}</li>`);
+                }
+            }
+            setCursos(reg);
+            return informe;
+        }
+
+        /* ---------- Administrador de cursos ---------- */
+        let cursoAbierto = null;
+        function abrirCursos(mensaje) {
+            const reg = getCursos();
+            const cursos = ordenCursos(Object.keys(reg));
+            const bloque = c => {
+                const lista = reg[c];
+                const activos = lista.filter(a => !a.ret).length;
+                const abierto = cursoAbierto === c;
+                return `<div class="border border-slate-200 rounded-xl">
+                    <div class="flex flex-wrap items-center justify-between gap-2 p-3 cursor-pointer hover:bg-slate-50" data-curso-toggle="${esc(c)}">
+                        <div><i class="fas fa-chevron-${abierto ? 'down' : 'right'} text-slate-400 text-xs mr-2"></i><b>${esc(c)}</b>
+                            <span class="text-xs text-slate-500">· ${activos} estudiantes${lista.length > activos ? ` · ${lista.length - activos} retirados` : ''}${lista.some(a => a.nuevo) ? ` · ${lista.filter(a => a.nuevo).length} agregados a mano` : ''}</span></div>
+                        <button type="button" class="tool-btn text-red-600" data-curso-borrar="${esc(c)}" title="Eliminar curso"><i class="fas fa-trash"></i></button>
+                    </div>
+                    ${abierto ? `<div class="border-t border-slate-200 p-3">
+                        <div class="max-h-[40vh] overflow-y-auto"><table class="w-full text-sm">
+                            ${lista.map((a, k) => `<tr class="border-b border-slate-100 ${a.ret ? 'text-slate-400' : ''}">
+                                <td class="py-1.5 pr-2 w-8 text-xs text-slate-500">${a.n || ''}</td>
+                                <td class="py-1.5">${esc(a.nombre)} ${a.ret ? '<span class="text-[10px] font-bold bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">RETIRADO</span>' : ''}${a.nuevo ? '<span class="text-[10px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded">NUEVO</span>' : ''}</td>
+                                <td class="py-1.5 text-right whitespace-nowrap">
+                                    <button type="button" class="tool-btn !py-1 !px-2" data-al-editar="${k}" title="Corregir nombre"><i class="fas fa-pen"></i></button>
+                                    <button type="button" class="tool-btn !py-1 !px-2" data-al-ret="${k}" title="${a.ret ? 'Reactivar' : 'Marcar como retirado'}"><i class="fas ${a.ret ? 'fa-rotate-left' : 'fa-user-slash'}"></i></button>
+                                    <button type="button" class="tool-btn !py-1 !px-2 text-red-600" data-al-borrar="${k}" title="Eliminar"><i class="fas fa-xmark"></i></button>
+                                </td></tr>`).join('')}
+                        </table></div>
+                        <div class="mt-3">
+                            <label class="block text-xs font-bold text-slate-700 mb-1" for="al-nuevos">Agregar alumnos nuevos a ${esc(c)} (uno por línea: apellidos y nombres)</label>
+                            <textarea id="al-nuevos" class="field min-h-[70px]" placeholder="Pérez Soto Juan Andrés&#10;González Rojas Camila"></textarea>
+                            <button type="button" class="tool-btn mt-2" id="al-agregar"><i class="fas fa-user-plus"></i> Agregar</button>
+                        </div>
+                    </div>` : ''}
+                </div>`;
+            };
+            abrirModal('Cursos y listas de estudiantes', `
+                ${mensaje ? `<div class="text-sm bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3"><ul class="list-disc pl-5">${mensaje.join('')}</ul></div>` : ''}
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <label class="action-btn dynamic-bg cursor-pointer"><i class="fas fa-file-pdf"></i> Cargar listas PDF (SIGE)<input type="file" accept="application/pdf,.pdf" multiple id="cur-pdf" class="hidden"></label>
+                    <button type="button" class="tool-btn" id="cur-nuevo"><i class="fas fa-plus"></i> Nuevo curso</button>
+                    <button type="button" class="tool-btn" id="cur-alumno"><i class="fas fa-user-plus"></i> Alumno nuevo</button>
+                    <button type="button" class="tool-btn" id="cur-revisar"><i class="fas fa-user-check"></i> Revisar nombres en evaluaciones</button>
+                </div>
+                <p class="text-xs text-slate-500 mb-3"><i class="fas fa-shield-halved mr-1"></i> Puedes elegir varios PDF a la vez (ej. 3° A, B, C y 4° A, B, C). Las listas quedan guardadas solo en este navegador y no se publican en GitHub; el RUN no se guarda. Si vuelves a cargar una lista, se actualiza sin perder a los alumnos agregados a mano.</p>
+                <div class="space-y-2">${cursos.map(bloque).join('') || '<p class="text-sm text-slate-500 p-6 text-center border border-dashed border-slate-300 rounded-xl">Aún no hay cursos. Carga los PDF de "Lista de Curso" del SIGE o crea un curso nuevo.</p>'}</div>`, true);
+
+            document.getElementById('cur-pdf').onchange = async e => {
+                const files = [...e.target.files];
+                if (!files.length) return;
+                e.target.closest('label').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Leyendo listas…';
+                const informe = await importarListas(files);
+                renderIntegrantes();
+                abrirCursos(informe);
+            };
+            document.getElementById('cur-nuevo').onclick = () => {
+                const c = prompt('Nombre del curso (ej: 3° Medio D):');
+                if (!c || !c.trim()) return;
+                const reg2 = getCursos();
+                if (!reg2[cursoRegistrado(c)]) reg2[c.trim()] = [];
+                setCursos(reg2);
+                cursoAbierto = cursoRegistrado(c);
+                abrirCursos();
+            };
+            document.getElementById('cur-alumno').onclick = () => abrirAlumnoNuevo('', () => abrirCursos());
+            document.getElementById('cur-revisar').onclick = abrirRevisarNombres;
+            const agregarBtn = document.getElementById('al-agregar');
+            if (agregarBtn) agregarBtn.onclick = () => {
+                const nombres = document.getElementById('al-nuevos').value.split('\n').map(s => s.trim()).filter(Boolean);
+                const n = agregarAlumnos(cursoAbierto, nombres);
+                toast(n ? `${n} alumno(s) agregados a ${cursoAbierto}.` : 'No se agregó a nadie (nombres repetidos o incompletos).');
+                abrirCursos();
+            };
+            document.getElementById('modal-body').onclick = e => {
+                const del = e.target.closest('[data-curso-borrar]');
+                if (del) {
+                    e.stopPropagation();
+                    const c = del.dataset.cursoBorrar;
+                    if (!confirm(`¿Eliminar la lista de ${c}? Las evaluaciones guardadas no se modifican.`)) return;
+                    const r = getCursos(); delete r[c]; setCursos(r);
+                    return abrirCursos();
+                }
+                const t = e.target.closest('[data-curso-toggle]');
+                if (t) { cursoAbierto = cursoAbierto === t.dataset.cursoToggle ? null : t.dataset.cursoToggle; return abrirCursos(); }
+                const r = getCursos(), lista = r[cursoAbierto];
+                if (!lista) return;
+                const ed = e.target.closest('[data-al-editar]');
+                if (ed) {
+                    const a = lista[Number(ed.dataset.alEditar)];
+                    const nuevo = prompt('Corregir nombre (apellidos y nombres):', a.nombre);
+                    if (!nuevo || !nuevo.trim()) return;
+                    const viejo = a.nombre;
+                    a.nombre = titulo(nuevo);
+                    setCursos(r);
+                    const n = renombrarEnEvaluaciones(viejo, a.nombre, cursoAbierto);
+                    if (n) toast(`Nombre corregido también en ${n} evaluación(es) guardada(s).`);
+                    return abrirCursos();
+                }
+                const rt = e.target.closest('[data-al-ret]');
+                if (rt) { const a = lista[Number(rt.dataset.alRet)]; a.ret = !a.ret; setCursos(r); return abrirCursos(); }
+                const bo = e.target.closest('[data-al-borrar]');
+                if (bo) {
+                    const a = lista[Number(bo.dataset.alBorrar)];
+                    if (!confirm(`¿Quitar a ${a.nombre} de la lista de ${cursoAbierto}? Sus evaluaciones guardadas se conservan.`)) return;
+                    lista.splice(Number(bo.dataset.alBorrar), 1); setCursos(r); return abrirCursos();
+                }
+            };
+        }
+        document.getElementById('btn-cursos-top').onclick = () => abrirCursos();
+        document.getElementById('btn-cursos').onclick = () => abrirCursos();
+
+        /* ---------- Seleccionar integrantes desde la lista (varios cursos) ---------- */
+        let elegirCurso = null, elegirBuscar = '';
+        function abrirElegirLista() {
+            const reg = getCursos();
+            const cursos = ordenCursos(Object.keys(reg));
+            if (!cursos.length) return abrirCursos();
+            if (!elegirCurso || !reg[elegirCurso]) elegirCurso = cursos.find(c => cursosEv().some(x => normNombre(x) === normNombre(c))) || cursos[0];
+            const yaEstan = new Set(ev.integrantes.map(s => normNombre(s.nombre)));
+            const q = normNombre(elegirBuscar);
+            // Con búsqueda se muestran todos los cursos (útil en Economía, donde la sala mezcla cursos)
+            const lista = q ? buscarAlumnos(elegirBuscar, [elegirCurso]) : reg[elegirCurso].filter(a => !a.ret).map(a => ({ ...a, curso: elegirCurso }));
+            abrirModal('Seleccionar integrantes', `
+                <div class="flex flex-wrap gap-1.5 mb-2">${cursos.map(c => `<button type="button" class="tool-btn !py-1 !px-2 !text-xs ${c === elegirCurso && !q ? 'tab-on' : ''}" data-elegir-curso="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+                <input id="elegir-buscar" class="field mb-2" placeholder="Buscar en todos los cursos…" value="${esc(elegirBuscar)}" autocomplete="off">
+                <div class="max-h-[45vh] overflow-y-auto border border-slate-200 rounded-xl divide-y divide-slate-100">
+                    ${lista.map(a => {
+                        const esta = yaEstan.has(normNombre(a.nombre));
+                        return `<label class="flex items-center gap-3 px-3 py-2 text-sm ${esta ? 'text-slate-400' : 'hover:bg-slate-50 cursor-pointer'}">
+                            <input type="checkbox" data-elegir="${esc(a.nombre)}" data-elegir-de="${esc(a.curso)}" ${esta ? 'checked disabled' : ''}>
+                            <span class="flex-1">${esc(a.nombre)}</span><span class="text-xs text-slate-500">${esc(a.curso)}${esta ? ' · ya en el equipo' : ''}</span></label>`;
+                    }).join('') || '<p class="text-sm text-slate-500 p-4 text-center">Sin resultados.</p>'}
+                </div>
+                <div class="flex flex-wrap justify-between gap-2 mt-3">
+                    <button type="button" class="tool-btn" id="elegir-nuevo"><i class="fas fa-user-plus"></i> Alumno nuevo</button>
+                    <button type="button" class="action-btn dynamic-bg" id="elegir-ok"><i class="fas fa-check"></i> Agregar seleccionados</button>
+                </div>`);
+            const b = document.getElementById('elegir-buscar');
+            b.oninput = e => { elegirBuscar = e.target.value; const pos = e.target.selectionStart; abrirElegirLista(); const nb = document.getElementById('elegir-buscar'); nb.focus(); nb.setSelectionRange(pos, pos); };
+            document.getElementById('elegir-nuevo').onclick = () => abrirAlumnoNuevo(elegirBuscar, (nombre, curso) => { agregarIntegrantes([{ nombre, curso }]); });
+            document.getElementById('elegir-ok').onclick = () => {
+                const sel = [...document.querySelectorAll('[data-elegir]:checked:not(:disabled)')].map(c => ({ nombre: c.dataset.elegir, curso: c.dataset.elegirDe }));
+                if (!sel.length) return toast('Marca al menos un estudiante.');
+                agregarIntegrantes(sel);
+                cerrarModal();
+            };
+            document.getElementById('modal-body').onclick = e => {
+                const c = e.target.closest('[data-elegir-curso]');
+                if (c) { elegirCurso = c.dataset.elegirCurso; elegirBuscar = ''; abrirElegirLista(); }
+            };
+        }
+        // Llena primero los casilleros vacíos y luego agrega integrantes nuevos
+        function agregarIntegrantes(lista) {
+            let omitidos = 0;
+            lista.forEach(({ nombre, curso }) => {
+                let i = ev.integrantes.findIndex(s => !s.nombre.trim() && !Object.keys(s.scores).length);
+                if (i < 0) {
+                    if (ev.integrantes.length >= MAX_INTEGRANTES) { omitidos++; return; }
+                    ev.integrantes.push(nuevoIntegrante());
+                    i = ev.integrantes.length - 1;
+                }
+                ev.integrantes[i].nombre = nombre;
+                ev.integrantes[i].curso = curso;
+                if (curso) agregarCursoEv(curso);
+            });
+            refrescarTodo();
+            toast(omitidos ? `Se alcanzó el máximo de ${MAX_INTEGRANTES} integrantes (${omitidos} no se agregaron).` : `${lista.length - omitidos} integrante(s) agregado(s).`);
+        }
+        document.getElementById('btn-elegir-lista').onclick = () => { elegirBuscar = ''; abrirElegirLista(); };
+
+        /* ---------- Corregir nombres en evaluaciones guardadas ---------- */
+        // Cambia un nombre en todas las evaluaciones guardadas (y en la abierta)
+        function renombrarEnEvaluaciones(viejo, nuevo, curso) {
+            const all = getGuardados();
+            const k = normNombre(viejo);
+            let n = 0;
+            Object.values(all).forEach(e => {
+                let cambio = false;
+                e.integrantes.forEach(s => { if (normNombre(s.nombre || '') === k) { s.nombre = nuevo; if (curso) s.curso = curso; cambio = true; } });
+                if (cambio) n++;
+            });
+            lsSet(STORE_KEY, all);
+            let abierta = false;
+            ev.integrantes.forEach(s => { if (normNombre(s.nombre || '') === k) { s.nombre = nuevo; if (curso) s.curso = curso; abierta = true; } });
+            if (abierta) refrescarTodo();
+            return n;
+        }
+
+        // Candidatos de la lista para un nombre escrito a mano (ej. "Pedro Soto" → "Soto Pérez Pedro Andrés")
+        function candidatosLista(nombre, cursoPreferido) {
+            const t = normNombre(nombre).split(' ').filter(x => x.length > 1);
+            if (!t.length) return [];
+            const out = [];
+            Object.entries(getCursos()).forEach(([curso, lista]) => lista.forEach(a => {
+                const toks = normNombre(a.nombre).split(' ');
+                const coincide = t.filter(x => toks.some(y => y === x || (x.length >= 4 && y.startsWith(x)))).length;
+                const score = coincide / t.length + (cursoPreferido && cursoPreferido.split(/\s*[,/]\s*/).some(c => normNombre(c) === normNombre(curso)) ? 0.2 : 0) - (a.ret ? 0.3 : 0);
+                if (coincide / t.length >= 0.5) out.push({ ...a, curso, score });
+            }));
+            return out.sort((a, b) => b.score - a.score).slice(0, 6);
+        }
+
+        function abrirRevisarNombres() {
+            if (!Object.keys(getCursos()).length) return toast('Primero carga las listas de curso.');
+            const registrados = new Set(Object.values(getCursos()).flat().map(a => normNombre(a.nombre)));
+            const pendientes = new Map(); // nombre normalizado -> { nombre, cursos, evals }
+            Object.values(getGuardados()).forEach(e => e.integrantes.forEach(s => {
+                if (!(s.nombre || '').trim() || registrados.has(normNombre(s.nombre))) return;
+                const k = normNombre(s.nombre);
+                if (!pendientes.has(k)) pendientes.set(k, { nombre: s.nombre.trim(), cursos: new Set(), evals: 0 });
+                const p = pendientes.get(k);
+                p.evals++;
+                if (e.curso) p.cursos.add(e.curso);
+            }));
+            const filas = [...pendientes.values()].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+            abrirModal('Revisar nombres en evaluaciones guardadas', `
+                <p class="text-sm text-slate-600 mb-3">Estos nombres de evaluaciones guardadas no coinciden con las listas de curso. Elige el estudiante correcto y pulsa <b>Corregir</b>: se cambia en todas sus evaluaciones (así su evolución queda unida).</p>
+                ${filas.length ? `<div class="space-y-2">${filas.map((p, k) => {
+                    const cands = candidatosLista(p.nombre, [...p.cursos].join(', '));
+                    return `<div class="p-3 border border-slate-200 rounded-xl">
+                        <div class="text-sm mb-2"><b>${esc(p.nombre)}</b> <span class="text-xs text-slate-500">· ${p.evals} evaluación(es)${p.cursos.size ? ' · ' + esc([...p.cursos].join(', ')) : ''}</span></div>
+                        <div class="flex flex-wrap gap-2">
+                            <select class="field !w-auto flex-1 min-w-[220px]" data-rev-sel="${k}">
+                                <option value="">${cands.length ? '— Elegir estudiante de la lista —' : '— Sin coincidencias: busca abajo —'}</option>
+                                ${cands.map(a => `<option value="${esc(a.nombre + '|' + a.curso)}">${esc(a.nombre)} · ${esc(a.curso)}${a.ret ? ' (retirado)' : ''}</option>`).join('')}
+                            </select>
+                            <input class="field !w-auto flex-1 min-w-[160px]" data-rev-buscar="${k}" placeholder="Buscar otro nombre…">
+                            <button type="button" class="tool-btn" data-rev-ok="${k}"><i class="fas fa-check"></i> Corregir</button>
+                        </div>
+                    </div>`;
+                }).join('')}</div>`
+                : '<p class="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-4"><i class="fas fa-circle-check mr-1"></i> Todos los nombres de las evaluaciones guardadas coinciden con las listas de curso.</p>'}
+                <div class="mt-4"><button type="button" class="tool-btn" id="rev-volver"><i class="fas fa-arrow-left"></i> Volver a cursos</button></div>`, true);
+            document.getElementById('rev-volver').onclick = () => abrirCursos();
+            const body = document.getElementById('modal-body');
+            body.oninput = e => {
+                const k = e.target.dataset.revBuscar;
+                if (k === undefined) return;
+                const sel = body.querySelector(`[data-rev-sel="${k}"]`);
+                const res = e.target.value.trim().length >= 2 ? buscarAlumnos(e.target.value, [], true).slice(0, 10) : candidatosLista(filas[k].nombre, [...filas[k].cursos].join(', '));
+                sel.innerHTML = `<option value="">— Elegir estudiante de la lista —</option>` + res.map(a => `<option value="${esc(a.nombre + '|' + a.curso)}">${esc(a.nombre)} · ${esc(a.curso)}${a.ret ? ' (retirado)' : ''}</option>`).join('');
+                if (res.length) sel.selectedIndex = 1;
+            };
+            body.onclick = e => {
+                const b = e.target.closest('[data-rev-ok]');
+                if (!b) return;
+                const k = b.dataset.revOk;
+                const v = body.querySelector(`[data-rev-sel="${k}"]`).value;
+                if (!v) return toast('Elige un estudiante de la lista.');
+                const [nombre, curso] = v.split('|');
+                const n = renombrarEnEvaluaciones(filas[k].nombre, nombre, curso);
+                toast(`"${filas[k].nombre}" → ${nombre} en ${n} evaluación(es).`);
+                abrirRevisarNombres();
+            };
+        }
 
         // Carga inicial
         aplicarAsignatura(selectAsignatura.value);
