@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Evaluación: Ciudadanía 4° Medio - Colegio Marina de Chile</title>
+    <title>Tu Evaluación: Ciudadanía y Economía - Colegio Marina de Chile</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,6 +25,8 @@
         .activity-a { --theme-color: #1e3a8a; --theme-bg: #eff6ff; --theme-gradient: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); } /* Exposición */
         .activity-b { --theme-color: #064e3b; --theme-bg: #ecfdf5; --theme-gradient: linear-gradient(135deg, #064e3b 0%, #047857 100%); } /* Video */
         .activity-c { --theme-color: #7f1d1d; --theme-bg: #fef2f2; --theme-gradient: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%); } /* Afiche */
+        .activity-d { --theme-color: #4c1d95; --theme-bg: #f5f3ff; --theme-gradient: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%); } /* Economía: Documental */
+        .activity-f { --theme-color: #134e4a; --theme-bg: #f0fdfa; --theme-gradient: linear-gradient(135deg, #134e4a 0%, #0f766e 100%); } /* Economía: Afiche */
         .default-theme { --theme-color: #0f172a; --theme-bg: #f8fafc; --theme-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
         
         .dynamic-border { border-color: var(--theme-color); }
@@ -47,8 +49,42 @@
             border-radius: 10px;
         }
 
+        /* Modo Docente: evaluación */
+        .teacher-only { display: none !important; }
+        body.teacher-mode .teacher-only { display: revert !important; }
+        body.teacher-mode .teacher-only.flex { display: flex !important; }
+        body.teacher-mode .teacher-only.grid { display: grid !important; }
+        body.teacher-mode { padding-bottom: 64px; }
+        body.teacher-mode td[data-val] { cursor: pointer; }
+        body.teacher-mode td[data-val]:hover { filter: brightness(0.96); }
+        .lvl-sel { box-shadow: inset 0 0 0 3px var(--theme-color); font-weight: 600; }
+        .score-btn {
+            width: 30px; height: 30px; border-radius: 8px; border: 1px solid #cbd5e1;
+            background: #fff; color: #475569; font-weight: 800; font-size: 13px;
+            transition: all .15s;
+        }
+        .score-btn:hover { border-color: var(--theme-color); }
+        .score-btn.on.lv-top { background: #059669; border-color: #059669; color: #fff; }
+        .score-btn.on.lv-mid { background: #d97706; border-color: #d97706; color: #fff; }
+        .score-btn.on.lv-low { background: #ea580c; border-color: #ea580c; color: #fff; }
+        .score-btn.on.lv-zero { background: #dc2626; border-color: #dc2626; color: #fff; }
+        .tool-btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; background: #fff; color: #334155;
+        }
+        .tool-btn:hover { background: #f1f5f9; }
+        .tool-btn:disabled { opacity: .5; cursor: wait; }
+        .action-btn {
+            display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 12px;
+            font-size: 14px; font-weight: 700;
+        }
+        .modal-bg { position: fixed; inset: 0; background: rgba(15,23,42,.55); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .field { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 9px 12px; font-size: 14px; background: #fff; }
+        .field:focus { outline: none; border-color: var(--theme-color); box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+
         @media print {
             .no-print { display: none !important; }
+            .teacher-only { display: none !important; }
             body { background: white; }
             .glass-panel { box-shadow: none; border: 1px solid #ccc; }
         }
@@ -60,49 +96,24 @@
     <header class="bg-white border-b border-slate-200 shadow-sm relative overflow-hidden">
         <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col md:flex-row items-center justify-between gap-6">
             
-            <!-- Insignia Vectorial Colegio Marina de Chile -->
+            <!-- Insignia Colegio Marina de Chile -->
             <div class="flex items-center gap-4 bg-slate-50 p-3 px-5 rounded-2xl border border-slate-200 shadow-inner w-full md:w-auto justify-center md:justify-start">
-                <svg width="220" height="70" viewBox="0 0 320 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto">
-                    <!-- Línea Superior -->
-                    <rect x="0" y="2" width="320" height="5" fill="#0f2b5c"/>
-                    
-                    <!-- 70 Aniversario -->
-                    <text x="5" y="78" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="62" fill="#0f2b5c" letter-spacing="-3">70</text>
-                    
-                    <!-- Timón de Barco y Libro -->
-                    <g transform="translate(100, 15)">
-                        <!-- Timón exterior -->
-                        <circle cx="28" cy="28" r="22" stroke="#0f2b5c" stroke-width="3" fill="none"/>
-                        <circle cx="28" cy="28" r="16" stroke="#0f2b5c" stroke-width="2" fill="none"/>
-                        <circle cx="28" cy="28" r="6" fill="#0f2b5c"/>
-                        <!-- Radios del timón -->
-                        <line x1="28" y1="2" x2="28" y2="54" stroke="#0f2b5c" stroke-width="2.5"/>
-                        <line x1="2" y1="28" x2="54" y2="28" stroke="#0f2b5c" stroke-width="2.5"/>
-                        <line x1="10" y1="10" x2="46" y2="46" stroke="#0f2b5c" stroke-width="2"/>
-                        <line x1="46" y1="10" x2="10" y2="46" stroke="#0f2b5c" stroke-width="2"/>
-                        <!-- Libro Abierto Base -->
-                        <path d="M 2 54 Q 28 46 54 54 L 54 62 Q 28 54 2 62 Z" fill="#0f2b5c"/>
-                        <path d="M 28 48 L 28 60" stroke="white" stroke-width="1.5"/>
-                    </g>
-                    
-                    <!-- Texto Colegio -->
-                    <text x="175" y="32" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="20" fill="#0f2b5c">COLEGIO</text>
-                    <text x="175" y="52" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="19" fill="#0f2b5c">MARINA DE CHILE</text>
-                    <text x="175" y="70" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="14" fill="#0f2b5c" letter-spacing="1">CONCEPCIÓN</text>
-                    <text x="175" y="86" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="12" fill="#0f2b5c">1956</text>
-                    <!-- Estrellita -->
-                    <path d="M 228 88 L 230 82 L 232 88 L 238 90 L 232 92 L 230 98 L 228 92 L 222 90 Z" fill="#c59b27"/>
-                </svg>
+                <img id="insignia-img" src="data:image/jpeg;base64,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" alt="Insignia Colegio Marina de Chile, Concepción" class="h-24 w-auto drop-shadow">
+                <div class="leading-tight text-[#0f2b5c]">
+                    <div class="text-lg font-extrabold">COLEGIO</div>
+                    <div class="text-lg font-extrabold">MARINA DE CHILE</div>
+                    <div class="text-sm font-bold tracking-wider">CONCEPCIÓN</div>
+                </div>
             </div>
 
             <div class="text-center md:text-right flex-1">
                 <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-900 px-3 py-1 rounded-full text-xs font-bold mb-2 border border-blue-200">
-                    <i class="fas fa-graduation-cap"></i> Educación Ciudadana — 4° Año Medio
+                    <i class="fas fa-graduation-cap"></i> <span id="subj-badge">Educación Ciudadana — 4° Año Medio</span>
                 </div>
-                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+                <h1 id="subj-proyecto" class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
                     Proyecto: Sociedad, Trabajo y Bienestar
                 </h1>
-                <p class="text-xs text-slate-500 font-semibold mt-1">
+                <p id="subj-fecha" class="text-xs text-slate-500 font-semibold mt-1">
                     <i class="far fa-calendar-alt text-slate-400 mr-1"></i> Fecha de Entrega y Presentación: <span class="text-slate-800">Martes 20 de octubre de 2026</span>
                 </p>
                 
@@ -117,6 +128,20 @@
                         Prof. Leandro Bascuñán Valdebenito
                     </strong>
                 </div>
+                <div class="mt-3 flex items-center justify-center md:justify-end gap-2 no-print">
+                    <button id="btn-modo-docente" type="button" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition-colors">
+                        <i class="fas fa-user-check"></i> <span>Activar Modo Docente (evaluar)</span>
+                    </button>
+                    <button id="btn-guardados-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Ver, imprimir o editar evaluaciones guardadas">
+                        <i class="fas fa-folder-open"></i> Guardadas (<span class="count-guardados">0</span>)
+                    </button>
+                    <button id="btn-nuevo-top" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Comenzar una rúbrica nueva">
+                        <i class="fas fa-plus"></i> Nueva evaluación
+                    </button>
+                    <button id="btn-config" type="button" class="teacher-only inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100" title="Configurar IA y Google Drive">
+                        <i class="fas fa-gear"></i> Configuración
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -128,8 +153,8 @@
                 <h2 class="text-2xl md:text-3xl font-extrabold mb-2 leading-tight">
                     Ruta de Aprendizaje y Evaluación Personalizada
                 </h2>
-                <p class="text-white/90 text-sm md:text-base font-light leading-relaxed">
-                    Selecciona la modalidad elegida por tu equipo y el tema asignado para desplegar las especificaciones técnicas, la ficha de contenidos obligatorios y la rúbrica oficial de 40 puntos.
+                <p id="banner-text" class="text-white/90 text-sm md:text-base font-light leading-relaxed">
+                    Selecciona la asignatura, la modalidad elegida por tu equipo y el tema asignado para desplegar las especificaciones técnicas, la ficha de contenidos obligatorios y la rúbrica oficial.
                 </p>
             </div>
             
@@ -137,7 +162,7 @@
             <div class="flex flex-wrap gap-3 justify-center md:justify-end">
                 <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-center">
                     <span class="block text-xs uppercase tracking-wider opacity-80">Puntaje Total</span>
-                    <span class="text-xl font-black">40 Pts</span>
+                    <span class="text-xl font-black"><span class="subj-pmax">40</span> Pts</span>
                 </div>
                 <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-center">
                     <span class="block text-xs uppercase tracking-wider opacity-80">Exigencia</span>
@@ -161,18 +186,17 @@
                 <span class="text-xs text-slate-500 font-medium">Paso 1 de 2</span>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Selector Actividad -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="selectores-grid">
+                <!-- Selector Asignatura -->
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2" for="actividad">
-                        <i class="fas fa-tasks text-slate-400 mr-1"></i> 1. ¿Qué modalidad elegirá tu equipo?
+                    <label class="block text-sm font-bold text-slate-700 mb-2" for="asignatura">
+                        <i class="fas fa-graduation-cap text-slate-400 mr-1"></i> 1. Asignatura
                     </label>
                     <div class="relative">
-                        <select id="actividad" class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base">
-                            <option value="">-- Selecciona modalidad de presentación --</option>
-                            <option value="A">Actividad A: Exposición Oral (8-10 min + 4 min consultas)</option>
-                            <option value="B">Actividad B: Video Documental (5-7 min + 3 min consultas)</option>
-                            <option value="C">Actividad C: Afiche Impreso A0 (3-4 min + 2 consultas)</option>
+                        <select id="asignatura" class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base">
+                            <option value="">-- Selecciona la asignatura --</option>
+                            <option value="ciudadania">Educación Ciudadana</option>
+                            <option value="economia">Economía</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
                             <i class="fas fa-chevron-down text-sm"></i>
@@ -180,10 +204,25 @@
                     </div>
                 </div>
 
-                <!-- Selector Tema -->
+                <!-- Selector Actividad -->
                 <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2" for="actividad">
+                        <i class="fas fa-tasks text-slate-400 mr-1"></i> 2. ¿Qué modalidad elegirá tu equipo?
+                    </label>
+                    <div class="relative">
+                        <select id="actividad" disabled class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base disabled:bg-slate-100 disabled:cursor-not-allowed">
+                            <option value="">-- Primero elige la asignatura --</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selector Tema (solo Educación Ciudadana) -->
+                <div id="tema-wrap">
                     <label class="block text-sm font-bold text-slate-700 mb-2" for="tema">
-                        <i class="fas fa-book-open text-slate-400 mr-1"></i> 2. ¿Cuál es tu tema asignado por el docente?
+                        <i class="fas fa-book-open text-slate-400 mr-1"></i> 3. ¿Cuál es tu tema asignado por el docente?
                     </label>
                     <div class="relative">
                         <select id="tema" class="block w-full appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3.5 pr-10 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm transition-all text-slate-800 font-medium cursor-pointer text-base">
@@ -211,15 +250,50 @@
             <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400 text-3xl shadow-inner">
                 <i class="fas fa-compass"></i>
             </div>
-            <h3 class="text-2xl font-bold text-slate-700 mb-2">Selecciona la modalidad y el tema de tu equipo</h3>
+            <h3 class="text-2xl font-bold text-slate-700 mb-2">Selecciona la asignatura y la modalidad de tu equipo</h3>
             <p class="max-w-md mx-auto text-slate-500 text-sm">
-                Al seleccionar las opciones se cargará de forma automática tu <strong>Ficha de Contenidos</strong>, los <strong>Requisitos de Formato</strong> y la <strong>Rúbrica Oficial de Evaluación (40 pts)</strong>.
+                Al seleccionar las opciones se cargará de forma automática tu <strong>Ficha de Contenidos</strong>, los <strong>Requisitos de Formato</strong> y la <strong>Rúbrica Oficial de Evaluación</strong>.
             </p>
         </div>
 
         <!-- Contenedor Principal de Resultados -->
         <div id="content-container" class="hidden space-y-8">
-            
+
+            <!-- MODO DOCENTE: Datos del equipo evaluado -->
+            <section class="teacher-only glass-panel rounded-2xl p-6 md:p-8 border-t-4 dynamic-border no-print">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-5 pb-3 border-b border-slate-200">
+                    <h3 class="text-xl font-bold flex items-center gap-3 text-slate-800">
+                        <span class="badge-icon dynamic-bg text-white"><i class="fas fa-users"></i></span>
+                        Datos del Equipo Evaluado
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" id="btn-nuevo" class="tool-btn"><i class="fas fa-plus"></i> Nueva evaluación</button>
+                        <button type="button" id="btn-guardados" class="tool-btn"><i class="fas fa-folder-open"></i> Evaluaciones guardadas (<span class="count-guardados">0</span>)</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-curso">Curso</label>
+                        <input id="ev-curso" class="field" list="cursos-list" placeholder="Ej: 4° Medio A">
+                        <datalist id="cursos-list">
+                            <option value="4° Medio A"><option value="4° Medio B"><option value="4° Medio C"><option value="4° Medio D">
+                        </datalist>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-equipo">Nombre o N° del equipo</label>
+                        <input id="ev-equipo" class="field" placeholder="Ej: Equipo 3">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1" for="ev-fecha">Fecha de evaluación</label>
+                        <input id="ev-fecha" type="date" class="field">
+                    </div>
+                </div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">Integrantes</label>
+                <div id="ev-integrantes" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                <button type="button" id="btn-add-integrante" class="tool-btn mt-3"><i class="fas fa-user-plus"></i> Agregar integrante</button>
+                <p class="text-xs text-slate-500 mt-4"><i class="fas fa-circle-info mr-1"></i> Marca los puntajes en la rúbrica: haz clic en la celda del nivel (Logrado / Medianamente / No observado) o usa los botones 2-1-0 de la columna <strong>Puntaje</strong>. Los criterios <strong>I</strong> se marcan por cada estudiante. Todo se guarda automáticamente en este navegador.</p>
+            </section>
+
             <!-- Tarjeta 1: Ficha de Tema -->
             <section class="glass-panel rounded-2xl overflow-hidden shadow-md border border-slate-200">
                 <div class="dynamic-bg p-5 flex items-center justify-between">
@@ -266,7 +340,7 @@
                         </div>
                         <div>
                             <span class="text-xs font-semibold uppercase tracking-wider opacity-80">Instrumento de Evaluación Oficial</span>
-                            <h3 class="text-xl font-bold text-white leading-tight">Rúbrica Analítica de Desempeño (40 pts)</h3>
+                            <h3 class="text-xl font-bold text-white leading-tight">Rúbrica Analítica de Desempeño (<span class="subj-pmax">40</span> pts)</h3>
                         </div>
                     </div>
                 </div>
@@ -283,27 +357,15 @@
                             </span>
                         </div>
                         <div class="text-slate-500 italic">
-                            <i class="fas fa-info-circle mr-1"></i> Exigencia 60% = 24 pts para Nota 4.0
+                            <i class="fas fa-info-circle mr-1"></i> Exigencia 60% = <span id="subj-pmin">24</span> pts para Nota 4.0
                         </div>
                     </div>
                     
                     <!-- Tabla de Rúbrica -->
                     <div class="table-container overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
                         <table class="w-full text-left border-collapse min-w-[850px]">
-                            <thead>
-                                <tr class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
-                                    <th class="p-4 font-extrabold border-b w-1/4">Criterio / Indicador</th>
-                                    <th class="p-4 font-extrabold border-b text-center w-14">Tipo</th>
-                                    <th class="p-4 font-extrabold border-b border-l bg-emerald-50 text-emerald-900 w-1/4">
-                                        <i class="fas fa-star text-emerald-500 mr-1"></i> Logrado (2 pts)
-                                    </th>
-                                    <th class="p-4 font-extrabold border-b border-l bg-amber-50 text-amber-900 w-1/4">
-                                        <i class="fas fa-adjust text-amber-500 mr-1"></i> Medianamente (1 pt)
-                                    </th>
-                                    <th class="p-4 font-extrabold border-b border-l bg-red-50 text-red-900 w-1/4">
-                                        <i class="fas fa-times-circle text-red-500 mr-1"></i> No Observado (0 pts)
-                                    </th>
-                                </tr>
+                            <thead id="rubrica-thead">
+                                <!-- Encabezado generado por JS según la asignatura -->
                             </thead>
                             <tbody id="rubrica-tbody" class="divide-y divide-slate-200 text-sm">
                                 <!-- Contenido inyectado por JS -->
@@ -312,12 +374,68 @@
                     </div>
                 </div>
             </section>
+
+            <!-- MODO DOCENTE: Resultados -->
+            <section class="teacher-only glass-panel rounded-2xl overflow-hidden shadow-md border border-slate-200 no-print">
+                <div class="dynamic-bg p-5 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-white text-xl"><i class="fas fa-calculator"></i></div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider opacity-80">Escala 1.0 a 7.0 — Exigencia 60% (24 pts = 4.0)</span>
+                        <h3 class="text-xl font-bold text-white leading-tight">Puntajes y Notas del Equipo</h3>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8" id="resultados-content"></div>
+            </section>
+
+            <!-- MODO DOCENTE: Retroalimentación -->
+            <section class="teacher-only glass-panel rounded-2xl overflow-hidden shadow-md border border-slate-200 no-print">
+                <div class="dynamic-bg p-5 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-white text-xl"><i class="fas fa-comments"></i></div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider opacity-80">Sugerencia automática + corrector con IA</span>
+                        <h3 class="text-xl font-bold text-white leading-tight">Retroalimentación</h3>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8 space-y-6" id="feedback-content"></div>
+            </section>
+
+            <!-- MODO DOCENTE: Informe -->
+            <section class="teacher-only glass-panel rounded-2xl p-6 md:p-8 border-t-4 dynamic-border no-print">
+                <h3 class="text-xl font-bold flex items-center gap-3 text-slate-800 mb-4">
+                    <span class="badge-icon dynamic-bg text-white"><i class="fas fa-file-pdf"></i></span>
+                    Informe del Equipo
+                </h3>
+                <div class="flex flex-wrap gap-3">
+                    <button type="button" id="btn-guardar" class="action-btn bg-slate-100 text-slate-800 border border-slate-300 hover:bg-slate-200"><i class="fas fa-floppy-disk"></i> Guardar evaluación</button>
+                    <button type="button" id="btn-imprimir" class="action-btn dynamic-bg hover:opacity-90"><i class="fas fa-print"></i> Imprimir informe / PDF</button>
+                    <button type="button" id="btn-drive" class="action-btn bg-emerald-600 text-white hover:bg-emerald-700"><i class="fab fa-google-drive"></i> Guardar PDF en Google Drive</button>
+                </div>
+                <p id="drive-status" class="text-sm text-slate-600 mt-3"></p>
+            </section>
         </div>
 
     </main>
 
+    <!-- Barra flotante de notas (Modo Docente) -->
+    <div id="barra-notas" class="teacher-only no-print fixed bottom-0 inset-x-0 z-40 bg-slate-900/95 text-white text-sm px-4 py-2.5 shadow-2xl"></div>
+
+    <!-- Modal genérico -->
+    <div id="modal" class="modal-bg no-print" style="display:none">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between p-5 border-b border-slate-200">
+                <h3 id="modal-title" class="text-lg font-extrabold text-slate-800"></h3>
+                <button type="button" id="modal-close" class="text-slate-400 hover:text-slate-700 text-xl" aria-label="Cerrar"><i class="fas fa-xmark"></i></button>
+            </div>
+            <div id="modal-body" class="p-5"></div>
+        </div>
+    </div>
+
+    <!-- Aviso -->
+    <div id="toast" class="no-print fixed top-4 right-4 z-[70] max-w-sm bg-slate-900 text-white text-sm px-4 py-3 rounded-xl shadow-2xl" style="display:none"></div>
+
     <footer class="bg-slate-900 text-slate-400 py-10 text-center mt-16 border-t border-slate-800">
         <div class="max-w-6xl mx-auto px-4">
+            <img id="insignia-footer" alt="Insignia Colegio Marina de Chile" class="h-20 w-auto mx-auto mb-3">
             <p class="font-semibold text-slate-200 mb-1">Colegio Marina de Chile — Concepción</p>
             <p class="text-xs text-slate-500">Departamento de Historia, Geografía y Ciencias Sociales | 4° Año Medio</p>
             <p class="text-xs text-slate-600 mt-4">Pauta aligned con la Evaluación Sumativa Oficial de la Unidad 4 — Octubre 2026.</p>
@@ -630,6 +748,144 @@
             ]
         };
 
+        /* ==================== ECONOMÍA: PROYECTO ECONOMÍA EN EL HOGAR ==================== */
+        const economiaData = {
+            titulo: "Proyecto de investigación y propuesta: Economía en el hogar",
+            icon: "fa-house-chimney-user",
+            incluir: [
+                "El problema o pregunta de investigación.",
+                "Al menos tres datos con período y fuente.",
+                "Los cálculos (variación, promedio, porcentaje).",
+                "Las propuestas para el hogar.",
+                "Los resultados de la encuesta.",
+                "La lista de fuentes en formato APA."
+            ],
+            formatos: {
+                D: [
+                    "<strong>Duración:</strong> video de entre 5 y 8 minutos, con narración, imágenes o gráficos (Indicador 10).",
+                    "<strong>Propuesta del 27 de octubre:</strong> guion final con la secuencia de escenas.",
+                    "<strong>Entrega final:</strong> archivo de video o enlace, con el guion de una página.",
+                    "<strong>Fuentes:</strong> al final del video, muestren la lista de fuentes en formato APA (Indicador 3)."
+                ],
+                F: [
+                    "<strong>Tamaño mínimo:</strong> A1 (59,4 × 84,1 cm), el tamaño de los afiches publicitarios recomendado para espacios amplios, centros comerciales o vía pública (Indicador 10).",
+                    "<strong>Material:</strong> papel couché, PVC u otro material de calidad similar, acorde a un afiche publicitario.",
+                    "<strong>Contenido:</strong> título con la pregunta, sección de datos, gráfico o tabla, propuestas, resultados de la encuesta y lista de fuentes.",
+                    "<strong>Propuesta del 27 de octubre:</strong> diseño final del afiche, previo a la impresión.",
+                    "<strong>Entrega final:</strong> archivo digital (PDF o imagen) y copia impresa en el material indicado."
+                ]
+            },
+            general: [
+                "<strong>Cómo se evalúa:</strong> el trabajo final tiene 60 puntos: diez indicadores de 6 puntos cada uno.",
+                "<strong>Retroalimentación:</strong> el profesor entregará retroalimentación escrita y breve en cada punto de control."
+            ],
+            criterios: [
+                { id: "EC1", lab: "1", n: "Pregunta de investigación", ei: "E",
+                  l: "Pregunta clara, delimitada en territorio y tiempo, y respondible con datos.",
+                  m: "Pregunta clara pero amplia, o sin territorio o período.",
+                  p: "Pregunta descriptiva o difícil de responder con datos.",
+                  no: "Ausente o sin relación con el tema." },
+                { id: "EC2", lab: "2", n: "Datos con período y fuente", ei: "E",
+                  l: "Cada cifra indica período y fuente oficial.",
+                  m: "La mayoría de las cifras indica período y fuente.",
+                  p: "Pocas cifras con origen.",
+                  no: "Cifras sin período ni fuente." },
+                { id: "EC3", lab: "3", n: "Fuentes y citación APA", ei: "E",
+                  l: "Al menos tres fuentes oficiales; APA correcto.",
+                  m: "Dos fuentes oficiales o errores menores de APA.",
+                  p: "Una fuente oficial o citas incompletas.",
+                  no: "Sin fuentes, o fuentes no confiables como principales." },
+                { id: "EC4", lab: "4", n: "Cálculos escritos", ei: "E",
+                  l: "Operaciones completas y correctas (variación, promedio, porcentaje), con interpretación.",
+                  m: "Operaciones correctas con interpretación incompleta, o un error menor.",
+                  p: "Errores que cambian la conclusión, o cálculos sin operación escrita.",
+                  no: "Sin cálculos." },
+                { id: "EC5", lab: "5", n: "Conceptos económicos", ei: "E",
+                  l: "Usa al menos tres conceptos correctamente y los aplica al caso.",
+                  m: "Usa dos conceptos correctamente.",
+                  p: "Usa un concepto o lo usa con imprecisiones.",
+                  no: "No usa conceptos económicos." },
+                { id: "EC6", lab: "6", n: "Necesidad pública y rol del Estado", ei: "E",
+                  l: "Explica la necesidad pública que atiende la política y el rol del Estado, con conceptos de macroeconomía.",
+                  m: "Explica la necesidad pública sin relacionarla con conceptos macroeconómicos.",
+                  p: "Menciona el Estado sin explicar su rol.",
+                  no: "Ausente." },
+                { id: "EC7", lab: "7", n: "Propuestas para el hogar", ei: "E",
+                  l: "Al menos dos propuestas, cada una con acción familiar, indicador, beneficiarios, costo o riesgo, y tipo de objetivo.",
+                  m: "Dos propuestas con tres de esos elementos.",
+                  p: "Propuestas con uno o dos elementos.",
+                  no: "Sin propuestas o no referidas al hogar." },
+                { id: "EC8", lab: "8", n: "Encuesta: diseño y aplicación", ei: "E",
+                  l: "6 a 8 preguntas, anónima, con escala y una abierta; aplicada con al menos 10 respuestas.",
+                  m: "Encuesta bien diseñada con menos de 10 respuestas, o con una pregunta sesgada o confusa.",
+                  p: "Encuesta con diseño deficiente o aplicada con muy pocas respuestas.",
+                  no: "No aplicada." },
+                { id: "EC9", lab: "9", n: "Análisis de resultados y ajuste", ei: "E",
+                  l: "Calcula porcentajes, interpreta la pregunta abierta y ajusta propuestas con criterio de equidad y sustentabilidad.",
+                  m: "Calcula porcentajes e interpreta, sin ajustar propuestas.",
+                  p: "Describe resultados sin interpretarlos.",
+                  no: "Sin análisis." },
+                { id: "EC10", lab: "10", n: "Presentación y defensa oral", ei: "I",
+                  formato: {
+                      D: { l: "Video de 5 a 8 minutos, con guion claro, narración y gráficos legibles. Cada integrante explica su parte, justifica un cálculo y reconoce los límites de los datos.",
+                           m: "Video con fallas menores de duración, sonido o secuencia; defensa con apoyo del equipo.",
+                           p: "Video confuso o fuera de tiempo; defensa con frases memorizadas." },
+                      F: { l: "Afiche A1 o de tamaño acordado, con jerarquía visual, legible a distancia, material adecuado y fuentes en APA. Cada integrante explica su parte, justifica un cálculo y reconoce los límites de los datos.",
+                           m: "Afiche con fallas menores de tamaño, legibilidad o material; defensa con apoyo del equipo.",
+                           p: "Afiche con texto difícil de leer a distancia o sin jerarquía; defensa con frases memorizadas." }
+                  },
+                  no: "No entregado o no se defiende." }
+            ]
+        };
+
+        /* ==================== ASIGNATURAS ==================== */
+        // Estilos de nivel: del más alto al más bajo
+        const ESTILOS_NIVEL = {
+            top:  { th: "bg-emerald-50 text-emerald-900", td: "bg-emerald-50/40 text-emerald-950", icon: "fa-star text-emerald-500" },
+            mid:  { th: "bg-amber-50 text-amber-900", td: "bg-amber-50/40 text-amber-950", icon: "fa-adjust text-amber-500" },
+            low:  { th: "bg-orange-50 text-orange-900", td: "bg-orange-50/40 text-orange-950", icon: "fa-triangle-exclamation text-orange-500" },
+            zero: { th: "bg-red-50 text-red-900", td: "bg-red-50/40 text-red-950", icon: "fa-times-circle text-red-500" }
+        };
+        const ASIGNATURAS = {
+            ciudadania: {
+                nombre: "Educación Ciudadana",
+                badge: "Educación Ciudadana — 4° Año Medio",
+                proyecto: "Proyecto: Sociedad, Trabajo y Bienestar",
+                mostrarFecha: true, usaTema: true, pmax: 40,
+                niveles: [
+                    { v: 2, k: "l", t: "Logrado", c: "top" },
+                    { v: 1, k: "m", t: "Medianamente", c: "mid" },
+                    { v: 0, k: "no", t: "No Observado", c: "zero" }
+                ],
+                actividades: { A: "Exposición Oral", B: "Video Documental", C: "Afiche Impreso A0" },
+                opciones: [
+                    ["A", "Actividad A: Exposición Oral (8-10 min + 4 min consultas)"],
+                    ["B", "Actividad B: Video Documental (5-7 min + 3 min consultas)"],
+                    ["C", "Actividad C: Afiche Impreso A0 (3-4 min + 2 consultas)"]
+                ],
+                temas: { A: "activity-a", B: "activity-b", C: "activity-c" }
+            },
+            economia: {
+                nombre: "Economía",
+                badge: "Economía — Proyecto de investigación y propuesta",
+                proyecto: "Proyecto: Economía en el hogar",
+                mostrarFecha: false, usaTema: false, pmax: 60,
+                niveles: [
+                    { v: 6, k: "l", t: "Logrado", c: "top" },
+                    { v: 4, k: "m", t: "Medianamente logrado", c: "mid" },
+                    { v: 2, k: "p", t: "Por lograr", c: "low" },
+                    { v: 0, k: "no", t: "No logrado", c: "zero" }
+                ],
+                actividades: { D: "Documental", F: "Afiche o pendón" },
+                opciones: [
+                    ["D", "Formato A: Documental (video de 5 a 8 min)"],
+                    ["F", "Formato B: Afiche o pendón (mínimo A1)"]
+                ],
+                temas: { D: "activity-d", F: "activity-f" }
+            }
+        };
+
+        const selectAsignatura = document.getElementById('asignatura');
         const selectActividad = document.getElementById('actividad');
         const selectTema = document.getElementById('tema');
         const bodyTheme = document.getElementById('body-theme');
@@ -642,31 +898,67 @@
         const spanTipName = document.getElementById('tip-activity-name');
         const temaHeaderIcon = document.getElementById('tema-header-icon');
 
+        // Ajusta textos, modalidades y visibilidad del tema según la asignatura elegida
+        function aplicarAsignatura(asig, actSeleccionada) {
+            const s = ASIGNATURAS[asig];
+            selectActividad.innerHTML = `<option value="">${s ? '-- Selecciona modalidad de presentación --' : '-- Primero elige la asignatura --'}</option>` +
+                (s ? s.opciones.map(([v, t]) => `<option value="${v}">${t}</option>`).join('') : '');
+            selectActividad.disabled = !s;
+            if (s && actSeleccionada && s.actividades[actSeleccionada]) selectActividad.value = actSeleccionada;
+            const usaTema = !s || s.usaTema;
+            document.getElementById('tema-wrap').style.display = usaTema ? '' : 'none';
+            document.getElementById('selectores-grid').classList.toggle('md:grid-cols-3', usaTema);
+            document.getElementById('selectores-grid').classList.toggle('md:grid-cols-2', !usaTema);
+            const base = s || ASIGNATURAS.ciudadania;
+            document.getElementById('subj-badge').textContent = s ? s.badge : 'Historia, Geografía y Ciencias Sociales';
+            document.getElementById('subj-proyecto').textContent = s ? s.proyecto : 'Ruta de Evaluación por Asignatura';
+            document.getElementById('subj-fecha').style.display = s && s.mostrarFecha ? '' : 'none';
+            document.querySelectorAll('.subj-pmax').forEach(el => el.textContent = base.pmax);
+            document.getElementById('subj-pmin').textContent = base.pmax * EXIGENCIA;
+        }
+
         function updateUI() {
+            const asig = selectAsignatura.value;
+            const s = ASIGNATURAS[asig];
             const valAct = selectActividad.value;
-            const valTema = selectTema.value;
+            const valTema = s && s.usaTema ? selectTema.value : '';
 
             // Actualización dinámica de clases de color de tema
-            bodyTheme.className = 'text-slate-800 antialiased transition-colors duration-500 min-h-screen';
-            if (valAct === 'A') bodyTheme.classList.add('activity-a');
-            else if (valAct === 'B') bodyTheme.classList.add('activity-b');
-            else if (valAct === 'C') bodyTheme.classList.add('activity-c');
-            else bodyTheme.classList.add('default-theme');
+            bodyTheme.className = 'text-slate-800 antialiased transition-colors duration-500 min-h-screen' + (modoDocente ? ' teacher-mode' : '');
+            bodyTheme.classList.add(s && s.temas[valAct] ? s.temas[valAct] : 'default-theme');
 
-            if (valAct && valTema) {
+            if (s && valAct && (!s.usaTema || valTema)) {
                 welcomeMessage.classList.add('hidden');
                 contentContainer.classList.remove('hidden');
+                ev.asig = asig;
+                ev.act = valAct;
+                ev.tema = valTema;
                 renderData(valAct, valTema);
+                renderResultados();
             } else {
                 welcomeMessage.classList.remove('hidden');
                 contentContainer.classList.add('hidden');
             }
         }
 
+        selectAsignatura.addEventListener('change', () => {
+            if (ev.asig && ev.asig !== selectAsignatura.value && tieneContenido()) {
+                // Cambiar de asignatura comienza una evaluación nueva (la anterior queda guardada)
+                guardarLocal(true);
+                const curso = ev.curso;
+                ev = nuevaEvaluacion();
+                ev.curso = curso;
+                refrescarTodo();
+                toast('Se guardó la evaluación anterior y comenzó una nueva para ' + ASIGNATURAS[selectAsignatura.value]?.nombre + '.');
+            }
+            aplicarAsignatura(selectAsignatura.value);
+            updateUI();
+        });
         selectActividad.addEventListener('change', updateUI);
         selectTema.addEventListener('change', updateUI);
 
         function renderData(act, temaId) {
+            if (selectAsignatura.value === 'economia') return renderDataEconomia(act);
             const tema = temasData[temaId];
             
             // Actualizar icono de cabecera
@@ -747,67 +1039,1122 @@
             divTips.innerHTML = htmlTips;
 
             // 3. Render Rúbrica
-            let htmlRubrica = '';
-            
-            const buildRow = (item, dimClass) => {
-                const isIndiv = item.ei === 'I' || (item.id === 'A4' && act === 'A');
-                const eiBadge = isIndiv ? 
-                    `<span class="bg-indigo-100 text-indigo-900 text-[11px] font-extrabold px-2 py-1 rounded-md" title="Evaluación Individual">I</span>` : 
+            renderRubric(act);
+        }
+
+        function renderDataEconomia(act) {
+            const d = economiaData;
+            temaHeaderIcon.className = `fas ${d.icon}`;
+            const ind = d.criterios.map(c => `<li class="pl-1"><strong>${c.n}</strong></li>`).join('');
+            divFichaTema.innerHTML = `
+                <div class="mb-6">
+                    <div class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold mb-3 border border-slate-200">
+                        <i class="fas ${d.icon} dynamic-text"></i> Economía · ${ASIGNATURAS.economia.actividades[act]}
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-black dynamic-text leading-tight mb-2">${d.titulo}</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-extrabold text-slate-800 pb-2 border-b border-slate-200 mb-3 text-base">
+                            <i class="fas fa-list-check dynamic-text mr-2"></i>Todo formato debe incluir
+                        </h4>
+                        <ol class="space-y-2 text-sm text-slate-700 list-decimal pl-5">
+                            ${d.incluir.map(c => `<li class="pl-1">${c}</li>`).join('')}
+                        </ol>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                        <h4 class="font-extrabold text-slate-800 pb-2 border-b border-slate-200 mb-3 flex items-center justify-between text-base">
+                            <span><i class="fas fa-clipboard-check dynamic-text mr-2"></i>10 indicadores evaluados</span>
+                            <span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">6 pts c/u</span>
+                        </h4>
+                        <ol class="space-y-1.5 text-sm text-slate-700 list-decimal pl-5">${ind}</ol>
+                    </div>
+                </div>`;
+
+            spanTipName.innerText = ASIGNATURAS.economia.actividades[act];
+            divTips.innerHTML = `<ul class="space-y-2.5">` +
+                [...d.formatos[act], ...d.general].map(tip => `<li class="flex items-start gap-2.5"><i class="fas fa-angle-right text-amber-600 mt-1"></i> <div>${tip}</div></li>`).join('') +
+                `</ul>`;
+
+            renderRubric(act);
+        }
+
+        /* ==================== MODO DOCENTE: EVALUACIÓN ==================== */
+        const STORE_KEY = 'evalEC.equipos';
+        const CFG_KEY = 'evalEC.config';
+        const MODE_KEY = 'evalEC.modoDocente';
+        const EXIGENCIA = 0.6;
+        // Asignatura de la evaluación en curso (las evaluaciones antiguas son de Educación Ciudadana)
+        const subj = () => ASIGNATURAS[ev.asig] || ASIGNATURAS.ciudadania;
+        const pmax = () => subj().pmax;
+        const nivelMax = () => subj().niveles[0].v;
+        const nivelDe = v => subj().niveles.find(n => n.v === v);
+        const actNombre = () => subj().actividades[ev.act] || '';
+        const temaTitulo = () => subj().usaTema ? (temasData[ev.tema]?.titulo || '') : economiaData.titulo;
+        const DIMS = [
+            { key: 'H', title: "Dimensión 1: Habilidades Sociales y de Investigación", short: "Habilidades", color: "blue", icon: "fa-brain" },
+            { key: 'C', title: "Dimensión 2: Dominio de Contenidos y Evidencia", short: "Contenidos", color: "purple", icon: "fa-book-open" },
+            { key: 'P', title: "Dimensión 3: Procedimientos y Formato Técnico", short: "Procedimientos", color: "orange", icon: "fa-cogs" },
+            { key: 'A', title: "Dimensión 4: Actitudes, Ética y Compromiso", short: "Actitudes", color: "rose", icon: "fa-heart" }
+        ];
+
+        function lsGet(k, def) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } }
+        function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+        function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        // Primera letra en minúscula, conservando siglas y nombres propios (APA, Estado, Biobío)
+        const minus = s => s.charAt(0).toLowerCase() + s.slice(1);
+        function listar(arr) { return arr.length <= 1 ? (arr[0] || '') : arr.slice(0, -1).join(', ') + ' y ' + arr[arr.length - 1]; }
+
+        // Insignia del colegio: encabezado, pie de página, ícono de la pestaña e informes
+        const INSIGNIA_SRC = document.getElementById('insignia-img').src;
+        document.getElementById('insignia-footer').src = INSIGNIA_SRC;
+        (() => { const l = document.createElement('link'); l.rel = 'icon'; l.href = INSIGNIA_SRC; document.head.appendChild(l); })();
+
+        // URL de la aplicación web de Apps Script que guarda los informes en Google Drive
+        const DRIVE_URL_DEFAULT = 'https://script.google.com/a/macros/andaliensur.cl/s/AKfycbyY64w8unYeL8TFxx-YTFH49X0ZGR7jbY0KJpwEIYyWuRHooWFG_NPNtPs0m-2_qa7y/exec';
+        const MODELOS = {
+            groq: [['openai/gpt-oss-120b', 'GPT-OSS 120B (recomendado)'], ['openai/gpt-oss-20b', 'GPT-OSS 20B (más rápido)'], ['qwen/qwen3.8-27b', 'Qwen 3.8 27B']],
+            claude: [['claude-opus-5-5', 'Claude Opus 5.5 (mejor calidad)'], ['claude-sonnet-5-5', 'Claude Sonnet 5.5 (equilibrado)'], ['claude-haiku-5-5', 'Claude Haiku 5.5 (más económico)']]
+        };
+        let cfg = Object.assign({ provider: 'groq', apiKey: '', model: MODELOS.groq[0][0], scriptUrl: DRIVE_URL_DEFAULT, token: '', docente: '' }, lsGet(CFG_KEY, {}));
+        if (!cfg.scriptUrl) cfg.scriptUrl = DRIVE_URL_DEFAULT;
+        let modoDocente = lsGet(MODE_KEY, false);
+
+        function nuevoIntegrante() { return { nombre: '', scores: {}, fb: '' }; }
+        function nuevaEvaluacion() {
+            return {
+                id: 'eq-' + Date.now(), curso: '', equipo: '', fecha: new Date().toISOString().slice(0, 10),
+                asig: selectAsignatura.value, act: selectActividad.value, tema: selectTema.value,
+                integrantes: [nuevoIntegrante(), nuevoIntegrante(), nuevoIntegrante()],
+                team: {}, fbEquipo: '', driveUrl: '', updated: null
+            };
+        }
+        let ev = nuevaEvaluacion();
+
+        // Nota escala 1.0 - 7.0 con exigencia 60%
+        function calcNota(p) {
+            const pm = pmax(), pa = pm * EXIGENCIA;
+            let n = p < pa ? 1 + 3 * p / pa : 4 + 3 * (p - pa) / (pm - pa);
+            n = Math.round((n + 1e-9) * 10) / 10;
+            return Math.min(7, Math.max(1, n));
+        }
+        const fmtNota = n => n.toFixed(1).replace('.', ',');
+
+        // Lista plana de criterios según asignatura y modalidad (con tipo E/I definitivo)
+        function getCriteria(act) {
+            if (subj() === ASIGNATURAS.economia) {
+                const titulo = act === 'F' ? "9.2 Rúbrica del formato afiche o pendón" : "9.1 Rúbrica del formato documental";
+                const dim = { title: titulo, color: "violet", icon: "fa-house-chimney-user" };
+                return economiaData.criterios.map(c => ({ ...c, ...(c.formato ? c.formato[act] || c.formato.D : {}), dim }));
+            }
+            const out = [];
+            const push = (dim, item) => out.push({ ...item, dim });
+            rubricaComun.habilidades.forEach(i => push(DIMS[0], i));
+            rubricaComun.contenidos.forEach(i => push(DIMS[1], i));
+            rubricaComun.procedimientosComunes.forEach(i => push(DIMS[2], i));
+            procedimientosEspecificos[act].forEach(i => push(DIMS[2], i));
+            rubricaComun.actitudes.forEach(i => {
+                const c = { ...i };
+                if (c.id === 'A4') {
+                    c.ei = act === 'A' ? 'I' : 'E';
+                    if (act !== 'A') {
+                        c.n = "Cumplimiento del plazo de entrega";
+                        c.l = "Entrega la totalidad del producto (video/afiche + bitácora + referencias) al inicio exacto de la clase.";
+                    }
+                }
+                push(DIMS[3], c);
+            });
+            return out;
+        }
+        const currentCriteria = () => getCriteria(ev.act || Object.keys(subj().actividades)[0]);
+        const scoreOf = (c, i) => c.ei === 'I' ? ev.integrantes[i]?.scores[c.id] : ev.team[c.id];
+        const nombreDe = i => (ev.integrantes[i].nombre || '').trim() || `Integrante ${i + 1}`;
+
+        function totales(i) {
+            let equipo = 0, indiv = 0, maxE = 0, maxI = 0, pend = 0;
+            currentCriteria().forEach(c => {
+                const v = scoreOf(c, i);
+                if (v === undefined) pend++;
+                if (c.ei === 'I') { indiv += v || 0; maxI += nivelMax(); } else { equipo += v || 0; maxE += nivelMax(); }
+            });
+            const pts = equipo + indiv;
+            return { equipo, indiv, maxE, maxI, pts, pend, nota: calcNota(pts) };
+        }
+        function promedioEquipo() {
+            if (!ev.integrantes.length) return null;
+            const s = ev.integrantes.reduce((a, _, i) => a + totales(i).nota, 0);
+            return Math.round((s / ev.integrantes.length + 1e-9) * 10) / 10;
+        }
+
+        /* ---------- Rúbrica con puntajes ---------- */
+        function segBtns(cid, stu, cur) {
+            return subj().niveles.map(n => `<button type="button" class="score-btn ${cur === n.v ? 'on lv-' + n.c : ''}" data-crit="${cid}" data-stu="${stu}" data-val="${n.v}" title="${n.t}: ${n.v} pts">${n.v}</button>`).join('');
+        }
+
+        function renderRubric(act) {
+            const niveles = subj().niveles;
+            const ncols = niveles.length + 3;
+            document.getElementById('rubrica-thead').innerHTML = `
+                <tr class="bg-slate-100 text-slate-700 uppercase text-xs tracking-wider">
+                    <th class="p-4 font-extrabold border-b w-1/5">Criterio / Indicador</th>
+                    <th class="p-4 font-extrabold border-b text-center w-14">Tipo</th>
+                    ${niveles.map(n => `<th class="p-4 font-extrabold border-b border-l ${ESTILOS_NIVEL[n.c].th}"><i class="fas ${ESTILOS_NIVEL[n.c].icon} mr-1"></i> ${n.t} (${n.v} ${n.v === 1 ? 'pt' : 'pts'})</th>`).join('')}
+                    <th class="teacher-only p-4 font-extrabold border-b border-l bg-slate-200 text-slate-800 w-56 no-print"><i class="fas fa-pen-to-square mr-1"></i> Puntaje</th>
+                </tr>`;
+            const crit = getCriteria(act);
+            let html = '';
+            let dimActual = null;
+            crit.forEach(item => {
+                const dc = item.dim.color;
+                if (item.dim !== dimActual) {
+                    dimActual = item.dim;
+                    const ptsDim = crit.filter(c => c.dim === item.dim).length * niveles[0].v;
+                    html += `<tr><td colspan="${ncols}" class="bg-${dc}-100/80 text-${dc}-900 p-3.5 font-extrabold uppercase text-xs tracking-wider border-y border-${dc}-200"><i class="fas ${item.dim.icon} mr-2"></i> ${item.dim.title} (${ptsDim} Pts)</td></tr>`;
+                }
+                const isIndiv = item.ei === 'I';
+                const eiBadge = isIndiv ?
+                    `<span class="bg-indigo-100 text-indigo-900 text-[11px] font-extrabold px-2 py-1 rounded-md" title="Evaluación Individual">I</span>` :
                     `<span class="bg-slate-200 text-slate-800 text-[11px] font-extrabold px-2 py-1 rounded-md" title="Evaluación Grupal/Equipo">E</span>`;
-                
-                return `
+
+                // Nivel seleccionado (para resaltar la celda)
+                let sel;
+                if (isIndiv) {
+                    const vals = ev.integrantes.map(s => s.scores[item.id]);
+                    sel = vals.length && vals.every(v => v === vals[0]) ? vals[0] : undefined;
+                } else sel = ev.team[item.id];
+                const hl = v => modoDocente && sel === v ? ' lvl-sel' : '';
+
+                let puntaje;
+                if (isIndiv) {
+                    puntaje = ev.integrantes.length ? ev.integrantes.map((s, i) => `
+                        <div class="flex items-center justify-between gap-2 py-0.5">
+                            <span class="text-xs font-semibold text-slate-600 truncate max-w-[110px]" data-nombre-idx="${i}">${esc(nombreDe(i))}</span>
+                            <span class="flex gap-1 shrink-0">${segBtns(item.id, i, s.scores[item.id])}</span>
+                        </div>`).join('') : `<span class="text-xs text-slate-400">Agrega integrantes</span>`;
+                } else {
+                    puntaje = `<div class="flex items-center gap-1"><span class="text-xs font-semibold text-slate-500 mr-1">Equipo</span>${segBtns(item.id, 'team', ev.team[item.id])}</div>`;
+                }
+
+                html += `
                 <tr class="hover:bg-slate-50 transition-colors">
                     <td class="p-4 border-b">
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="font-extrabold text-${dimClass}-700 bg-${dimClass}-50 px-2 py-0.5 rounded text-xs">${item.id}</span>
+                            <span class="font-extrabold text-${dc}-700 bg-${dc}-50 px-2 py-0.5 rounded text-xs">${item.lab || item.id}</span>
                             <span class="font-bold text-slate-800">${item.n}</span>
                         </div>
                     </td>
                     <td class="p-4 border-b text-center align-middle">${eiBadge}</td>
-                    <td class="p-4 border-b border-l bg-emerald-50/40 text-emerald-950 leading-relaxed">${item.l}</td>
-                    <td class="p-4 border-b border-l bg-amber-50/40 text-amber-950 leading-relaxed">${item.m}</td>
-                    <td class="p-4 border-b border-l bg-red-50/40 text-red-950 leading-relaxed">${item.no}</td>
+                    ${niveles.map(n => `<td class="p-4 border-b border-l ${ESTILOS_NIVEL[n.c].td} leading-relaxed${hl(n.v)}" data-crit="${item.id}" data-val="${n.v}">${item[n.k]}</td>`).join('')}
+                    <td class="teacher-only p-3 border-b border-l bg-white align-middle no-print">${puntaje}</td>
                 </tr>`;
-            };
-
-            const buildSectionHeader = (title, colorClass, icon) => {
-                return `<tr><td colspan="5" class="bg-${colorClass}-100/80 text-${colorClass}-900 p-3.5 font-extrabold uppercase text-xs tracking-wider border-y border-${colorClass}-200"><i class="fas ${icon} mr-2"></i> ${title} (10 Pts)</td></tr>`;
-            };
-
-            // Habilidades
-            htmlRubrica += buildSectionHeader("Dimensión 1: Habilidades Sociales y de Investigación", "blue", "fa-brain");
-            rubricaComun.habilidades.forEach(item => { htmlRubrica += buildRow(item, "blue"); });
-
-            // Contenidos
-            htmlRubrica += buildSectionHeader("Dimensión 2: Dominio de Contenidos y Evidencia", "purple", "fa-book-open");
-            rubricaComun.contenidos.forEach(item => { htmlRubrica += buildRow(item, "purple"); });
-
-            // Procedimientos
-            htmlRubrica += buildSectionHeader("Dimensión 3: Procedimientos y Formato Técnico", "orange", "fa-cogs");
-            rubricaComun.procedimientosComunes.forEach(item => { htmlRubrica += buildRow(item, "orange"); });
-            procedimientosEspecificos[act].forEach(item => { htmlRubrica += buildRow(item, "orange"); });
-
-            // Actitudes
-            htmlRubrica += buildSectionHeader("Dimensión 4: Actitudes, Ética y Compromiso", "rose", "fa-heart");
-            rubricaComun.actitudes.forEach(item => { 
-                let itemClone = {...item};
-                if(itemClone.id === 'A4') {
-                    itemClone.ei = act === 'A' ? 'I' : 'E';
-                    if (act !== 'A') {
-                        itemClone.n = "Cumplimiento del plazo de entrega";
-                        itemClone.l = "Entrega la totalidad del producto (video/afiche + bitácora + referencias) al inicio exacto de la clase.";
-                    }
-                }
-                htmlRubrica += buildRow(itemClone, "rose"); 
             });
-
-            rubricaTbody.innerHTML = htmlRubrica;
+            rubricaTbody.innerHTML = html;
         }
+
+        rubricaTbody.addEventListener('click', e => {
+            if (!modoDocente) return;
+            const el = e.target.closest('[data-val]');
+            if (!el) return;
+            const cid = el.dataset.crit, v = Number(el.dataset.val), stu = el.dataset.stu;
+            const c = currentCriteria().find(x => x.id === cid);
+            if (!c) return;
+            const toggle = (obj) => { if (obj[cid] === v) delete obj[cid]; else obj[cid] = v; };
+            if (stu === undefined) {
+                // Clic en la celda del nivel: aplica a todo el equipo (o a todos los integrantes si es individual)
+                if (c.ei === 'I') {
+                    const todos = ev.integrantes.length && ev.integrantes.every(s => s.scores[cid] === v);
+                    ev.integrantes.forEach(s => { if (todos) delete s.scores[cid]; else s.scores[cid] = v; });
+                } else toggle(ev.team);
+            } else if (stu === 'team') toggle(ev.team);
+            else toggle(ev.integrantes[Number(stu)].scores);
+            changed(true);
+        });
+
+        /* ---------- Datos del equipo ---------- */
+        const inCurso = document.getElementById('ev-curso');
+        const inEquipo = document.getElementById('ev-equipo');
+        const inFecha = document.getElementById('ev-fecha');
+        const divIntegrantes = document.getElementById('ev-integrantes');
+
+        function renderIntegrantes() {
+            divIntegrantes.innerHTML = ev.integrantes.map((s, i) => `
+                <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 shrink-0 rounded-full dynamic-bg text-xs font-bold flex items-center justify-center">${i + 1}</span>
+                    <input class="field" data-int="${i}" value="${esc(s.nombre)}" placeholder="Nombre y apellido del estudiante">
+                    <button type="button" class="tool-btn text-red-600" data-del-int="${i}" title="Quitar integrante"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
+        }
+        divIntegrantes.addEventListener('input', e => {
+            const i = e.target.dataset.int;
+            if (i === undefined) return;
+            ev.integrantes[Number(i)].nombre = e.target.value;
+            document.querySelectorAll(`[data-nombre-idx="${i}"]`).forEach(el => el.textContent = nombreDe(Number(i)));
+            changed(false);
+        });
+        divIntegrantes.addEventListener('click', e => {
+            const b = e.target.closest('[data-del-int]');
+            if (!b) return;
+            const i = Number(b.dataset.delInt);
+            const s = ev.integrantes[i];
+            if ((s.nombre || Object.keys(s.scores).length || s.fb) && !confirm(`¿Quitar a ${nombreDe(i)} y sus puntajes?`)) return;
+            ev.integrantes.splice(i, 1);
+            refrescarTodo();
+        });
+        document.getElementById('btn-add-integrante').addEventListener('click', () => {
+            if (ev.integrantes.length >= 8) return toast('Máximo 8 integrantes por equipo.');
+            ev.integrantes.push(nuevoIntegrante());
+            refrescarTodo();
+            divIntegrantes.querySelector(`[data-int="${ev.integrantes.length - 1}"]`)?.focus();
+        });
+        inCurso.addEventListener('input', () => { ev.curso = inCurso.value; changed(false); });
+        inEquipo.addEventListener('input', () => { ev.equipo = inEquipo.value; changed(false); });
+        inFecha.addEventListener('input', () => { ev.fecha = inFecha.value; changed(false); });
+
+        /* ---------- Resultados ---------- */
+        const notaClase = n => n < 4 ? 'text-red-600' : 'text-blue-800';
+
+        function renderResultados() {
+            const cont = document.getElementById('resultados-content');
+            const barra = document.getElementById('barra-notas');
+            if (!ev.integrantes.length) {
+                cont.innerHTML = `<p class="text-slate-500">Agrega integrantes para calcular las notas.</p>`;
+                barra.innerHTML = '';
+                return;
+            }
+            const filas = ev.integrantes.map((s, i) => {
+                const t = totales(i);
+                return `<tr class="border-b border-slate-200">
+                    <td class="p-3 font-semibold" data-nombre-idx="${i}">${esc(nombreDe(i))}</td>
+                    <td class="p-3 text-center">${t.equipo} / ${t.maxE}</td>
+                    <td class="p-3 text-center">${t.indiv} / ${t.maxI}</td>
+                    <td class="p-3 text-center font-bold">${t.pts} / ${pmax()}</td>
+                    <td class="p-3 text-center text-xl font-black ${notaClase(t.nota)}">${fmtNota(t.nota)}</td>
+                    <td class="p-3 text-center text-xs ${t.pend ? 'text-amber-700 font-bold' : 'text-emerald-700'}">${t.pend ? t.pend + ' sin marcar' : '<i class="fas fa-check"></i> Completo'}</td>
+                </tr>`;
+            }).join('');
+            const prom = promedioEquipo();
+            cont.innerHTML = `
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-sm min-w-[560px]">
+                        <thead class="bg-slate-100 text-slate-700 text-xs uppercase tracking-wider">
+                            <tr><th class="p-3 text-left">Estudiante</th><th class="p-3">Pts. equipo (E)</th><th class="p-3">Pts. individual (I)</th><th class="p-3">Total</th><th class="p-3">Nota</th><th class="p-3">Estado</th></tr>
+                        </thead>
+                        <tbody>${filas}</tbody>
+                    </table>
+                </div>
+                <div class="mt-4 flex flex-wrap items-center gap-4 text-sm">
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-100 font-bold">Promedio del equipo: <span class="${notaClase(prom)}">${fmtNota(prom)}</span></span>
+                    <span class="text-slate-500">Nota = 1,0 + 3 × pts / ${pmax() * EXIGENCIA} (bajo ${pmax() * EXIGENCIA} pts) · Nota = 4,0 + 3 × (pts − ${pmax() * EXIGENCIA}) / ${pmax() - pmax() * EXIGENCIA} (desde ${pmax() * EXIGENCIA} pts)</span>
+                </div>`;
+            barra.innerHTML = `<div class="max-w-6xl mx-auto flex flex-wrap items-center gap-x-4 gap-y-1">
+                <strong><i class="fas fa-calculator mr-1"></i> ${esc(ev.equipo || 'Equipo sin nombre')}:</strong>
+                ${ev.integrantes.map((s, i) => { const t = totales(i); return `<span><span data-nombre-idx="${i}">${esc(nombreDe(i))}</span> <b class="${t.nota < 4 ? 'text-red-300' : 'text-emerald-300'}">${fmtNota(t.nota)}</b> <span class="opacity-60">(${t.pts} pts)</span></span>`; }).join('<span class="opacity-30">|</span>')}
+            </div>`;
+        }
+
+        /* ---------- Retroalimentación ---------- */
+        const MEJORAS = {
+            H1: "formular una pregunta de investigación abierta (que no se responda con sí o no) y responderla explícitamente en la conclusión",
+            H2: "analizar al menos 3 fuentes indicando propósito, intencionalidad, enfoque, contexto y nivel de confiabilidad",
+            H3: "cumplir los 2 indicadores de habilidad específicos de la Ficha de Tema",
+            H4: "respaldar la postura con al menos 3 evidencias (datos, leyes o citas) de fuentes distintas",
+            H5: "preparar respuestas apoyadas en un dato o ejemplo preciso del tema",
+            C1: "desarrollar los 6 contenidos obligatorios de la Ficha de Tema",
+            C2: "definir e integrar con precisión los 4 conceptos clave",
+            C3: "incorporar al menos 4 datos de Chile con año o período y fuente en formato APA",
+            C4: "integrar un dato o ejemplo concreto de la Región del Biobío y explicar su relación con el tema",
+            C5: "vincular explícitamente el trabajo con al menos 2 elementos de las Guías 1, 2 o 3",
+            P1: "mantener la bitácora completa, con todas las sesiones registradas y las tareas repartidas",
+            P2: "incluir 5 o más referencias completas en formato APA 7 y citar dentro del texto",
+            P3: { A: "respetar la estructura (inicio, desarrollo y cierre) y el tiempo de 8 a 10 minutos", B: "cuidar la estructura narrativa (apertura, desarrollo, conclusión y créditos) y la duración de 5 a 7 minutos", C: "cumplir el formato A0 en un material autorizado y entregar el afiche sin daños" },
+            P4: { A: "asegurar que cada integrante exponga al menos 2 minutos continuos", B: "grabar en formato horizontal 16:9 y 1080p, con buena iluminación, imagen estable y textos legibles", C: "respetar los tamaños mínimos de letra y la jerarquía visual, e incluir 2 o más recursos visuales con datos" },
+            P5: { A: "exponer sin leer, con volumen claro, contacto visual y lenguaje formal", B: "cuidar que las voces se escuchen con claridad y que la música no tape la locución", C: "sustentar oralmente el afiche señalando sus elementos y responder las consultas" },
+            A1: "declarar la fuente de todo dato, texto, imagen o música ajena",
+            A2: "trabajar de forma constante en cada sesión y registrar los aportes en la bitácora",
+            A3: "cumplir todas las tareas asignadas por el equipo dentro de los plazos",
+            A4: { A: "presentarse puntualmente al inicio de la clase y con presentación formal", B: "entregar el producto completo al inicio exacto de la clase", C: "entregar el producto completo al inicio exacto de la clase" },
+            A5: "mantener una escucha atenta y respetuosa durante las presentaciones de los compañeros",
+            // Economía en el hogar
+            EC1: "formular una pregunta clara, delimitada en territorio y tiempo, y que se pueda responder con datos",
+            EC2: "indicar en cada cifra el período y la fuente oficial",
+            EC3: "usar al menos tres fuentes oficiales y citarlas correctamente en formato APA",
+            EC4: "escribir las operaciones completas (variación, promedio, porcentaje) e interpretar sus resultados",
+            EC5: "usar al menos tres conceptos económicos con precisión y aplicarlos al caso",
+            EC6: "explicar la necesidad pública que atiende la política y el rol del Estado, usando conceptos de macroeconomía",
+            EC7: "presentar al menos dos propuestas para el hogar, cada una con acción familiar, indicador, beneficiarios, costo o riesgo, y tipo de objetivo",
+            EC8: "diseñar una encuesta anónima de 6 a 8 preguntas, con escala y una pregunta abierta, y aplicarla a 10 o más personas",
+            EC9: "calcular porcentajes, interpretar la pregunta abierta y ajustar las propuestas con criterios de equidad y sustentabilidad",
+            EC10: { D: "lograr un video de 5 a 8 minutos con guion claro y gráficos legibles, y que cada integrante explique su parte, justifique un cálculo y reconozca los límites de los datos",
+                    F: "lograr un afiche legible a distancia, con jerarquía visual y fuentes en APA, y que cada integrante explique su parte, justifique un cálculo y reconozca los límites de los datos" }
+        };
+        const mejora = (id) => { const m = MEJORAS[id]; return typeof m === 'string' ? m : (m[ev.act] || Object.values(m)[0]); };
+        // Clasifica un puntaje: máximo = fortaleza, 0 = no logrado, intermedio = por fortalecer
+        const clase = v => v === undefined ? null : v === nivelMax() ? 'l' : v === 0 ? 'n' : 'm';
+
+        function sugerirEquipo() {
+            const crit = currentCriteria().filter(c => c.ei !== 'I');
+            const by = k => crit.filter(c => clase(ev.team[c.id]) === k);
+            const l = by('l'), m = by('m'), n = by('n');
+            const prom = promedioEquipo();
+            let intro;
+            if (prom >= 6) intro = "realizaron un trabajo de muy buen nivel, que demuestra dominio del tema y compromiso del equipo";
+            else if (prom >= 5) intro = "realizaron un buen trabajo, con aspectos que aún pueden pulir";
+            else if (prom >= 4) intro = "lograron el nivel mínimo exigido, aunque hay varios aspectos importantes por mejorar";
+            else intro = "el trabajo aún no alcanza el nivel mínimo exigido (60%), por lo que es necesario reforzar varios aspectos";
+            let t = `${ev.equipo ? ev.equipo + ': ' : ''}En su ${actNombre().toLowerCase()} sobre "${temaTitulo()}", ${intro} (promedio ${fmtNota(prom)}).`;
+            if (l.length) t += `\n\nFortalezas: destacan en ${listar(l.map(c => minus(c.n)))}.`;
+            if (m.length) t += `\n\nAspectos por fortalecer: ${listar(m.map(c => minus(c.n)))}. Para avanzar, se sugiere ${m.map(c => mejora(c.id)).join('; ')}.`;
+            if (n.length) t += `\n\nAspectos no logrados: ${listar(n.map(c => minus(c.n)))}. Es necesario ${n.map(c => mejora(c.id)).join('; ')}.`;
+            const pend = crit.filter(c => ev.team[c.id] === undefined);
+            if (pend.length === crit.length) return "Primero marca los puntajes de la rúbrica para generar la sugerencia.";
+            const esEco = subj() === ASIGNATURAS.economia;
+            t += prom >= 4 ? (esEco ? `\n\nSigan trabajando con este compromiso: sus avances muestran que pueden profundizar aún más en el análisis económico de los hogares.`
+                                    : `\n\nSigan trabajando con este compromiso: sus avances muestran que pueden profundizar aún más en el análisis de la realidad chilena.`)
+                           : `\n\nLos invito a revisar la rúbrica ${esEco ? 'y los requisitos del formato' : 'y la Ficha de Tema'} para planificar las mejoras; pueden acercarse a consultar cualquier duda.`;
+            return t;
+        }
+
+        function sugerirIndividual(i) {
+            const crit = currentCriteria().filter(c => c.ei === 'I');
+            const s = ev.integrantes[i];
+            const t = totales(i);
+            const nombre = (s.nombre || '').trim().split(/\s+/)[0] || nombreDe(i);
+            const by = k => crit.filter(c => clase(s.scores[c.id]) === k);
+            const l = by('l'), m = by('m'), n = by('n');
+            if (!l.length && !m.length && !n.length) return "Primero marca los criterios individuales (I) de este estudiante.";
+            let txt = `${nombre}, obtuviste ${t.pts} de ${pmax()} puntos (nota ${fmtNota(t.nota)}).`;
+            if (l.length) txt += ` En tu desempeño individual destacas en ${listar(l.map(c => minus(c.n)))}.`;
+            const mej = [...m, ...n];
+            if (mej.length) txt += ` Debes fortalecer ${listar(mej.map(c => minus(c.n)))}: te sugiero ${mej.map(c => mejora(c.id)).join('; ')}.`;
+            txt += t.nota >= 6 ? " ¡Excelente trabajo, sigue así!" : t.nota >= 4 ? " Vas por buen camino; con estos ajustes puedes lograr un mejor resultado." : " Confío en que con estos ajustes puedes mejorar; cuenta con mi apoyo.";
+            return txt;
+        }
+
+        function toolbar(target) {
+            return `<div class="flex flex-wrap gap-2 mt-2">
+                <button type="button" class="tool-btn" data-fb="sugerir" data-target="${target}"><i class="fas fa-wand-magic-sparkles text-amber-500"></i> Sugerir desde puntajes</button>
+                <button type="button" class="tool-btn" data-fb="ortografia" data-target="${target}"><i class="fas fa-spell-check text-blue-600"></i> Revisar ortografía</button>
+                <button type="button" class="tool-btn" data-fb="corregir" data-target="${target}"><i class="fas fa-robot text-violet-600"></i> Corregir redacción con IA</button>
+                <button type="button" class="tool-btn" data-fb="redactar" data-target="${target}"><i class="fas fa-feather text-emerald-600"></i> Redactar con IA</button>
+            </div>
+            <div class="lt-result mt-2" data-lt="${target}"></div>`;
+        }
+
+        function renderFeedback() {
+            const cont = document.getElementById('feedback-content');
+            cont.innerHTML = `
+                <div>
+                    <label class="block text-sm font-extrabold text-slate-800 mb-2"><i class="fas fa-users dynamic-text mr-1"></i> Retroalimentación al equipo</label>
+                    <textarea class="field min-h-[150px] leading-relaxed" data-fbtext="team" placeholder="Escribe la retroalimentación general del equipo o usa «Sugerir desde puntajes».">${esc(ev.fbEquipo)}</textarea>
+                    ${toolbar('team')}
+                </div>
+                <div class="border-t border-slate-200 pt-5">
+                    <h4 class="text-sm font-extrabold text-slate-800 mb-3"><i class="fas fa-user dynamic-text mr-1"></i> Retroalimentación individual (opcional)</h4>
+                    <div class="space-y-5">
+                    ${ev.integrantes.map((s, i) => `
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-1" data-nombre-idx="${i}">${esc(nombreDe(i))}</label>
+                            <textarea class="field min-h-[90px] leading-relaxed" data-fbtext="${i}" placeholder="Comentario individual…">${esc(s.fb)}</textarea>
+                            ${toolbar(i)}
+                        </div>`).join('') || '<p class="text-sm text-slate-500">Agrega integrantes para escribir comentarios individuales.</p>'}
+                    </div>
+                </div>
+                <p class="text-xs text-slate-500"><i class="fas fa-shield-halved mr-1"></i> «Revisar ortografía» envía el texto al servicio gratuito LanguageTool. Las funciones de IA envían el texto y los puntajes a la IA elegida (Groq o Claude) con tu clave de API (configúrala en <strong>Configuración</strong>).</p>`;
+        }
+
+        const fbArea = t => document.querySelector(`[data-fbtext="${t}"]`);
+        function setFb(target, text) {
+            if (target === 'team') ev.fbEquipo = text; else ev.integrantes[Number(target)].fb = text;
+            const ta = fbArea(target);
+            if (ta) ta.value = text;
+            changed(false);
+        }
+        const getFb = target => target === 'team' ? ev.fbEquipo : ev.integrantes[Number(target)].fb;
+
+        document.getElementById('feedback-content').addEventListener('input', e => {
+            const t = e.target.dataset.fbtext;
+            if (t === undefined) return;
+            if (t === 'team') ev.fbEquipo = e.target.value; else ev.integrantes[Number(t)].fb = e.target.value;
+            changed(false);
+        });
+
+        document.getElementById('feedback-content').addEventListener('click', async e => {
+            const apply = e.target.closest('[data-lt-apply]');
+            if (apply) return aplicarOrtografia(apply.dataset.ltApply);
+            const b = e.target.closest('[data-fb]');
+            if (!b) return;
+            const target = b.dataset.target, accion = b.dataset.fb;
+            if (accion === 'sugerir') {
+                const actual = getFb(target).trim();
+                if (actual && !confirm('¿Reemplazar el texto actual por la sugerencia generada desde los puntajes?')) return;
+                setFb(target, target === 'team' ? sugerirEquipo() : sugerirIndividual(Number(target)));
+                return;
+            }
+            const texto = getFb(target).trim();
+            if (accion !== 'redactar' && !texto) return toast('Primero escribe (o sugiere) un texto.');
+            b.disabled = true;
+            const htmlOrig = b.innerHTML;
+            b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando…';
+            try {
+                if (accion === 'ortografia') await revisarOrtografia(target, texto);
+                else {
+                    const res = await iaFeedback(accion, target, texto);
+                    mostrarPropuesta(target, texto, res);
+                }
+            } catch (err) {
+                toast(err.message || String(err), 7000);
+            } finally {
+                b.disabled = false;
+                b.innerHTML = htmlOrig;
+            }
+        });
+
+        // Corrector ortográfico/gramatical gratuito (LanguageTool)
+        const ltCache = {};
+        async function revisarOrtografia(target, texto) {
+            const r = await fetch('https://api.languagetool.org/v2/check', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ text: texto, language: 'es' })
+            });
+            if (!r.ok) throw new Error('No se pudo conectar con el corrector LanguageTool (' + r.status + ').');
+            const data = await r.json();
+            ltCache[target] = { texto, matches: data.matches || [] };
+            const box = document.querySelector(`[data-lt="${target}"]`);
+            if (!data.matches.length) {
+                box.innerHTML = `<div class="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-3"><i class="fas fa-check-circle mr-1"></i> No se encontraron errores de ortografía ni gramática.</div>`;
+                return;
+            }
+            box.innerHTML = `<div class="text-sm bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <strong class="text-blue-900">${data.matches.length} observación(es) encontradas</strong>
+                    <button type="button" class="tool-btn" data-lt-apply="${target}"><i class="fas fa-check-double"></i> Aplicar sugerencias</button>
+                </div>
+                <ul class="space-y-1 text-slate-700">${data.matches.map(m => {
+                    const frag = texto.substr(m.offset, m.length);
+                    const sug = m.replacements?.[0]?.value;
+                    return `<li><span class="line-through text-red-600">${esc(frag)}</span>${sug !== undefined ? ` → <strong class="text-emerald-700">${esc(sug)}</strong>` : ''} <span class="text-xs text-slate-500">— ${esc(m.message)}</span></li>`;
+                }).join('')}</ul></div>`;
+        }
+        function aplicarOrtografia(target) {
+            const c = ltCache[target];
+            if (!c) return;
+            if (getFb(target) !== c.texto) return toast('El texto cambió después de la revisión. Vuelve a revisarlo.');
+            let t = c.texto;
+            [...c.matches].sort((a, b) => b.offset - a.offset).forEach(m => {
+                const sug = m.replacements?.[0]?.value;
+                if (sug !== undefined) t = t.slice(0, m.offset) + sug + t.slice(m.offset + m.length);
+            });
+            setFb(target, t);
+            document.querySelector(`[data-lt="${target}"]`).innerHTML = `<div class="text-sm text-emerald-700"><i class="fas fa-check mr-1"></i> Sugerencias aplicadas.</div>`;
+        }
+
+        /* ---------- IA (Groq o Claude) ---------- */
+        async function llamarIA(system, prompt) {
+            if (!cfg.apiKey) { abrirConfig(); throw new Error('Ingresa tu clave de API en Configuración para usar la IA.'); }
+            return cfg.provider === 'claude' ? llamarClaude(system, prompt) : llamarGroq(system, prompt);
+        }
+
+        async function llamarGroq(system, prompt) {
+            const body = {
+                model: cfg.model, max_completion_tokens: 4000, temperature: 0.4,
+                messages: [{ role: 'system', content: system }, { role: 'user', content: prompt }]
+            };
+            if (cfg.model.startsWith('openai/gpt-oss')) body.reasoning_effort = 'low';
+            const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + cfg.apiKey, 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) {
+                if (r.status === 401) throw new Error('Clave de API de Groq inválida. Revísala en Configuración.');
+                if (r.status === 429) throw new Error('Límite de uso de Groq alcanzado. Espera unos segundos e intenta de nuevo.');
+                throw new Error('Error de la IA (' + r.status + '): ' + (data?.error?.message || r.statusText));
+            }
+            const texto = (data.choices?.[0]?.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+            if (!texto) throw new Error('La IA no devolvió texto.');
+            return texto;
+        }
+
+        async function llamarClaude(system, prompt) {
+            const body = { model: cfg.model, max_tokens: 8000, output_config: { effort: 'low' }, system, messages: [{ role: 'user', content: prompt }] };
+            const headers = {
+                'x-api-key': cfg.apiKey,
+                'anthropic-version': '2023-06-01',
+                'content-type': 'application/json',
+                'anthropic-dangerous-direct-browser-access': 'true'
+            };
+            if (cfg.model !== 'claude-haiku-5-5') {
+                // Si un filtro de seguridad rechaza la solicitud, el servidor reintenta con otro modelo
+                body.fallbacks = 'default';
+                headers['anthropic-beta'] = 'server-side-fallback-2026-07-01';
+            }
+            const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers, body: JSON.stringify(body) });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) {
+                const msg = data?.error?.message || r.statusText;
+                if (r.status === 401) throw new Error('Clave de API inválida. Revísala en Configuración.');
+                if (r.status === 429) throw new Error('Límite de uso de la API alcanzado. Intenta en unos segundos.');
+                throw new Error('Error de la IA (' + r.status + '): ' + msg);
+            }
+            if (data.stop_reason === 'refusal') throw new Error('La IA no pudo procesar esta solicitud. Intenta reformular el texto.');
+            const texto = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+            if (!texto) throw new Error('La IA no devolvió texto.');
+            return texto;
+        }
+
+        const SYSTEM_IA_BASE = "Eres un asistente para docentes de {ASIGNATURA} en el Colegio Marina de Chile (Concepción, Región del Biobío). Escribes en español de Chile, con un tono formativo, respetuoso, cercano y profesional. Nunca inventas datos, puntajes ni hechos que no estén en la información entregada. Respondes únicamente con el texto final de la retroalimentación, sin títulos, sin comillas, sin explicaciones adicionales y sin formato Markdown.";
+
+        const systemIA = () => SYSTEM_IA_BASE.replace('{ASIGNATURA}', subj().badge);
+
+        function resumenPuntajes(target) {
+            const crit = currentCriteria();
+            const nivel = v => { const n = nivelDe(v); return n ? `${n.t} (${n.v})` : 'Sin evaluar'; };
+            const desc = (c, v) => { const n = nivelDe(v); return n ? c[n.k] : ''; };
+            let s = `Asignatura: ${subj().nombre}\nModalidad: ${actNombre()}\nTema: ${temaTitulo()}\nCurso: ${ev.curso || '-'}\nEquipo: ${ev.equipo || '-'}\nPuntaje máximo por criterio: ${nivelMax()}\n`;
+            if (target === 'team') {
+                s += `Promedio del equipo: ${fmtNota(promedioEquipo())} (escala 1,0 a 7,0; 4,0 = 60%)\n\nCriterios grupales:\n`;
+                crit.filter(c => c.ei !== 'I').forEach(c => { const v = ev.team[c.id]; s += `- ${c.id} ${c.n}: ${nivel(v)}. ${desc(c, v)}\n`; });
+            } else {
+                const i = Number(target), t = totales(i);
+                s += `Estudiante: ${nombreDe(i)}\nPuntaje total: ${t.pts}/${pmax()} — Nota ${fmtNota(t.nota)}\n\nCriterios individuales:\n`;
+                crit.filter(c => c.ei === 'I').forEach(c => { const v = ev.integrantes[i].scores[c.id]; s += `- ${c.id} ${c.n}: ${nivel(v)}. ${desc(c, v)}\n`; });
+                s += `\nCriterios grupales (resumen): ` + crit.filter(c => c.ei !== 'I').map(c => `${c.id}=${ev.team[c.id] ?? '-'}`).join(', ') + '\n';
+            }
+            return s;
+        }
+
+        async function iaFeedback(accion, target, texto) {
+            const destinatario = target === 'team' ? 'al equipo (usa "ustedes")' : 'a un estudiante (usa "tú")';
+            if (accion === 'corregir') {
+                return llamarIA(systemIA(),
+                    `Corrige la ortografía, gramática, puntuación y redacción de la siguiente retroalimentación dirigida ${destinatario}. Mantén el contenido, el sentido y la extensión aproximada; mejora la claridad y la coherencia, y conserva los saltos de párrafo.\n\n<texto>\n${texto}\n</texto>`);
+            }
+            return llamarIA(systemIA(),
+                `Redacta una retroalimentación formativa dirigida ${destinatario}, de 120 a 200 palabras, a partir de esta evaluación con rúbrica. Estructúrala en párrafos breves: reconocimiento de logros concretos, aspectos por mejorar con acciones específicas y un cierre motivador. Menciona la nota solo si está en los datos.\n\n<evaluacion>\n${resumenPuntajes(target)}</evaluacion>` +
+                (texto ? `\n\nToma en cuenta este borrador del docente y respeta sus ideas:\n<borrador>\n${texto}\n</borrador>` : ''));
+        }
+
+        function mostrarPropuesta(target, original, propuesta) {
+            abrirModal('Propuesta de la IA', `
+                <p class="text-sm text-slate-600 mb-2">Revisa y edita la propuesta antes de aceptarla.</p>
+                <textarea id="ia-propuesta" class="field min-h-[260px] leading-relaxed">${esc(propuesta)}</textarea>
+                ${original ? `<details class="mt-3 text-sm text-slate-600"><summary class="cursor-pointer font-semibold">Ver texto original</summary><p class="mt-2 whitespace-pre-wrap bg-slate-50 p-3 rounded-lg border">${esc(original)}</p></details>` : ''}
+                <div class="flex justify-end gap-2 mt-4">
+                    <button type="button" class="tool-btn" id="ia-cancelar">Descartar</button>
+                    <button type="button" class="action-btn dynamic-bg" id="ia-aceptar"><i class="fas fa-check"></i> Usar este texto</button>
+                </div>`);
+            document.getElementById('ia-cancelar').onclick = cerrarModal;
+            document.getElementById('ia-aceptar').onclick = () => { setFb(target, document.getElementById('ia-propuesta').value); cerrarModal(); toast('Retroalimentación actualizada.'); };
+        }
+
+        /* ---------- Modal y avisos ---------- */
+        const modal = document.getElementById('modal');
+        function abrirModal(titulo, html, ancho = false) {
+            document.getElementById('modal-title').textContent = titulo;
+            const body = document.getElementById('modal-body');
+            body.onclick = null;
+            body.innerHTML = html;
+            body.parentElement.classList.toggle('max-w-2xl', !ancho);
+            body.parentElement.classList.toggle('max-w-5xl', ancho);
+            modal.style.display = 'flex';
+        }
+        function cerrarModal() { modal.style.display = 'none'; }
+        document.getElementById('modal-close').onclick = cerrarModal;
+        modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+        let toastTimer;
+        function toast(msg, ms = 4000, html = false) {
+            const t = document.getElementById('toast');
+            if (html) t.innerHTML = msg; else t.textContent = msg;
+            t.style.display = 'block';
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.style.display = 'none', ms);
+        }
+
+        /* ---------- Configuración ---------- */
+        function abrirConfig() {
+            abrirModal('Configuración', `
+                <div class="space-y-5 text-sm">
+                    <div class="p-4 rounded-xl border border-violet-200 bg-violet-50/50 space-y-3">
+                        <h4 class="font-extrabold text-violet-900"><i class="fas fa-robot mr-1"></i> Inteligencia Artificial</h4>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1" for="cfg-provider">Proveedor</label>
+                            <select id="cfg-provider" class="field">
+                                <option value="groq">Groq (gratuito con límites)</option>
+                                <option value="claude">Claude (Anthropic)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1" for="cfg-key">Clave de API</label>
+                            <input id="cfg-key" type="password" class="field" value="${esc(cfg.apiKey)}" placeholder="gsk_... (Groq) o sk-ant-... (Claude)" autocomplete="off">
+                            <p class="text-xs text-slate-500 mt-1">Groq: <a class="underline" href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a> · Claude: <a class="underline" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>. Se guarda solo en este navegador; no la uses en computadores compartidos.</p>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1" for="cfg-model">Modelo</label>
+                            <select id="cfg-model" class="field"></select>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-3">
+                        <h4 class="font-extrabold text-emerald-900"><i class="fab fa-google-drive mr-1"></i> Google Drive (Apps Script)</h4>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1" for="cfg-url">URL de la aplicación web de Apps Script</label>
+                            <input id="cfg-url" class="field" value="${esc(cfg.scriptUrl)}" placeholder="https://script.google.com/macros/s/.../exec">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1" for="cfg-token">Clave secreta (opcional — déjala vacía si tu script no tiene)</label>
+                            <input id="cfg-token" type="password" class="field" value="${esc(cfg.token)}" autocomplete="off">
+                        </div>
+                        <details class="text-xs text-slate-600">
+                            <summary class="cursor-pointer font-bold">¿Cómo obtener la URL? (una sola vez)</summary>
+                            <ol class="list-decimal pl-5 mt-2 space-y-1">
+                                <li>Entra a <a class="underline" href="https://script.google.com" target="_blank" rel="noopener">script.google.com</a> → <b>Nuevo proyecto</b>.</li>
+                                <li>Pega el código del archivo <b>apps-script/Code.gs</b>.</li>
+                                <li><b>Implementar → Nueva implementación → Aplicación web</b>. Ejecutar como: <b>Yo</b>. Quién tiene acceso: <b>Cualquier usuario</b>.</li>
+                                <li>Autoriza los permisos y copia la URL que termina en <code>/exec</code>.</li>
+                            </ol>
+                            <p class="mt-2">Los informes se guardarán como PDF en <b>Mi unidad › Evaluaciones Educación Ciudadana › [Curso]</b>, junto a una planilla con el registro de notas.</p>
+                        </details>
+                        <button type="button" class="tool-btn" id="cfg-test"><i class="fas fa-plug"></i> Probar conexión</button>
+                        <span id="cfg-test-res" class="text-xs ml-2"></span>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" class="action-btn dynamic-bg" id="cfg-save"><i class="fas fa-check"></i> Guardar configuración</button>
+                    </div>
+                </div>`);
+            const selProv = document.getElementById('cfg-provider');
+            const selModel = document.getElementById('cfg-model');
+            const llenarModelos = () => {
+                selModel.innerHTML = MODELOS[selProv.value].map(([v, n]) => `<option value="${v}">${n}</option>`).join('');
+                if (MODELOS[selProv.value].some(([v]) => v === cfg.model)) selModel.value = cfg.model;
+            };
+            selProv.value = cfg.provider;
+            llenarModelos();
+            selProv.onchange = llenarModelos;
+            const leer = () => ({
+                provider: selProv.value,
+                apiKey: document.getElementById('cfg-key').value.trim(),
+                model: document.getElementById('cfg-model').value,
+                scriptUrl: document.getElementById('cfg-url').value.trim(),
+                token: document.getElementById('cfg-token').value.trim()
+            });
+            document.getElementById('cfg-save').onclick = () => { Object.assign(cfg, leer()); lsSet(CFG_KEY, cfg); cerrarModal(); toast('Configuración guardada.'); };
+            document.getElementById('cfg-test').onclick = async () => {
+                const res = document.getElementById('cfg-test-res');
+                const { scriptUrl } = leer();
+                if (!scriptUrl) { res.textContent = 'Ingresa la URL.'; return; }
+                res.textContent = 'Probando…';
+                try {
+                    const r = await fetch(scriptUrl);
+                    const j = await r.json();
+                    res.innerHTML = j.ok ? '<span class="text-emerald-700 font-bold">✔ Conectado con Google Drive</span>' : '<span class="text-red-600">Respuesta inesperada</span>';
+                } catch (err) { res.innerHTML = '<span class="text-red-600">No se pudo conectar. Revisa la URL y que el acceso sea "Cualquier usuario".</span>'; }
+            };
+        }
+        document.getElementById('btn-config').onclick = abrirConfig;
+
+        /* ---------- Guardado local ---------- */
+        const getGuardados = () => lsGet(STORE_KEY, {});
+        function tieneContenido() {
+            return ev.curso || ev.equipo || Object.keys(ev.team).length || ev.fbEquipo ||
+                ev.integrantes.some(s => s.nombre || Object.keys(s.scores).length || s.fb);
+        }
+        function guardarLocal(silencioso) {
+            if (!tieneContenido()) { if (!silencioso) toast('No hay datos para guardar todavía.'); return; }
+            ev.updated = new Date().toISOString();
+            const all = getGuardados();
+            all[ev.id] = ev;
+            lsSet(STORE_KEY, all);
+            actualizarContador();
+            if (!silencioso) toast('Evaluación guardada en este navegador.');
+        }
+        function actualizarContador() { const n = Object.keys(getGuardados()).length; document.querySelectorAll('.count-guardados').forEach(el => el.textContent = n); }
+
+        let saveTimer;
+        function changed(rerenderRubric) {
+            if (rerenderRubric && ev.act) renderRubric(ev.act);
+            renderResultados();
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => guardarLocal(true), 600);
+        }
+
+        const rubricaVisible = () => !contentContainer.classList.contains('hidden');
+
+        function refrescarTodo() {
+            inCurso.value = ev.curso; inEquipo.value = ev.equipo; inFecha.value = ev.fecha;
+            renderIntegrantes();
+            renderFeedback();
+            if (rubricaVisible()) renderRubric(ev.act);
+            renderResultados();
+            clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => guardarLocal(true), 600);
+        }
+
+        function cargarEvaluacion(id) {
+            const e = getGuardados()[id];
+            if (!e) return;
+            ev = e;
+            if (!ev.asig) ev.asig = 'ciudadania'; // evaluaciones guardadas antes de agregar Economía
+            selectAsignatura.value = ev.asig;
+            aplicarAsignatura(ev.asig, ev.act);
+            selectTema.value = ev.tema || '';
+            refrescarTodo();
+            updateUI();
+            cerrarModal();
+            toast(`Cargado: ${ev.equipo || 'equipo'} (${ev.curso || 'sin curso'})`);
+        }
+
+        let filtroGuardados = 'todas';
+        function abrirGuardados() {
+            const todas = Object.values(getGuardados()).sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
+            const all = todas.filter(e => filtroGuardados === 'todas' || (e.asig || 'ciudadania') === filtroGuardados);
+            const pestaña = (k, t) => {
+                const n = k === 'todas' ? todas.length : todas.filter(e => (e.asig || 'ciudadania') === k).length;
+                return `<button type="button" class="tool-btn ${filtroGuardados === k ? 'dynamic-bg !text-white' : ''}" data-filtro="${k}">${t} (${n})</button>`;
+            };
+            const filas = all.map(e => {
+                const nombres = e.integrantes.map(s => s.nombre).filter(Boolean).join(', ');
+                const listo = (ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).actividades[e.act];
+                const prom = listo && e.integrantes.length ? conEvaluacion(e, promedioEquipo) : null;
+                return `<div class="flex flex-wrap items-center justify-between gap-2 p-3 border border-slate-200 rounded-xl ${e.id === ev.id ? 'bg-blue-50' : ''}">
+                    <div class="min-w-0">
+                        <div class="font-bold text-slate-800">${esc(e.curso || 'Sin curso')} — ${esc(e.equipo || 'Equipo sin nombre')}${prom !== null ? ` <span class="ml-1 text-sm ${notaClase(prom)}">· Prom. ${fmtNota(prom)}</span>` : ''}</div>
+                        <div class="text-xs text-slate-500">${esc((ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).nombre)} · ${esc((ASIGNATURAS[e.asig] || ASIGNATURAS.ciudadania).actividades[e.act] || '')}${e.tema ? ' · Tema ' + esc(e.tema) : ''} · ${esc(nombres || 'sin integrantes')}</div>
+                        ${e.driveUrl ? `<a class="text-xs text-emerald-700 underline" href="${esc(e.driveUrl)}" target="_blank" rel="noopener"><i class="fab fa-google-drive"></i> Ver PDF en Drive</a>` : ''}
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        ${listo ? `<button type="button" class="tool-btn" data-ver="${esc(e.id)}"><i class="fas fa-eye"></i> Ver rúbrica</button>
+                        <button type="button" class="tool-btn" data-imprimir="${esc(e.id)}"><i class="fas fa-print"></i> Imprimir</button>` : ''}
+                        <button type="button" class="tool-btn" data-abrir="${esc(e.id)}"><i class="fas fa-pen"></i> Editar</button>
+                        <button type="button" class="tool-btn text-red-600" data-borrar="${esc(e.id)}" title="Eliminar"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+            abrirModal('Evaluaciones guardadas', `
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex flex-wrap gap-2">${pestaña('todas', 'Todas')}${pestaña('ciudadania', 'Educación Ciudadana')}${pestaña('economia', 'Economía')}</div>
+                    <button type="button" class="action-btn bg-emerald-600 text-white hover:bg-emerald-700" data-nueva="1"><i class="fas fa-plus"></i> Nueva evaluación</button>
+                </div>
+                <div class="space-y-2 mb-4">${filas || '<p class="text-sm text-slate-500">Aún no hay evaluaciones guardadas.</p>'}</div>
+                <div class="flex flex-wrap gap-2 pt-3 border-t border-slate-200">
+                    <button type="button" class="tool-btn" id="btn-export"><i class="fas fa-download"></i> Descargar respaldo (.json)</button>
+                    <label class="tool-btn cursor-pointer"><i class="fas fa-upload"></i> Importar respaldo<input type="file" accept=".json" id="btn-import" class="hidden"></label>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Las evaluaciones se guardan en este navegador. Descarga un respaldo para pasarlas a otro computador.</p>`);
+            const body = document.getElementById('modal-body');
+            body.onclick = e => {
+                const a = e.target.closest('[data-abrir]');
+                if (a) return cargarEvaluacion(a.dataset.abrir);
+                const v = e.target.closest('[data-ver]');
+                if (v) return verInforme(v.dataset.ver);
+                const im = e.target.closest('[data-imprimir]');
+                if (im) {
+                    const x = getGuardados()[im.dataset.imprimir];
+                    const r = conEvaluacion(x, () => ({ html: buildReportHTML(), titulo: nombreArchivo() }));
+                    return imprimirHTML(r.html, r.titulo);
+                }
+                const fl = e.target.closest('[data-filtro]');
+                if (fl) { filtroGuardados = fl.dataset.filtro; return abrirGuardados(); }
+                if (e.target.closest('[data-nueva]')) return elegirNuevaEvaluacion();
+                const d = e.target.closest('[data-borrar]');
+                if (d) {
+                    const all = getGuardados();
+                    const x = all[d.dataset.borrar];
+                    if (!confirm(`¿Eliminar la evaluación de ${x.equipo || 'este equipo'} (${x.curso || 'sin curso'})? No se puede deshacer.`)) return;
+                    delete all[d.dataset.borrar];
+                    lsSet(STORE_KEY, all);
+                    actualizarContador();
+                    if (d.dataset.borrar === ev.id) ev.id = 'eq-' + Date.now();
+                    abrirGuardados();
+                }
+            };
+            document.getElementById('btn-export').onclick = () => {
+                const blob = new Blob([JSON.stringify(getGuardados(), null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `respaldo-evaluaciones-${new Date().toISOString().slice(0, 10)}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            };
+            document.getElementById('btn-import').onchange = async e => {
+                const f = e.target.files[0];
+                if (!f) return;
+                try {
+                    const data = JSON.parse(await f.text());
+                    const all = Object.assign(getGuardados(), data);
+                    lsSet(STORE_KEY, all);
+                    actualizarContador();
+                    abrirGuardados();
+                    toast(`Importadas ${Object.keys(data).length} evaluaciones.`);
+                } catch (err) { toast('El archivo no es un respaldo válido.'); }
+            };
+        }
+        document.getElementById('btn-guardados').onclick = abrirGuardados;
+        document.getElementById('btn-guardar').onclick = () => guardarLocal(false);
+        // Elegir asignatura y modalidad para una rúbrica nueva en blanco
+        function elegirNuevaEvaluacion() {
+            const tarjeta = (k) => {
+                const s = ASIGNATURAS[k];
+                return `<div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                    <div class="font-extrabold text-slate-800 mb-1"><i class="fas fa-graduation-cap mr-1"></i> ${s.nombre}</div>
+                    <div class="text-xs text-slate-500 mb-3">${s.proyecto} · ${s.pmax} pts${s.usaTema ? ' · luego eliges el tema' : ''}</div>
+                    <div class="flex flex-col gap-2">
+                        ${s.opciones.map(([v, t]) => `<button type="button" class="tool-btn justify-start" data-nueva-asig="${k}" data-nueva-act="${v}"><i class="fas fa-plus"></i> ${t}</button>`).join('')}
+                    </div>
+                </div>`;
+            };
+            abrirModal('Nueva evaluación', `
+                <p class="text-sm text-slate-600 mb-3">La evaluación actual queda guardada. Elige la asignatura y la modalidad del nuevo equipo:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">${tarjeta('ciudadania')}${tarjeta('economia')}</div>
+                <label class="flex items-center gap-2 text-sm text-slate-700 mt-4">
+                    <input type="checkbox" id="nueva-mismo-curso" ${ev.curso ? 'checked' : ''}> Mantener el curso${ev.curso ? ` (${esc(ev.curso)})` : ''}
+                </label>`);
+            document.getElementById('modal-body').onclick = e => {
+                const b = e.target.closest('[data-nueva-asig]');
+                if (!b) return;
+                nuevaEvaluacionDe(b.dataset.nuevaAsig, b.dataset.nuevaAct, document.getElementById('nueva-mismo-curso').checked);
+            };
+        }
+
+        function nuevaEvaluacionDe(asig, act, mantenerCurso) {
+            guardarLocal(true);
+            const curso = ev.curso;
+            selectAsignatura.value = asig;
+            aplicarAsignatura(asig, act);
+            selectTema.value = '';
+            ev = nuevaEvaluacion();
+            if (mantenerCurso) ev.curso = curso;
+            refrescarTodo();
+            updateUI();
+            cerrarModal();
+            if (ASIGNATURAS[asig].usaTema) {
+                document.getElementById('tema').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('tema').focus();
+                toast('Rúbrica nueva lista. Elige el tema del equipo.');
+            } else {
+                inEquipo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                inEquipo.focus();
+                toast(`Rúbrica nueva de ${ASIGNATURAS[asig].nombre} lista para evaluar.`);
+            }
+        }
+
+        document.getElementById('btn-nuevo').onclick = elegirNuevaEvaluacion;
+        document.getElementById('btn-nuevo-top').onclick = elegirNuevaEvaluacion;
+        document.getElementById('btn-guardados-top').onclick = abrirGuardados;
+
+        /* ---------- Informe imprimible ---------- */
+        function nombreArchivo() {
+            const limpio = s => String(s || '').replace(/[\\/:*?"<>|]+/g, '-').trim();
+            const detalle = subj().usaTema ? `Act ${ev.act} Tema ${ev.tema}` : actNombre();
+            return limpio(`Informe ${subj().nombre} - ${ev.curso || 'Curso'} - ${ev.equipo || 'Equipo'} - ${detalle}`);
+        }
+
+        function buildReportHTML() {
+            const crit = currentCriteria();
+            const s0 = subj();
+            const docente = document.getElementById('teacher-name-field').innerText.trim();
+            const est = ev.integrantes;
+            const celda = v => v === undefined ? '<td class="c pend">–</td>' : `<td class="c lv-${nivelDe(v)?.c}">${v}</td>`;
+            let filas = '', dimActual = null;
+            crit.forEach(c => {
+                if (c.dim !== dimActual) {
+                    dimActual = c.dim;
+                    filas += `<tr class="dim"><td colspan="${3 + est.length}">${esc(c.dim.title)} (${crit.filter(x => x.dim === c.dim).length * nivelMax()} pts)</td></tr>`;
+                }
+                filas += `<tr><td class="id">${c.lab || c.id}</td><td>${esc(c.n)}</td><td class="c">${c.ei === 'I' ? 'I' : 'E'}</td>${est.map((s, i) => celda(scoreOf(c, i))).join('')}</tr>`;
+            });
+            const tots = est.map((s, i) => totales(i));
+            const fecha = ev.fecha ? new Date(ev.fecha + 'T12:00:00').toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+            const p = t => esc(t).replace(/\n/g, '<br>');
+            const fbInd = est.map((s, i) => s.fb.trim() ? `<div class="fbi"><b>${esc(nombreDe(i))}:</b> ${p(s.fb)}</div>` : '').join('');
+            return `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>${esc(nombreArchivo())}</title>
+            <style>
+                @page { size: letter; margin: 14mm; }
+                body { font-family: Arial, Helvetica, sans-serif; color: #0f172a; font-size: 11px; margin: 0; }
+                .head { border-bottom: 3px solid #0f2b5c; padding-bottom: 8px; margin-bottom: 10px; }
+                .head table { border-collapse: collapse; width: 100%; }
+                .head img { height: 78px; width: auto; }
+                .head .col { font-size: 15px; font-weight: bold; color: #0f2b5c; }
+                .head .sub { color: #475569; font-size: 11px; }
+                h1 { font-size: 16px; margin: 6px 0 2px; color: #0f2b5c; }
+                .datos { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+                .datos td { padding: 4px 6px; border: 1px solid #cbd5e1; }
+                .datos td.k { background: #f1f5f9; font-weight: bold; width: 18%; }
+                h2 { font-size: 12.5px; color: #0f2b5c; border-left: 4px solid #0f2b5c; padding-left: 6px; margin: 14px 0 6px; }
+                table.t { width: 100%; border-collapse: collapse; }
+                table.t th, table.t td { border: 1px solid #cbd5e1; padding: 3px 5px; }
+                table.t th { background: #e2e8f0; font-size: 10px; }
+                .c { text-align: center; }
+                .id { font-weight: bold; width: 26px; }
+                tr.dim td { background: #f1f5f9; font-weight: bold; font-size: 10px; text-transform: uppercase; }
+                .lv-top { color: #047857; font-weight: bold; } .lv-mid { color: #b45309; font-weight: bold; } .lv-low { color: #c2410c; font-weight: bold; } .lv-zero { color: #b91c1c; font-weight: bold; }
+                .pend { color: #94a3b8; }
+                tr.tot td { background: #0f2b5c; color: #fff; font-weight: bold; }
+                .nota { font-size: 14px; font-weight: bold; }
+                .roja { color: #b91c1c; } .azul { color: #1e3a8a; }
+                .fb { border: 1px solid #cbd5e1; background: #f8fafc; padding: 8px 10px; line-height: 1.5; }
+                .fbi { margin: 6px 0; line-height: 1.5; }
+                .firma { margin-top: 36px; display: flex; justify-content: flex-end; }
+                .firma div { border-top: 1px solid #0f172a; width: 220px; text-align: center; padding-top: 4px; }
+                .esc { color: #64748b; font-size: 9.5px; margin-top: 6px; }
+                .avoid { page-break-inside: avoid; }
+            </style></head><body>
+                <div class="head"><table><tr>
+                    <td style="width:70px; vertical-align:middle"><img src="${INSIGNIA_SRC}" alt="Insignia"></td>
+                    <td style="vertical-align:middle; padding-left:10px">
+                        <div class="col">COLEGIO MARINA DE CHILE — CONCEPCIÓN</div>
+                        <div class="sub">Departamento de Historia, Geografía y Ciencias Sociales · ${esc(s0.badge)}</div>
+                        <h1>Informe de Evaluación · ${esc(s0.proyecto)}</h1>
+                    </td>
+                </tr></table></div>
+                <table class="datos">
+                    <tr><td class="k">Asignatura</td><td>${esc(s0.nombre)}</td><td class="k">Fecha</td><td>${esc(fecha)}</td></tr>
+                    <tr><td class="k">Curso</td><td>${esc(ev.curso)}</td><td class="k">Equipo</td><td>${esc(ev.equipo)}</td></tr>
+                    <tr><td class="k">Modalidad</td><td colspan="3">${s0.usaTema ? 'Actividad ' + ev.act + ': ' : ''}${esc(actNombre())}</td></tr>
+                    <tr><td class="k">Tema</td><td colspan="3">${s0.usaTema ? 'Tema ' + ev.tema + ': ' : ''}${esc(temaTitulo())}</td></tr>
+                    <tr><td class="k">Docente</td><td colspan="3">${esc(docente)}</td></tr>
+                </table>
+
+                <h2>Resultados</h2>
+                <table class="t avoid">
+                    <tr><th style="text-align:left">Estudiante</th><th>Pts. equipo</th><th>Pts. individual</th><th>Puntaje total</th><th>Nota</th></tr>
+                    ${est.map((s, i) => `<tr><td>${esc(nombreDe(i))}</td><td class="c">${tots[i].equipo} / ${tots[i].maxE}</td><td class="c">${tots[i].indiv} / ${tots[i].maxI}</td><td class="c"><b>${tots[i].pts} / ${pmax()}</b></td><td class="c nota ${tots[i].nota < 4 ? 'roja' : 'azul'}">${fmtNota(tots[i].nota)}</td></tr>`).join('')}
+                    <tr><td colspan="4" style="text-align:right"><b>Promedio del equipo</b></td><td class="c nota">${fmtNota(promedioEquipo())}</td></tr>
+                </table>
+                <div class="esc">Escala de 1,0 a 7,0 con 60% de exigencia: ${pmax() * EXIGENCIA} de ${pmax()} puntos = nota 4,0. Puntaje por criterio: ${s0.niveles.map(n => `${n.v} = ${n.t}`).join(' · ')}. E = criterio grupal · I = criterio individual.</div>
+
+                <h2>Detalle de la rúbrica</h2>
+                <table class="t">
+                    <tr><th>ID</th><th style="text-align:left">Criterio</th><th>Tipo</th>${est.map((s, i) => `<th>${esc(nombreDe(i))}</th>`).join('')}</tr>
+                    ${filas}
+                    <tr class="tot"><td colspan="3" style="text-align:right">TOTAL (máx. ${pmax()})</td>${tots.map(t => `<td class="c">${t.pts}</td>`).join('')}</tr>
+                    <tr class="tot"><td colspan="3" style="text-align:right">NOTA</td>${tots.map(t => `<td class="c">${fmtNota(t.nota)}</td>`).join('')}</tr>
+                </table>
+
+                <h2>Retroalimentación al equipo</h2>
+                <div class="fb avoid">${ev.fbEquipo.trim() ? p(ev.fbEquipo) : '<i>Sin retroalimentación registrada.</i>'}</div>
+                ${fbInd ? `<h2>Retroalimentación individual</h2><div class="avoid">${fbInd}</div>` : ''}
+
+                <div class="firma"><div>${esc(docente)}<br>Docente</div></div>
+            </body></html>`;
+        }
+
+        function validarInforme() {
+            if (!ev.asig || !ev.act || (subj().usaTema && !ev.tema)) { toast('Selecciona la asignatura, la modalidad y el tema.'); return false; }
+            if (!ev.curso.trim() || !ev.equipo.trim()) { toast('Completa el curso y el nombre del equipo.'); inCurso.focus(); return false; }
+            if (!ev.integrantes.some(s => s.nombre.trim())) { toast('Ingresa al menos un integrante.'); return false; }
+            const pend = ev.integrantes.reduce((a, _, i) => a + totales(i).pend, 0);
+            if (pend && !confirm(`Hay ${pend} puntaje(s) sin marcar (se contarán como 0). ¿Continuar de todas formas?`)) return false;
+            return true;
+        }
+
+        function imprimirHTML(html, titulo) {
+            let f = document.getElementById('print-frame');
+            if (!f) {
+                f = document.createElement('iframe');
+                f.id = 'print-frame';
+                f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+                document.body.appendChild(f);
+            }
+            const d = f.contentDocument;
+            d.open(); d.write(html); d.close();
+            const tituloOriginal = document.title;
+            document.title = titulo; // nombre sugerido al guardar como PDF
+            setTimeout(() => {
+                f.contentWindow.focus();
+                f.contentWindow.print();
+                setTimeout(() => document.title = tituloOriginal, 1000);
+            }, 400);
+        }
+
+        // Ejecuta una función sobre una evaluación guardada sin cargarla en el editor
+        function conEvaluacion(e, fn) {
+            const actual = ev;
+            ev = e;
+            try { return fn(); } finally { ev = actual; }
+        }
+
+        document.getElementById('btn-imprimir').onclick = () => {
+            if (!validarInforme()) return;
+            guardarLocal(true);
+            imprimirHTML(buildReportHTML(), nombreArchivo());
+        };
+
+        // Vista previa del informe de una evaluación guardada, con opción de imprimir o editar
+        function verInforme(id) {
+            const e = getGuardados()[id];
+            if (!e) return;
+            const { html, titulo } = conEvaluacion(e, () => ({ html: buildReportHTML(), titulo: nombreArchivo() }));
+            abrirModal(`Informe: ${e.equipo || 'Equipo'} (${e.curso || 'sin curso'})`, `
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <button type="button" class="action-btn dynamic-bg" id="prev-imprimir"><i class="fas fa-print"></i> Imprimir / PDF</button>
+                    <button type="button" class="tool-btn" id="prev-editar"><i class="fas fa-pen"></i> Abrir para editar</button>
+                    <button type="button" class="tool-btn" id="prev-volver"><i class="fas fa-arrow-left"></i> Volver a la lista</button>
+                </div>
+                <iframe id="prev-frame" class="w-full h-[65vh] border border-slate-200 rounded-xl bg-white"></iframe>`, true);
+            document.getElementById('prev-frame').srcdoc = html;
+            document.getElementById('prev-imprimir').onclick = () => imprimirHTML(html, titulo);
+            document.getElementById('prev-editar').onclick = () => cargarEvaluacion(id);
+            document.getElementById('prev-volver').onclick = abrirGuardados;
+        }
+
+        document.getElementById('btn-drive').onclick = async () => {
+            if (!validarInforme()) return;
+            if (!cfg.scriptUrl) { abrirConfig(); return toast('Configura primero la conexión con Google Drive.'); }
+            const btn = document.getElementById('btn-drive');
+            const status = document.getElementById('drive-status');
+            btn.disabled = true;
+            status.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> Generando PDF y guardando en Google Drive…';
+            try {
+                const payload = {
+                    token: cfg.token,
+                    asignatura: subj().nombre,
+                    curso: ev.curso.trim(),
+                    equipo: ev.equipo.trim(),
+                    fileName: nombreArchivo(),
+                    html: buildReportHTML(),
+                    filas: ev.integrantes.map((s, i) => {
+                        const t = totales(i);
+                        return { fecha: ev.fecha, asignatura: subj().nombre, curso: ev.curso, equipo: ev.equipo, actividad: actNombre(), tema: temaTitulo(), estudiante: nombreDe(i), puntaje: t.pts, puntajeMax: pmax(), nota: t.nota };
+                    })
+                };
+                // text/plain evita la verificación CORS previa de Apps Script
+                const r = await fetch(cfg.scriptUrl, { method: 'POST', body: JSON.stringify(payload) });
+                const j = await r.json();
+                if (!j.ok) throw new Error(j.error || 'Error desconocido');
+                ev.driveUrl = j.url;
+                guardarLocal(true);
+                status.innerHTML = `<i class="fas fa-check-circle text-emerald-600 mr-1"></i> Guardado en Drive: <a class="underline font-bold text-emerald-700" href="${esc(j.url)}" target="_blank" rel="noopener">abrir PDF</a>`;
+            } catch (err) {
+                const msg = err instanceof TypeError
+                    ? 'Google no permitió la conexión. En Apps Script, la implementación debe tener acceso "Cualquier usuario" (no solo usuarios de andaliensur.cl).'
+                    : err.message;
+                status.innerHTML = `<span class="text-red-600"><i class="fas fa-triangle-exclamation mr-1"></i> No se pudo guardar en Drive: ${esc(msg)}</span>`;
+            } finally { btn.disabled = false; }
+        };
+
+        /* ---------- Modo docente ---------- */
+        const btnModo = document.getElementById('btn-modo-docente');
+        function aplicarModo() {
+            bodyTheme.classList.toggle('teacher-mode', modoDocente);
+            btnModo.querySelector('span').textContent = modoDocente ? 'Salir del Modo Docente' : 'Activar Modo Docente (evaluar)';
+            btnModo.classList.toggle('dynamic-bg', modoDocente);
+            btnModo.classList.toggle('!text-white', modoDocente);
+            btnModo.classList.toggle('bg-white', !modoDocente);
+            if (rubricaVisible()) renderRubric(ev.act);
+        }
+        btnModo.onclick = () => { modoDocente = !modoDocente; lsSet(MODE_KEY, modoDocente); aplicarModo(); };
+
+        const teacherField = document.getElementById('teacher-name-field');
+        if (cfg.docente) teacherField.innerText = cfg.docente;
+        teacherField.addEventListener('blur', () => { cfg.docente = teacherField.innerText.trim(); lsSet(CFG_KEY, cfg); });
 
         // Carga inicial
-        if(selectActividad.value && selectTema.value) {
-            updateUI();
-        }
+        aplicarAsignatura(selectAsignatura.value);
+        refrescarTodo();
+        aplicarModo();
+        actualizarContador();
+        updateUI();
     </script>
 </body>
 </html>
